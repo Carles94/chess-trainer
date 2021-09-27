@@ -7,16 +7,9 @@ import { AppComponent } from './app.component';
 import { BoardComponent } from './board/board.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    BoardComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    NgxChessBoardModule.forRoot()
-  ],
+  declarations: [AppComponent, BoardComponent],
+  imports: [BrowserModule, AppRoutingModule, NgxChessBoardModule.forRoot()],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
