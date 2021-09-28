@@ -4,10 +4,11 @@ import { NgxChessBoardModule } from 'ngx-chess-board';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BoardComponent } from './board/board.component';
+import { BoardComponent } from './common/component/board/board.component';
+import { EditionBoardComponent } from './edition-board/edition-board.component';
 
 @NgModule({
-  declarations: [AppComponent, BoardComponent],
+  declarations: [AppComponent, BoardComponent, EditionBoardComponent],
   imports: [BrowserModule, AppRoutingModule, NgxChessBoardModule.forRoot()],
   providers: [],
   bootstrap: [AppComponent],
