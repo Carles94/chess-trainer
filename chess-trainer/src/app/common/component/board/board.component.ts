@@ -18,7 +18,7 @@ export class BoardComponent implements OnInit {
 
   ngOnInit(): void {
     this.changeDetectorRef.detectChanges();
-    this.board.reset();
+    this.reset();
   }
 
   //TODO add comments and tests
@@ -38,5 +38,16 @@ export class BoardComponent implements OnInit {
 
   public move(move: string): void {
     this.board.move(move);
+  }
+
+  public undo(): void {
+    this.board.undo();
+  }
+
+  public reverse(): void {
+    this.board.reverse();
+  }
+  public reset(): void {
+    this.board.reset();
   }
 }
