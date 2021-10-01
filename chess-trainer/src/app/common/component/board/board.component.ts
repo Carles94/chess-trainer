@@ -1,4 +1,12 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { NgxChessBoardView } from 'ngx-chess-board';
 import { MoveChange } from '../../model/move-change';
 
@@ -6,6 +14,7 @@ import { MoveChange } from '../../model/move-change';
   selector: 'app-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BoardComponent implements OnInit {
   @ViewChild('board', { static: false })
