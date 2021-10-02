@@ -10,6 +10,8 @@
     "lint": "tsc --noEmit && eslint . --ext js,ts,json --quiet --fix"
   },
   "private": true,
+  "test": "jest",
+  "test:coverage": "jest --coverage",
   "dependencies": {
     "@angular/animations": "~12.2.0",
     "@angular/cdk": "^12.2.8",
@@ -22,6 +24,7 @@
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
     "jest": "^27.2.4",
+    "jest-preset-angular": "^10.0.1",
     "ngx-chess-board": "^2.1.14",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
@@ -56,5 +59,21 @@
     "prettier": "^2.4.1",
     "prettier-eslint": "^13.0.0",
     "typescript": "~4.3.5"
+  },
+  "jest": {
+    "preset": "jest-preset-angular",
+    "setupFilesAfterEnv": [
+      "<rootDir>/setupJest.ts"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/dist/"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "<rootDir>/tsconfig.spec.json",
+        "stringifyContentPathRegex": "\\.html$"
+      }
+    }
   }
 }

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatCardModule } from '@angular/material/card';
 
 import { EditionFooterPanelComponent } from './edition-footer-panel.component';
 
@@ -8,9 +9,9 @@ describe('EditionFooterPanelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditionFooterPanelComponent ]
-    })
-    .compileComponents();
+      declarations: [EditionFooterPanelComponent],
+      imports: [MatCardModule],
+    }).compileComponents();
   });
 
   beforeEach(() => {
