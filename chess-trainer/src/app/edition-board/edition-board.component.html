@@ -2,25 +2,10 @@
     <mat-grid-tile [colspan]=3 [rowspan] =3>
         <app-board></app-board>
     </mat-grid-tile>
-    <!-- TODO Create components -->
     <mat-grid-tile [colspan]=1 [rowspan]=3>
-        <mat-card>
-        <mat-card-title>Vertical Buttons</mat-card-title>
-        <mat-card-subtitle>Start</mat-card-subtitle>
-        <mat-card-actions>
-            <button mat-button>LIKE</button>
-            <button mat-button>SHARE</button>
-        </mat-card-actions>
-        </mat-card>
+        <app-edition-vertical-panel></app-edition-vertical-panel>
     </mat-grid-tile>
     <mat-grid-tile [colspan]=3 [rowspan]= 1>
-        <mat-card>
-            <mat-card-title>Footer Buttons</mat-card-title>
-            <mat-card-subtitle>Start</mat-card-subtitle>
-            <mat-card-actions>
-            <button mat-button>LIKE</button>
-            <button mat-button>SHARE</button>
-            </mat-card-actions>
-        </mat-card>
+        <app-edition-footer-panel></app-edition-footer-panel>
     </mat-grid-tile>
 </mat-grid-list>

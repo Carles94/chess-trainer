@@ -8,9 +8,11 @@ import { BoardComponent } from './common/component/board/board.component';
 import { EditionBoardComponent } from './edition-board/edition-board.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { EditionVerticalPanelComponent } from './edition-board/edition-vertical-panel/edition-vertical-panel.component';
+import { EditionFooterPanelComponent } from './edition-board/edition-footer-panel/edition-footer-panel.component';
 
 @NgModule({
-  declarations: [AppComponent, BoardComponent, EditionBoardComponent],
+  declarations: [AppComponent, BoardComponent, EditionBoardComponent, EditionVerticalPanelComponent, EditionFooterPanelComponent],
   imports: [BrowserModule, AppRoutingModule, NgxChessBoardModule.forRoot(), MatCardModule, MatGridListModule],
   providers: [],
   bootstrap: [AppComponent],
