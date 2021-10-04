@@ -1,25 +1,40 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { BoardStubComponent } from '../common/test/board-stub.component';
 
 import { EditionBoardComponent } from './edition-board.component';
 
 describe('EditionBoardComponent', () => {
   let component: EditionBoardComponent;
   let fixture: ComponentFixture<EditionBoardComponent>;
+  let boardSpy: any;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditionBoardComponent ]
-    })
-    .compileComponents();
+      providers: [MatCardModule, MatGridListModule],
+      declarations: [EditionBoardComponent, BoardStubComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditionBoardComponent);
     component = fixture.componentInstance;
+    component.board = new BoardStubComponent();
+    boardSpy = jest.spyOn(component.board, 'undo');
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should handle undo', () => {
+    // Act
+    component.handleUndo();
+    // Assert
+    expect(boardSpy).toHaveBeenCalled();
   });
 });

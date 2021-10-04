@@ -3,7 +3,7 @@ import { HistoryMove } from 'ngx-chess-board';
 import { ColorInput, PieceTypeInput } from 'ngx-chess-board/lib/utils/inputs/piece-type-input';
 
 @Component({
-  selector: 'app-child',
+  selector: 'ngx-chess-board',
   template: '',
 })
 export class NgxChessBoardViewStubComponent {

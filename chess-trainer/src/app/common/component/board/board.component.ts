@@ -8,7 +8,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NgxChessBoardView } from 'ngx-chess-board';
-import { MoveChange } from '../../model/move-change';
+import { IBoard } from '../../model/interface/board';
+import { MoveChange } from '../../model/interface/move-change';
 
 @Component({
   selector: 'app-board',
@@ -16,7 +17,7 @@ import { MoveChange } from '../../model/move-change';
   styleUrls: ['./board.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, IBoard {
   @ViewChild('board', { static: false })
   board!: NgxChessBoardView;
 
@@ -51,6 +52,7 @@ export class BoardComponent implements OnInit {
 
   public undo(): void {
     this.board.undo();
+    this.changeDetectorRef.detectChanges();
   }
 
   public reverse(): void {

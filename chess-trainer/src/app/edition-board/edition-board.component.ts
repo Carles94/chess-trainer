@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { BoardComponent } from '../common/component/board/board.component';
+import { IBoard } from '../common/model/interface/board';
 
 @Component({
   selector: 'app-edition-board',
@@ -6,8 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./edition-board.component.scss'],
 })
 export class EditionBoardComponent implements OnInit {
-  //TODO use view child if needed
+  @ViewChild(BoardComponent)
+  board!: IBoard;
+
   constructor() {}
 
   ngOnInit(): void {}
+
+  public handleUndo(): void {
+    this.board.undo();
+  }
 }

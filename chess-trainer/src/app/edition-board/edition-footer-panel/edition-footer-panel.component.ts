@@ -13,5 +13,7 @@ export class EditionFooterPanelComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public handleUndo(): void {}
+  public handleUndo(): void {
+    this.undoEmitter.emit();
+  }
 }
