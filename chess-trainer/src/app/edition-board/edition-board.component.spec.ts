@@ -9,7 +9,6 @@ import { EditionBoardComponent } from './edition-board.component';
 describe('EditionBoardComponent', () => {
   let component: EditionBoardComponent;
   let fixture: ComponentFixture<EditionBoardComponent>;
-  let boardSpy: any;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -22,8 +21,6 @@ describe('EditionBoardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EditionBoardComponent);
     component = fixture.componentInstance;
-    component.board = new BoardStubComponent();
-    boardSpy = jest.spyOn(component.board, 'undo');
     fixture.detectChanges();
   });
 
@@ -32,6 +29,9 @@ describe('EditionBoardComponent', () => {
   });
 
   it('should handle undo', () => {
+    // Arrange
+    component.board = new BoardStubComponent();
+    let boardSpy = jest.spyOn(component.board, 'undo');
     // Act
     component.handleUndo();
     // Assert

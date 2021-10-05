@@ -22,7 +22,6 @@ describe('BoardComponent', () => {
   });
 
   it('should create', () => {
-    //TODO fix this test
     expect(component).toBeTruthy();
   });
 });
