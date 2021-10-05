@@ -18,6 +18,7 @@ describe('EditionFooterPanelComponent', () => {
     fixture = TestBed.createComponent(EditionFooterPanelComponent);
     component = fixture.componentInstance;
     jest.spyOn(component.undoEmitter, 'emit');
+    jest.spyOn(component.resetEmitter, 'emit');
     fixture.detectChanges();
   });
 
@@ -28,5 +29,10 @@ describe('EditionFooterPanelComponent', () => {
   it('should emit undo', () => {
     component.handleUndo();
     expect(component.undoEmitter.emit).toHaveBeenCalled();
+  });
+
+  it('should emit reset', () => {
+    component.handleReset();
+    expect(component.resetEmitter.emit).toHaveBeenCalled();
   });
 });

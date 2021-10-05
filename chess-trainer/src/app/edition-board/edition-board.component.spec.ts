@@ -37,4 +37,14 @@ describe('EditionBoardComponent', () => {
     // Assert
     expect(boardSpy).toHaveBeenCalled();
   });
+
+  it('should handle reset', () => {
+    // Arrange
+    component.board = new BoardStubComponent();
+    let boardSpy = jest.spyOn(component.board, 'reset');
+    // Act
+    component.handleReset();
+    // Assert
+    expect(boardSpy).toHaveBeenCalled();
+  });
 });

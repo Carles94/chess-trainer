@@ -15,8 +15,11 @@ export class EditionBoardComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  //TODO fix test
   public handleUndo(): void {
     this.board.undo();
+  }
+
+  public handleReset(): void {
+    this.board.reset();
   }
 }

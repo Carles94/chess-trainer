@@ -8,6 +8,8 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 export class EditionFooterPanelComponent implements OnInit {
   @Output('undo')
   public undoEmitter: EventEmitter<any> = new EventEmitter();
+  @Output('reset')
+  public resetEmitter: EventEmitter<any> = new EventEmitter();
 
   constructor() {}
 
@@ -15,5 +17,9 @@ export class EditionFooterPanelComponent implements OnInit {
 
   public handleUndo(): void {
     this.undoEmitter.emit();
+  }
+
+  public handleReset(): void {
+    this.resetEmitter.emit();
   }
 }
