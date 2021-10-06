@@ -57,6 +57,7 @@ export class BoardComponent implements OnInit, IBoard {
 
   public reverse(): void {
     this.board.reverse();
+    this.changeDetectorRef.detectChanges();
   }
   public reset(): void {
     this.board.reset();

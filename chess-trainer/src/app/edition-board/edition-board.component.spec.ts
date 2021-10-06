@@ -47,4 +47,14 @@ describe('EditionBoardComponent', () => {
     // Assert
     expect(boardSpy).toHaveBeenCalled();
   });
+
+  it('should handle reverse', () => {
+    // Arrange
+    component.board = new BoardStubComponent();
+    let boardSpy = jest.spyOn(component.board, 'reverse');
+    // Act
+    component.handleReverse();
+    // Assert
+    expect(boardSpy).toHaveBeenCalled();
+  });
 });

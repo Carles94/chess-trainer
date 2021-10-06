@@ -10,6 +10,8 @@ export class EditionFooterPanelComponent implements OnInit {
   public undoEmitter: EventEmitter<any> = new EventEmitter();
   @Output('reset')
   public resetEmitter: EventEmitter<any> = new EventEmitter();
+  @Output('reverse')
+  public reverseEmitter: EventEmitter<any> = new EventEmitter();
 
   constructor() {}
 
@@ -21,5 +23,9 @@ export class EditionFooterPanelComponent implements OnInit {
 
   public handleReset(): void {
     this.resetEmitter.emit();
+  }
+
+  public handleReverse(): void {
+    this.reverseEmitter.emit();
   }
 }

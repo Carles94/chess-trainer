@@ -22,4 +22,8 @@ export class EditionBoardComponent implements OnInit {
   public handleReset(): void {
     this.board.reset();
   }
+
+  public handleReverse(): void {
+    this.board.reverse();
+  }
 }

@@ -19,6 +19,7 @@ describe('EditionFooterPanelComponent', () => {
     component = fixture.componentInstance;
     jest.spyOn(component.undoEmitter, 'emit');
     jest.spyOn(component.resetEmitter, 'emit');
+    jest.spyOn(component.reverseEmitter, 'emit');
     fixture.detectChanges();
   });
 
@@ -34,5 +35,10 @@ describe('EditionFooterPanelComponent', () => {
   it('should emit reset', () => {
     component.handleReset();
     expect(component.resetEmitter.emit).toHaveBeenCalled();
+  });
+
+  it('should emit reverse', () => {
+    component.handleReverse();
+    expect(component.reverseEmitter.emit).toHaveBeenCalled();
   });
 });
