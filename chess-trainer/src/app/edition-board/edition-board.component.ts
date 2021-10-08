@@ -26,4 +26,16 @@ export class EditionBoardComponent implements OnInit {
   public handleReverse(): void {
     this.board.reverse();
   }
+
+  public handleDeleteMove(): void {
+    console.log('TODO handle delete move');
+  }
+
+  public handleNextMove(): void {
+    console.log('TODO handle next move');
+  }
+
+  public handleUndoUntilAlternative(): void {
+    console.log('TODO handle until alternative');
+  }
 }

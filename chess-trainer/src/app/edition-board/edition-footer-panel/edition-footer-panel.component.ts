@@ -12,6 +12,8 @@ export class EditionFooterPanelComponent implements OnInit {
   public resetEmitter: EventEmitter<any> = new EventEmitter();
   @Output('reverse')
   public reverseEmitter: EventEmitter<any> = new EventEmitter();
+  @Output('undoUntilAlternative')
+  public undoUntilAlternativeEmitter: EventEmitter<any> = new EventEmitter();
 
   constructor() {}
 
@@ -27,5 +29,9 @@ export class EditionFooterPanelComponent implements OnInit {
 
   public handleReverse(): void {
     this.reverseEmitter.emit();
+  }
+
+  public handleUndoUntilAlternative() {
+    this.undoUntilAlternativeEmitter.emit();
   }
 }
