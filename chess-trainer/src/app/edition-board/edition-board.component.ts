@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BoardComponent } from '../common/component/board/board.component';
 import { IBoard } from '../common/model/interface/board';
+import { Line } from '../common/model/interface/line';
+import { Move } from '../common/model/interface/move';
+import { MoveEvent } from '../common/model/interface/move-event';
+import { Position } from '../common/model/interface/position';
 
 @Component({
   selector: 'app-edition-board',
@@ -11,7 +15,21 @@ export class EditionBoardComponent implements OnInit {
   @ViewChild(BoardComponent)
   board!: IBoard;
 
-  constructor() {}
+  private line: Line;
+  private currentPosition: Position;
+
+  constructor() {
+    // Only if there are no position in the line
+    this.currentPosition = {
+      // FEN of the starting position
+      currentPositionFEN: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -',
+      moveList: [],
+    };
+    this.line = {
+      name: 'name',
+      positionList: [this.currentPosition],
+    };
+  }
 
   ngOnInit(): void {}
 
@@ -25,6 +43,21 @@ export class EditionBoardComponent implements OnInit {
 
   public handleReverse(): void {
     this.board.reverse();
+  }
+
+  public handlePieceMoved(event: MoveEvent): void {
+    const move: Move = {
+      positionAfter: event.fen,
+      move: event.move,
+    };
+    this.currentPosition.moveList.push(move);
+    // Only if position don't exist in line
+    this.currentPosition = {
+      currentPositionFEN: event.fen,
+      moveList: [],
+    };
+    this.line.positionList.push(this.currentPosition);
+    console.log(this.line);
   }
 
   public handleDeleteMove(): void {

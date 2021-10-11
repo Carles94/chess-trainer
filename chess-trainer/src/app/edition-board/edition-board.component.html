@@ -1,6 +1,6 @@
 <mat-grid-list cols="4" rowHeight="2:1">
     <mat-grid-tile [colspan]=3 [rowspan] =3>
-        <app-board></app-board>
+        <app-board (pieceMoved)="handlePieceMoved($event)"></app-board>
     </mat-grid-tile>
     <mat-grid-tile [colspan]=1 [rowspan]=3>
         <app-edition-vertical-panel (deleteMove)="handleDeleteMove()" (nextMove)="handleNextMove()"></app-edition-vertical-panel>

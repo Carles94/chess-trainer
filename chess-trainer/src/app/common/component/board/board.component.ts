@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { NgxChessBoardView } from 'ngx-chess-board';
 import { IBoard } from '../../model/interface/board';
-import { MoveChange } from '../../model/interface/move-change';
+import { MoveEvent } from '../../model/interface/move-event';
 
 @Component({
   selector: 'app-board',
@@ -22,7 +22,7 @@ export class BoardComponent implements OnInit, IBoard {
   board!: NgxChessBoardView;
 
   @Output('pieceMoved')
-  pieceMovedEmitter: EventEmitter<MoveChange> = new EventEmitter<MoveChange>();
+  pieceMovedEmitter: EventEmitter<MoveEvent> = new EventEmitter<MoveEvent>();
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
@@ -32,8 +32,12 @@ export class BoardComponent implements OnInit, IBoard {
   }
 
   //TODO add comments and tests
+  /**
+   * Capture when a piece is moved  (triggered by all moves on the board)
+   * @param event sent by the board
+   */
   public pieceMoved(event: any) {
-    const moveChange: MoveChange = {
+    const moveChange: MoveEvent = {
       check: event.check,
       stalemate: event.stalemate,
       checkmate: event.checkmate,
@@ -46,6 +50,10 @@ export class BoardComponent implements OnInit, IBoard {
     this.pieceMovedEmitter.emit(moveChange);
   }
 
+  /**
+   * Make a move on the board
+   * @param move with format 'e2e4'
+   */
   public move(move: string): void {
     this.board.move(move);
   }

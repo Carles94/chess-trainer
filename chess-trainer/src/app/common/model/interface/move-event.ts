@@ -1,4 +1,4 @@
-export interface MoveChange {
+export interface MoveEvent {
   check: boolean;
   checkmate: boolean;
   color: string;
