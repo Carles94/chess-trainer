@@ -1,4 +1,5 @@
 export interface Move {
-  move: string;
+  moveToShow: string;
+  moveToSend: string;
   positionAfter: string;
 }

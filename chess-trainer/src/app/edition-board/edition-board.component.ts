@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BoardComponent } from '../common/component/board/board.component';
+import { INITIAL_FEN } from '../common/model/constant/constant';
 import { IBoard } from '../common/model/interface/board';
 import { Line } from '../common/model/interface/line';
 import { Move } from '../common/model/interface/move';
@@ -22,7 +23,7 @@ export class EditionBoardComponent implements OnInit {
     // Only if there are no position in the line
     this.currentPosition = {
       // FEN of the starting position
-      currentPositionFEN: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -',
+      currentPositionFEN: INITIAL_FEN,
       moveList: [],
     };
     this.line = {
@@ -48,7 +49,8 @@ export class EditionBoardComponent implements OnInit {
   public handlePieceMoved(event: MoveEvent): void {
     const move: Move = {
       positionAfter: event.fen,
-      move: event.move,
+      moveToSend: event.move,
+      moveToShow: '',
     };
     this.currentPosition.moveList.push(move);
     // Only if position don't exist in line
@@ -57,7 +59,6 @@ export class EditionBoardComponent implements OnInit {
       moveList: [],
     };
     this.line.positionList.push(this.currentPosition);
-    console.log(this.line);
   }
 
   public handleDeleteMove(): void {
