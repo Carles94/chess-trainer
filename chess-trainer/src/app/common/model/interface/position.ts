@@ -1,6 +1,7 @@
 import { Move } from './move';
 
 export interface Position {
-  currentPositionFEN: string;
+  positionFEN: string;
+  previousFENPosition: string;
   moveList: Move[];
 }

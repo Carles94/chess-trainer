@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BoardComponent } from '../common/component/board/board.component';
+import { Line } from '../common/model/class/line';
 import { INITIAL_FEN } from '../common/model/constant/constant';
 import { IBoard } from '../common/model/interface/board';
-import { Line } from '../common/model/interface/line';
 import { Move } from '../common/model/interface/move';
 import { MoveEvent } from '../common/model/interface/move-event';
 import { Position } from '../common/model/interface/position';
@@ -23,18 +23,17 @@ export class EditionBoardComponent implements OnInit {
     // Only if there are no position in the line
     this.currentPosition = {
       // FEN of the starting position
-      currentPositionFEN: INITIAL_FEN,
+      positionFEN: INITIAL_FEN,
+      previousFENPosition: INITIAL_FEN,
       moveList: [],
     };
-    this.line = {
-      name: 'name',
-      positionList: [this.currentPosition],
-    };
+    this.line = new Line('name', [this.currentPosition]);
   }
 
   ngOnInit(): void {}
 
   public handleUndo(): void {
+    this.currentPosition = this.line.getPositionByFEN(this.currentPosition.previousFENPosition);
     this.board.undo();
   }
 
@@ -48,14 +47,15 @@ export class EditionBoardComponent implements OnInit {
 
   public handlePieceMoved(event: MoveEvent): void {
     const move: Move = {
-      positionAfter: event.fen,
+      positionFENAfter: event.fen,
       moveToSend: event.move,
       moveToShow: '',
     };
     this.currentPosition.moveList.push(move);
     // Only if position don't exist in line
     this.currentPosition = {
-      currentPositionFEN: event.fen,
+      positionFEN: event.fen,
+      previousFENPosition: this.currentPosition.positionFEN,
       moveList: [],
     };
     this.line.positionList.push(this.currentPosition);
