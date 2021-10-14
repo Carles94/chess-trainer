@@ -10,10 +10,11 @@ export class Line {
   }
   //TODO
   public getPositionByFEN(FENPosition: string): Position {
-    return {
-      positionFEN: INITIAL_FEN,
-      previousFENPosition: INITIAL_FEN,
-      moveList: [],
-    };
+    const result = this.positionList.find((element) => element.positionFEN === FENPosition);
+    if (result) {
+      return result;
+    } else {
+      throw "Element don't exists";
+    }
   }
 }
