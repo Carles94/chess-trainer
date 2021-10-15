@@ -8,13 +8,17 @@ export class Line {
     this.name = name;
     this.positionList = positionList;
   }
-  //TODO
+
   public getPositionByFEN(FENPosition: string): Position {
-    const result = this.positionList.find((element) => element.positionFEN === FENPosition);
+    const result = this.positionList.find((element) => this.compareFEN(element.positionFEN, FENPosition));
     if (result) {
       return result;
     } else {
       throw "Element don't exists";
     }
+  }
+
+  private compareFEN(positionFEN: string, other: string): boolean {
+    return positionFEN.startsWith(other.slice(0, -4));
   }
 }
