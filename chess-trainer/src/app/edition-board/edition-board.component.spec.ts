@@ -139,6 +139,43 @@ describe('EditionBoardComponent', () => {
     component.handlePieceMoved(moveEvent1);
     component.handlePieceMoved(moveEvent2);
     component.handleUndo();
+    component.handleUndo();
+    // Assert
+    expect(component['currentPosition'].positionFEN).toBe(INITIAL_FEN);
+    expect(component['currentPosition'].moveList.length).toBe(1);
+    expect(component['currentPosition'].moveList[0].moveToSend).toBe(moveEvent1.move);
+    expect(component['currentPosition'].moveList[0].positionFENAfter).toBe(moveEvent1.fen);
+
+    expect(component['line'].positionList.length).toBe(3);
+  });
+
+  it('should handle reset after two pieces moved', () => {
+    // Arrange
+    let moveEvent1: MoveEvent = {
+      capture: false,
+      check: false,
+      checkmate: false,
+      color: 'white',
+      fen: 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1',
+      move: 'e2e4',
+      piece: 'Pawn',
+      stalemate: false,
+    };
+    let moveEvent2: MoveEvent = {
+      capture: false,
+      check: false,
+      checkmate: false,
+      color: 'black',
+      fen: 'rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq e6 0 2',
+      move: 'e7e5',
+      piece: 'Pawn',
+      stalemate: false,
+    };
+    component.board = new BoardStubComponent();
+    // Act
+    component.handlePieceMoved(moveEvent1);
+    component.handlePieceMoved(moveEvent2);
+    component.handleReset();
     // Assert
     expect(component['currentPosition'].positionFEN).toBe(INITIAL_FEN);
     expect(component['currentPosition'].moveList.length).toBe(1);

@@ -38,6 +38,7 @@ export class EditionBoardComponent implements OnInit {
   }
 
   public handleReset(): void {
+    this.currentPosition = this.line.getPositionByFEN(INITIAL_FEN);
     this.board.reset();
   }
 
