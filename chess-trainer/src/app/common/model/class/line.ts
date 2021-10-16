@@ -18,6 +18,11 @@ export class Line {
     }
   }
 
+  //TODO tests false
+  public existsPosition(FENPosition: string): boolean {
+    return this.positionList.some((element) => this.compareFEN(element.positionFEN, FENPosition));
+  }
+
   private compareFEN(positionFEN: string, other: string): boolean {
     return positionFEN.startsWith(other.slice(0, -4));
   }
