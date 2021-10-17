@@ -53,13 +53,16 @@ export class EditionBoardComponent implements OnInit {
       moveToShow: '',
     };
     this.currentPosition.moveList.push(move);
-    // Only if position don't exist in line
-    this.currentPosition = {
-      positionFEN: event.fen,
-      previousFENPosition: this.currentPosition.positionFEN,
-      moveList: [],
-    };
-    this.line.positionList.push(this.currentPosition);
+    if (this.line.existsPosition(event.fen)) {
+      this.currentPosition = this.line.getPositionByFEN(event.fen);
+    } else {
+      this.currentPosition = {
+        positionFEN: event.fen,
+        previousFENPosition: this.currentPosition.positionFEN,
+        moveList: [],
+      };
+      this.line.positionList.push(this.currentPosition);
+    }
   }
 
   public handleDeleteMove(): void {

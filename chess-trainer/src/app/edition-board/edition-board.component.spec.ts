@@ -60,7 +60,7 @@ describe('EditionBoardComponent', () => {
     expect(boardSpy).toHaveBeenCalled();
   });
 
-  it('should handle piece moved by storing the move', () => {
+  it("should handle piece moved when the position and the move don't exists in line by storing the move and the position", () => {
     // Arrange
     let moveEvent: MoveEvent = {
       capture: false,
@@ -81,6 +81,83 @@ describe('EditionBoardComponent', () => {
 
     expect(component['line'].positionList.length).toBe(2);
     expect(component['line'].positionList[0].positionFEN).toBe(INITIAL_FEN);
+    expect(component['line'].positionList[0].moveList.length).toBe(1);
+    expect(component['line'].positionList[0].moveList[0].moveToSend).toBe(moveEvent.move);
+    expect(component['line'].positionList[0].moveList[0].positionFENAfter).toBe(moveEvent.fen);
+    expect(component['line'].positionList[1].positionFEN).toBe(moveEvent.fen);
+    expect(component['line'].positionList[1].moveList.length).toBeFalsy();
+  });
+
+  it('should handle piece moved after undo with different move', () => {
+    // Arrange
+    let moveEvent: MoveEvent = {
+      capture: false,
+      check: false,
+      checkmate: false,
+      color: 'white',
+      fen: 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1',
+      move: 'e2e4',
+      piece: 'Pawn',
+      stalemate: false,
+    };
+    let moveEvent2: MoveEvent = {
+      capture: false,
+      check: false,
+      checkmate: false,
+      color: 'white',
+      fen: 'rnbqkbnr/pppppppp/8/8/8/4P3/PPPP1PPP/RNBQKBNR b KQkq - 0 1',
+      move: 'e2e3',
+      piece: 'Pawn',
+      stalemate: false,
+    };
+    component.board = new BoardStubComponent();
+    // Act
+    component.handlePieceMoved(moveEvent);
+    component.handleUndo();
+    component.handlePieceMoved(moveEvent2);
+    // Assert
+    expect(component['currentPosition'].positionFEN).toBe(moveEvent2.fen);
+    expect(component['currentPosition'].moveList.length).toBeFalsy();
+    expect(component['currentPosition'].previousFENPosition).toBe(INITIAL_FEN);
+
+    expect(component['line'].positionList.length).toBe(3);
+    expect(component['line'].positionList[0].positionFEN).toBe(INITIAL_FEN);
+    expect(component['line'].positionList[0].moveList.length).toBe(2);
+    expect(component['line'].positionList[0].moveList[0].moveToSend).toBe(moveEvent.move);
+    expect(component['line'].positionList[0].moveList[0].positionFENAfter).toBe(moveEvent.fen);
+    expect(component['line'].positionList[0].moveList[1].moveToSend).toBe(moveEvent2.move);
+    expect(component['line'].positionList[0].moveList[1].positionFENAfter).toBe(moveEvent2.fen);
+    expect(component['line'].positionList[1].positionFEN).toBe(moveEvent.fen);
+    expect(component['line'].positionList[1].moveList.length).toBeFalsy();
+    expect(component['line'].positionList[2].positionFEN).toBe(moveEvent2.fen);
+    expect(component['line'].positionList[2].moveList.length).toBeFalsy();
+  });
+
+  it('should handle piece moved after undo with same move', () => {
+    // Arrange
+    let moveEvent: MoveEvent = {
+      capture: false,
+      check: false,
+      checkmate: false,
+      color: 'white',
+      fen: 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1',
+      move: 'e2e4',
+      piece: 'Pawn',
+      stalemate: false,
+    };
+    component.board = new BoardStubComponent();
+    // Act
+    component.handlePieceMoved(moveEvent);
+    component.handleUndo();
+    component.handlePieceMoved(moveEvent);
+    // Assert
+    expect(component['currentPosition'].positionFEN).toBe(moveEvent.fen);
+    expect(component['currentPosition'].moveList.length).toBeFalsy();
+    expect(component['currentPosition'].previousFENPosition).toBe(INITIAL_FEN);
+
+    expect(component['line'].positionList.length).toBe(2);
+    expect(component['line'].positionList[0].positionFEN).toBe(INITIAL_FEN);
+    expect(component['line'].positionList[0].moveList.length).toBe(2);
     expect(component['line'].positionList[0].moveList[0].moveToSend).toBe(moveEvent.move);
     expect(component['line'].positionList[0].moveList[0].positionFENAfter).toBe(moveEvent.fen);
     expect(component['line'].positionList[1].positionFEN).toBe(moveEvent.fen);
