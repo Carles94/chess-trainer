@@ -157,7 +157,7 @@ describe('EditionBoardComponent', () => {
 
     expect(component['line'].positionList.length).toBe(2);
     expect(component['line'].positionList[0].positionFEN).toBe(INITIAL_FEN);
-    expect(component['line'].positionList[0].moveList.length).toBe(2);
+    expect(component['line'].positionList[0].moveList.length).toBe(1);
     expect(component['line'].positionList[0].moveList[0].moveToSend).toBe(moveEvent.move);
     expect(component['line'].positionList[0].moveList[0].positionFENAfter).toBe(moveEvent.fen);
     expect(component['line'].positionList[1].positionFEN).toBe(moveEvent.fen);

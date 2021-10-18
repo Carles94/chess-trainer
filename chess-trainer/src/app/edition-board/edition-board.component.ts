@@ -47,12 +47,14 @@ export class EditionBoardComponent implements OnInit {
   }
 
   public handlePieceMoved(event: MoveEvent): void {
-    const move: Move = {
+    const currentMove: Move = {
       positionFENAfter: event.fen,
       moveToSend: event.move,
       moveToShow: '',
     };
-    this.currentPosition.moveList.push(move);
+    if (!this.currentPosition.moveList.some((move) => move.moveToSend === currentMove.moveToSend)) {
+      this.currentPosition.moveList.push(currentMove);
+    }
     if (this.line.existsPosition(event.fen)) {
       this.currentPosition = this.line.getPositionByFEN(event.fen);
     } else {
