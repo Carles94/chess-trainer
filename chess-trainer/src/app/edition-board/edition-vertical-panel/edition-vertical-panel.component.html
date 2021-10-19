@@ -1,4 +1,10 @@
 <mat-card>
+    <h2>Moves</h2>
+    <mat-selection-list #moves [multiple]="false" (selectionChange)="handleSelectMove($event)">
+        <mat-list-option *ngFor="let move of moveList" [value]="move">
+          {{move.moveToSend}}
+        </mat-list-option>
+      </mat-selection-list>
     <mat-card-actions>
         <button mat-button (click)="handleNextMove()">NEXT</button>
         <button mat-button (click)="handleDeleteMove()">DELETE</button>

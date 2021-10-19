@@ -17,7 +17,7 @@ export class EditionBoardComponent implements OnInit {
   board!: IBoard;
 
   private line: Line;
-  private currentPosition: Position;
+  public currentPosition: Position;
 
   constructor() {
     // Only if there are no position in the line

@@ -46,3 +46,4 @@ Thumbs.db
 
 # Lock Files
 chess-trainer/yarn.lock
+chess-trainer/package-lock.json

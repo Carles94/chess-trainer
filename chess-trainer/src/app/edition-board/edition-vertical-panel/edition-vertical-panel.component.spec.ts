@@ -1,5 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule, MatSelectionList, MatSelectionListChange } from '@angular/material/list';
+import { Move } from 'src/app/common/model/interface/move';
 
 import { EditionVerticalPanelComponent } from './edition-vertical-panel.component';
 
@@ -10,7 +13,7 @@ describe('EditionVerticalPanelComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [EditionVerticalPanelComponent],
-      imports: [MatCardModule],
+      imports: [MatCardModule, MatDividerModule, MatListModule],
     }).compileComponents();
   });
 
@@ -35,5 +38,21 @@ describe('EditionVerticalPanelComponent', () => {
   it('should emit next move', () => {
     component.handleNextMove();
     expect(component.nextMoveEmitter.emit).toHaveBeenCalled();
+  });
+
+  it('should select the move', () => {
+    //Arrange
+    const move: Move = {
+      moveToSend: 'd2d4',
+      moveToShow: '',
+      positionFENAfter: 'rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1',
+    };
+    const event = {
+      options: [{ value: move }],
+    };
+    // Act
+    component.handleSelectMove(event);
+    // Assert
+    expect(component['selectedMove']).toBe(move);
   });
 });

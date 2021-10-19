@@ -47,7 +47,6 @@ export class BoardComponent implements OnInit, IBoard {
       piece: event.piece,
       capture: event.x,
     };
-    console.log('Piece Moved');
     this.pieceMovedEmitter.emit(moveChange);
   }
 
