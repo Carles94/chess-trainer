@@ -31,13 +31,30 @@ describe('EditionVerticalPanelComponent', () => {
   });
 
   it('should emit delete move', () => {
+    // Arrange
+    const move: Move = {
+      moveToSend: 'd2d4',
+      moveToShow: '',
+      positionFENAfter: 'rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1',
+    };
+    component['selectedMove'] = move;
+    // Act
     component.handleDeleteMove();
-    expect(component.deleteMoveEmitter.emit).toHaveBeenCalled();
+    expect(component.deleteMoveEmitter.emit).toHaveBeenCalledWith(move);
   });
 
   it('should emit next move', () => {
+    // Arrange
+    const move: Move = {
+      moveToSend: 'd2d4',
+      moveToShow: '',
+      positionFENAfter: 'rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1',
+    };
+    component['selectedMove'] = move;
+    // Act
     component.handleNextMove();
-    expect(component.nextMoveEmitter.emit).toHaveBeenCalled();
+    // Assert
+    expect(component.nextMoveEmitter.emit).toHaveBeenCalledWith(move);
   });
 
   it('should select the move', () => {

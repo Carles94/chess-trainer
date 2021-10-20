@@ -65,14 +65,15 @@ export class EditionBoardComponent implements OnInit {
       };
       this.line.positionList.push(this.currentPosition);
     }
+    console.log(this.line);
   }
 
-  public handleDeleteMove(): void {
+  public handleDeleteMove(move: Move): void {
     console.log('TODO handle delete move');
   }
 
-  public handleNextMove(): void {
-    console.log('TODO handle next move');
+  public handleNextMove(move: Move): void {
+    this.board.move(move.moveToSend);
   }
 
   public handleUndoUntilAlternative(): void {

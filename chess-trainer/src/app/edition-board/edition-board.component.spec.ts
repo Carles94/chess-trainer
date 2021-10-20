@@ -2,7 +2,9 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MoveChange } from 'ngx-chess-board';
 import { INITIAL_FEN } from '../common/model/constant/constant';
+import { Move } from '../common/model/interface/move';
 import { MoveEvent } from '../common/model/interface/move-event';
 import { BoardStubComponent } from '../common/test/board-stub.component';
 
@@ -58,6 +60,21 @@ describe('EditionBoardComponent', () => {
     component.handleReverse();
     // Assert
     expect(boardSpy).toHaveBeenCalled();
+  });
+
+  it('should handle play next move', () => {
+    // Arrange
+    component.board = new BoardStubComponent();
+    const move: Move = {
+      moveToSend: 'd2d4',
+      moveToShow: '',
+      positionFENAfter: 'rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1',
+    };
+    let boardSpy = jest.spyOn(component.board, 'move');
+    // Act
+    component.handleNextMove(move);
+    // Assert
+    expect(boardSpy).toHaveBeenCalledWith('d2d4');
   });
 
   it("should handle piece moved when the position and the move don't exists in line by storing the move and the position", () => {

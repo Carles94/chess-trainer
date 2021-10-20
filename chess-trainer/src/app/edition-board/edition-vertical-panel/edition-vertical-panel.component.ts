@@ -12,12 +12,12 @@ export class EditionVerticalPanelComponent implements OnInit {
   @Input()
   public moveList: Move[];
   @Output('deleteMove')
-  public deleteMoveEmitter: EventEmitter<any> = new EventEmitter();
+  public deleteMoveEmitter: EventEmitter<Move> = new EventEmitter();
 
   @Output('nextMove')
-  public nextMoveEmitter: EventEmitter<any> = new EventEmitter();
+  public nextMoveEmitter: EventEmitter<Move> = new EventEmitter();
 
-  private selectedMove: Move | undefined;
+  private selectedMove!: Move;
 
   constructor() {
     this.moveList = [];
@@ -26,15 +26,14 @@ export class EditionVerticalPanelComponent implements OnInit {
   ngOnInit(): void {}
 
   public handleDeleteMove(): void {
-    this.deleteMoveEmitter.emit();
+    this.deleteMoveEmitter.emit(this.selectedMove);
   }
 
   public handleNextMove(): void {
-    this.nextMoveEmitter.emit();
+    this.nextMoveEmitter.emit(this.selectedMove);
   }
 
   public handleSelectMove(selectedMoveEvent: any): void {
     this.selectedMove = selectedMoveEvent.options[0].value;
-    console.log(selectedMoveEvent);
   }
 }
