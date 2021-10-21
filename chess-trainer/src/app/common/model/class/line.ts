@@ -18,12 +18,15 @@ export class Line {
     }
   }
 
-  //TODO tests false
   public existsPosition(FENPosition: string): boolean {
     return this.positionList.some((element) => this.compareFEN(element.positionFEN, FENPosition));
   }
 
   private compareFEN(positionFEN: string, other: string): boolean {
     return positionFEN.startsWith(other.slice(0, -4));
+  }
+
+  public deletePosition(FENPosition: string) {
+    this.positionList = this.positionList.filter((element) => !this.compareFEN(element.positionFEN, FENPosition));
   }
 }

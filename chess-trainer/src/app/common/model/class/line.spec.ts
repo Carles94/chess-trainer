@@ -185,4 +185,25 @@ describe('Line', () => {
     // Assert
     expect(result).toBe(false);
   });
+
+  it('should delete position by FEN', () => {
+    // Arrange
+    line.positionList.push(
+      {
+        positionFEN: 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1',
+        previousFENPosition: '',
+        moveList: [],
+      },
+      {
+        positionFEN: INITIAL_FEN,
+        previousFENPosition: '',
+        moveList: [],
+      }
+    );
+    // Act
+    line.deletePosition('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1');
+    // Assert
+    expect(line.positionList.length).toBe(1);
+    expect(line.positionList[0].positionFEN).toBe(INITIAL_FEN);
+  });
 });

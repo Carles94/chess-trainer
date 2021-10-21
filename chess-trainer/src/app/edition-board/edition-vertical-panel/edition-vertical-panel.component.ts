@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatSelectionListChange } from '@angular/material/list';
 import { Move } from 'src/app/common/model/interface/move';
-import { MoveEvent } from 'src/app/common/model/interface/move-event';
 
 @Component({
   selector: 'app-edition-vertical-panel',
@@ -17,7 +15,7 @@ export class EditionVerticalPanelComponent implements OnInit {
   @Output('nextMove')
   public nextMoveEmitter: EventEmitter<Move> = new EventEmitter();
 
-  private selectedMove!: Move;
+  private selectedMove: Move | undefined;
 
   constructor() {
     this.moveList = [];
@@ -26,11 +24,17 @@ export class EditionVerticalPanelComponent implements OnInit {
   ngOnInit(): void {}
 
   public handleDeleteMove(): void {
-    this.deleteMoveEmitter.emit(this.selectedMove);
+    if (this.selectedMove) {
+      this.deleteMoveEmitter.emit(this.selectedMove);
+      this.selectedMove = undefined;
+    }
   }
 
   public handleNextMove(): void {
-    this.nextMoveEmitter.emit(this.selectedMove);
+    if (this.selectedMove) {
+      this.nextMoveEmitter.emit(this.selectedMove);
+      this.selectedMove = undefined;
+    }
   }
 
   public handleSelectMove(selectedMoveEvent: any): void {

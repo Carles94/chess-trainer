@@ -77,6 +77,37 @@ describe('EditionBoardComponent', () => {
     expect(boardSpy).toHaveBeenCalledWith('d2d4');
   });
 
+  it('should handle play delete move', () => {
+    // Arrange
+    component.board = new BoardStubComponent();
+    let moveEvent: MoveEvent = {
+      capture: false,
+      check: false,
+      checkmate: false,
+      color: 'white',
+      fen: 'rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1',
+      move: 'd2d4',
+      piece: 'Pawn',
+      stalemate: false,
+    };
+    const move: Move = {
+      moveToSend: 'd2d4',
+      moveToShow: '',
+      positionFENAfter: 'rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1',
+    };
+    // Act
+    component.handlePieceMoved(moveEvent);
+    component.handleUndo();
+    component.handleDeleteMove(move);
+    // Assert
+    expect(component['currentPosition'].moveList.length).toBeFalsy();
+    expect(component['currentPosition'].positionFEN).toBe(INITIAL_FEN);
+
+    expect(component['line'].positionList.length).toBe(1);
+    expect(component['line'].positionList[0].positionFEN).toBe(INITIAL_FEN);
+    expect(component['line'].positionList[0].moveList.length).toBeFalsy();
+  });
+
   it("should handle piece moved when the position and the move don't exists in line by storing the move and the position", () => {
     // Arrange
     let moveEvent: MoveEvent = {

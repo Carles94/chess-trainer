@@ -41,6 +41,17 @@ describe('EditionVerticalPanelComponent', () => {
     // Act
     component.handleDeleteMove();
     expect(component.deleteMoveEmitter.emit).toHaveBeenCalledWith(move);
+    expect(component['selectedMove']).toBe(undefined);
+  });
+
+  it('should not emit delete move when move is undefined', () => {
+    // Arrange
+    component['selectedMove'] = undefined;
+    // Act
+    component.handleDeleteMove();
+    // Assert
+    expect(component.deleteMoveEmitter.emit).not.toHaveBeenCalled();
+    expect(component['selectedMove']).toBe(undefined);
   });
 
   it('should emit next move', () => {
@@ -55,6 +66,17 @@ describe('EditionVerticalPanelComponent', () => {
     component.handleNextMove();
     // Assert
     expect(component.nextMoveEmitter.emit).toHaveBeenCalledWith(move);
+    expect(component['selectedMove']).toBe(undefined);
+  });
+
+  it('should not emit next move when move is undefined', () => {
+    // Arrange
+    component['selectedMove'] = undefined;
+    // Act
+    component.handleNextMove();
+    // Assert
+    expect(component.nextMoveEmitter.emit).not.toHaveBeenCalled();
+    expect(component['selectedMove']).toBe(undefined);
   });
 
   it('should select the move', () => {
