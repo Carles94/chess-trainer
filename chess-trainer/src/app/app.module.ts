@@ -12,6 +12,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { EditionVerticalPanelComponent } from './edition-board/edition-vertical-panel/edition-vertical-panel.component';
 import { EditionFooterPanelComponent } from './edition-board/edition-footer-panel/edition-footer-panel.component';
+import { MovePipe } from './common/pipe/move.pipe';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { EditionFooterPanelComponent } from './edition-board/edition-footer-pane
     EditionBoardComponent,
     EditionVerticalPanelComponent,
     EditionFooterPanelComponent,
+    MovePipe,
   ],
   imports: [
     BrowserModule,

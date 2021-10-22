@@ -46,6 +46,7 @@ export class EditionBoardComponent implements OnInit {
   }
 
   public handlePieceMoved(event: MoveEvent): void {
+    console.log(event);
     const currentMove: Move = {
       positionFENAfter: event.fen,
       moveToSend: event.move,
