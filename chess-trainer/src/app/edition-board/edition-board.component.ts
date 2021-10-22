@@ -22,8 +22,7 @@ export class EditionBoardComponent implements OnInit {
   constructor() {
     // Only if there are no position in the line
     this.currentPosition = {
-      // FEN of the starting position
-      positionFEN: INITIAL_FEN,
+      FENPosition: INITIAL_FEN,
       previousFENPosition: INITIAL_FEN,
       moveList: [],
     };
@@ -59,8 +58,8 @@ export class EditionBoardComponent implements OnInit {
       this.currentPosition = this.line.getPositionByFEN(event.fen);
     } else {
       this.currentPosition = {
-        positionFEN: event.fen,
-        previousFENPosition: this.currentPosition.positionFEN,
+        FENPosition: event.fen,
+        previousFENPosition: this.currentPosition.FENPosition,
         moveList: [],
       };
       this.line.positionList.push(this.currentPosition);

@@ -10,7 +10,7 @@ export class Line {
   }
 
   public getPositionByFEN(FENPosition: string): Position {
-    const result = this.positionList.find((element) => this.compareFEN(element.positionFEN, FENPosition));
+    const result = this.positionList.find((element) => this.compareFEN(element.FENPosition, FENPosition));
     if (result) {
       return result;
     } else {
@@ -19,7 +19,7 @@ export class Line {
   }
 
   public existsPosition(FENPosition: string): boolean {
-    return this.positionList.some((element) => this.compareFEN(element.positionFEN, FENPosition));
+    return this.positionList.some((element) => this.compareFEN(element.FENPosition, FENPosition));
   }
 
   private compareFEN(positionFEN: string, other: string): boolean {
@@ -27,6 +27,6 @@ export class Line {
   }
 
   public deletePosition(FENPosition: string) {
-    this.positionList = this.positionList.filter((element) => !this.compareFEN(element.positionFEN, FENPosition));
+    this.positionList = this.positionList.filter((element) => !this.compareFEN(element.FENPosition, FENPosition));
   }
 }

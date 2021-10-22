@@ -101,10 +101,10 @@ describe('EditionBoardComponent', () => {
     component.handleDeleteMove(move);
     // Assert
     expect(component['currentPosition'].moveList.length).toBeFalsy();
-    expect(component['currentPosition'].positionFEN).toBe(INITIAL_FEN);
+    expect(component['currentPosition'].FENPosition).toBe(INITIAL_FEN);
 
     expect(component['line'].positionList.length).toBe(1);
-    expect(component['line'].positionList[0].positionFEN).toBe(INITIAL_FEN);
+    expect(component['line'].positionList[0].FENPosition).toBe(INITIAL_FEN);
     expect(component['line'].positionList[0].moveList.length).toBeFalsy();
   });
 
@@ -123,16 +123,16 @@ describe('EditionBoardComponent', () => {
     // Act
     component.handlePieceMoved(moveEvent);
     // Assert
-    expect(component['currentPosition'].positionFEN).toBe(moveEvent.fen);
+    expect(component['currentPosition'].FENPosition).toBe(moveEvent.fen);
     expect(component['currentPosition'].moveList.length).toBeFalsy();
     expect(component['currentPosition'].previousFENPosition).toBe(INITIAL_FEN);
 
     expect(component['line'].positionList.length).toBe(2);
-    expect(component['line'].positionList[0].positionFEN).toBe(INITIAL_FEN);
+    expect(component['line'].positionList[0].FENPosition).toBe(INITIAL_FEN);
     expect(component['line'].positionList[0].moveList.length).toBe(1);
     expect(component['line'].positionList[0].moveList[0].moveToSend).toBe(moveEvent.move);
     expect(component['line'].positionList[0].moveList[0].positionFENAfter).toBe(moveEvent.fen);
-    expect(component['line'].positionList[1].positionFEN).toBe(moveEvent.fen);
+    expect(component['line'].positionList[1].FENPosition).toBe(moveEvent.fen);
     expect(component['line'].positionList[1].moveList.length).toBeFalsy();
   });
 
@@ -164,20 +164,20 @@ describe('EditionBoardComponent', () => {
     component.handleUndo();
     component.handlePieceMoved(moveEvent2);
     // Assert
-    expect(component['currentPosition'].positionFEN).toBe(moveEvent2.fen);
+    expect(component['currentPosition'].FENPosition).toBe(moveEvent2.fen);
     expect(component['currentPosition'].moveList.length).toBeFalsy();
     expect(component['currentPosition'].previousFENPosition).toBe(INITIAL_FEN);
 
     expect(component['line'].positionList.length).toBe(3);
-    expect(component['line'].positionList[0].positionFEN).toBe(INITIAL_FEN);
+    expect(component['line'].positionList[0].FENPosition).toBe(INITIAL_FEN);
     expect(component['line'].positionList[0].moveList.length).toBe(2);
     expect(component['line'].positionList[0].moveList[0].moveToSend).toBe(moveEvent.move);
     expect(component['line'].positionList[0].moveList[0].positionFENAfter).toBe(moveEvent.fen);
     expect(component['line'].positionList[0].moveList[1].moveToSend).toBe(moveEvent2.move);
     expect(component['line'].positionList[0].moveList[1].positionFENAfter).toBe(moveEvent2.fen);
-    expect(component['line'].positionList[1].positionFEN).toBe(moveEvent.fen);
+    expect(component['line'].positionList[1].FENPosition).toBe(moveEvent.fen);
     expect(component['line'].positionList[1].moveList.length).toBeFalsy();
-    expect(component['line'].positionList[2].positionFEN).toBe(moveEvent2.fen);
+    expect(component['line'].positionList[2].FENPosition).toBe(moveEvent2.fen);
     expect(component['line'].positionList[2].moveList.length).toBeFalsy();
   });
 
@@ -199,16 +199,16 @@ describe('EditionBoardComponent', () => {
     component.handleUndo();
     component.handlePieceMoved(moveEvent);
     // Assert
-    expect(component['currentPosition'].positionFEN).toBe(moveEvent.fen);
+    expect(component['currentPosition'].FENPosition).toBe(moveEvent.fen);
     expect(component['currentPosition'].moveList.length).toBeFalsy();
     expect(component['currentPosition'].previousFENPosition).toBe(INITIAL_FEN);
 
     expect(component['line'].positionList.length).toBe(2);
-    expect(component['line'].positionList[0].positionFEN).toBe(INITIAL_FEN);
+    expect(component['line'].positionList[0].FENPosition).toBe(INITIAL_FEN);
     expect(component['line'].positionList[0].moveList.length).toBe(1);
     expect(component['line'].positionList[0].moveList[0].moveToSend).toBe(moveEvent.move);
     expect(component['line'].positionList[0].moveList[0].positionFENAfter).toBe(moveEvent.fen);
-    expect(component['line'].positionList[1].positionFEN).toBe(moveEvent.fen);
+    expect(component['line'].positionList[1].FENPosition).toBe(moveEvent.fen);
     expect(component['line'].positionList[1].moveList.length).toBeFalsy();
   });
 
@@ -229,7 +229,7 @@ describe('EditionBoardComponent', () => {
     component.handlePieceMoved(moveEvent);
     component.handleUndo();
     // Assert
-    expect(component['currentPosition'].positionFEN).toBe(INITIAL_FEN);
+    expect(component['currentPosition'].FENPosition).toBe(INITIAL_FEN);
     expect(component['currentPosition'].moveList.length).toBe(1);
     expect(component['currentPosition'].moveList[0].moveToSend).toBe(moveEvent.move);
     expect(component['currentPosition'].moveList[0].positionFENAfter).toBe(moveEvent.fen);
@@ -266,7 +266,7 @@ describe('EditionBoardComponent', () => {
     component.handleUndo();
     component.handleUndo();
     // Assert
-    expect(component['currentPosition'].positionFEN).toBe(INITIAL_FEN);
+    expect(component['currentPosition'].FENPosition).toBe(INITIAL_FEN);
     expect(component['currentPosition'].moveList.length).toBe(1);
     expect(component['currentPosition'].moveList[0].moveToSend).toBe(moveEvent1.move);
     expect(component['currentPosition'].moveList[0].positionFENAfter).toBe(moveEvent1.fen);
@@ -302,7 +302,7 @@ describe('EditionBoardComponent', () => {
     component.handlePieceMoved(moveEvent2);
     component.handleReset();
     // Assert
-    expect(component['currentPosition'].positionFEN).toBe(INITIAL_FEN);
+    expect(component['currentPosition'].FENPosition).toBe(INITIAL_FEN);
     expect(component['currentPosition'].moveList.length).toBe(1);
     expect(component['currentPosition'].moveList[0].moveToSend).toBe(moveEvent1.move);
     expect(component['currentPosition'].moveList[0].positionFENAfter).toBe(moveEvent1.fen);
