@@ -151,4 +151,93 @@ describe('MovePipe', () => {
     // Assert
     expect(result).toBe('4.Qxf7#');
   });
+
+  it('should transform a short castle white move', () => {
+    // Arrange
+    let moveEvent: MoveEvent = {
+      capture: false,
+      check: false,
+      checkmate: false,
+      color: 'white',
+      fen: 'r1bqkb1r/pppp1ppp/2n2n2/1B2p3/4P3/5N2/PPPP1PPP/RNBQ1RK1 b kq - 0 4',
+      move: 'e1g1',
+      piece: 'King',
+      stalemate: false,
+    };
+    // Act
+    const result: string = pipe.transform(moveEvent);
+    // Assert
+    expect(result).toBe('4.O-O');
+  });
+
+  it('should transform a long castle black move', () => {
+    // Arrange
+    let moveEvent: MoveEvent = {
+      capture: false,
+      check: false,
+      checkmate: false,
+      color: 'black',
+      fen: '2kr1bnr/ppp1pppp/2n5/3q4/3P2b1/5N2/PPP1BPPP/RNBQK2R w KQ - 0 6',
+      move: 'e8c8',
+      piece: 'King',
+      stalemate: false,
+    };
+    // Act
+    const result: string = pipe.transform(moveEvent);
+    // Assert
+    expect(result).toBe('5...O-O-O');
+  });
+
+  it('should transform a pawn capture move', () => {
+    // Arrange
+    let moveEvent: MoveEvent = {
+      capture: true,
+      check: false,
+      checkmate: false,
+      color: 'white',
+      fen: 'rnbqkbnr/ppp1pppp/8/3P4/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2',
+      move: 'e4d5',
+      piece: 'Pawn',
+      stalemate: false,
+    };
+    // Act
+    const result: string = pipe.transform(moveEvent);
+    // Assert
+    expect(result).toBe('2.exd5');
+  });
+  it('should transform a king move', () => {
+    // Arrange
+    let moveEvent: MoveEvent = {
+      capture: false,
+      check: false,
+      checkmate: false,
+      color: 'white',
+      fen: 'rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPPKPPP/RNBQ1BNR b kq - 0 2',
+      move: 'e1e2',
+      piece: 'King',
+      stalemate: false,
+    };
+    // Act
+    const result: string = pipe.transform(moveEvent);
+    // Assert
+    expect(result).toBe('2.Ke2');
+  });
+
+  it('should transform a rook move', () => {
+    // Arrange
+    let moveEvent: MoveEvent = {
+      capture: false,
+      check: false,
+      checkmate: false,
+      color: 'white',
+      fen: 'rnbqkbnr/ppppp1pp/8/5p2/8/5N2/PPPPPPPP/RNBQKBR1 b Qkq - 0 2',
+      move: 'h1g1',
+      piece: 'Rook',
+      stalemate: false,
+    };
+    // Act
+    const result: string = pipe.transform(moveEvent);
+    // Assert
+    expect(result).toBe('2.Rg1');
+  });
 });
