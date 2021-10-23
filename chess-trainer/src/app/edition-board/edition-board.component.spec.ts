@@ -6,6 +6,7 @@ import { MoveChange } from 'ngx-chess-board';
 import { INITIAL_FEN } from '../common/model/constant/constant';
 import { Move } from '../common/model/interface/move';
 import { MoveEvent } from '../common/model/interface/move-event';
+import { MovePipe } from '../common/pipe/move.pipe';
 import { BoardStubComponent } from '../common/test/board-stub.component';
 
 import { EditionBoardComponent } from './edition-board.component';
@@ -16,7 +17,7 @@ describe('EditionBoardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [MatCardModule, MatGridListModule],
+      providers: [MatCardModule, MatGridListModule, MovePipe],
       declarations: [EditionBoardComponent, BoardStubComponent],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();

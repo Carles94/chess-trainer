@@ -32,7 +32,7 @@ import { MovePipe } from './common/pipe/move.pipe';
     MatDividerModule,
     MatListModule,
   ],
-  providers: [],
+  providers: [MovePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

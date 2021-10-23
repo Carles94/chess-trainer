@@ -6,6 +6,7 @@ import { IBoard } from '../common/model/interface/board';
 import { Move } from '../common/model/interface/move';
 import { MoveEvent } from '../common/model/interface/move-event';
 import { Position } from '../common/model/interface/position';
+import { MovePipe } from '../common/pipe/move.pipe';
 
 @Component({
   selector: 'app-edition-board',
@@ -19,7 +20,7 @@ export class EditionBoardComponent implements OnInit {
   private line: Line;
   public currentPosition: Position;
 
-  constructor() {
+  constructor(private readonly movePipe: MovePipe) {
     // Only if there are no position in the line
     this.currentPosition = {
       FENPosition: INITIAL_FEN,
@@ -50,7 +51,7 @@ export class EditionBoardComponent implements OnInit {
     const currentMove: Move = {
       positionFENAfter: event.fen,
       moveToSend: event.move,
-      moveToShow: '',
+      moveToShow: this.movePipe.transform(event),
     };
     if (!this.currentPosition.moveList.some((move) => move.moveToSend === currentMove.moveToSend)) {
       this.currentPosition.moveList.push(currentMove);
