@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MoveChange } from 'ngx-chess-board';
-import { INITIAL_FEN } from '../common/model/constant/constant';
+import { BLACK, INITIAL_FEN, WHITE } from '../common/model/constant/constant';
 import { Move } from '../common/model/interface/move';
 import { MoveEvent } from '../common/model/interface/move-event';
 import { MovePipe } from '../common/pipe/move.pipe';
@@ -85,7 +85,7 @@ describe('EditionBoardComponent', () => {
       capture: false,
       check: false,
       checkmate: false,
-      color: 'white',
+      color: WHITE,
       fen: 'rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1',
       move: 'd2d4',
       piece: 'Pawn',
@@ -115,7 +115,7 @@ describe('EditionBoardComponent', () => {
       capture: false,
       check: false,
       checkmate: false,
-      color: 'white',
+      color: WHITE,
       fen: 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1',
       move: 'e2e4',
       piece: 'Pawn',
@@ -143,7 +143,7 @@ describe('EditionBoardComponent', () => {
       capture: false,
       check: false,
       checkmate: false,
-      color: 'white',
+      color: WHITE,
       fen: 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1',
       move: 'e2e4',
       piece: 'Pawn',
@@ -153,7 +153,7 @@ describe('EditionBoardComponent', () => {
       capture: false,
       check: false,
       checkmate: false,
-      color: 'white',
+      color: WHITE,
       fen: 'rnbqkbnr/pppppppp/8/8/8/4P3/PPPP1PPP/RNBQKBNR b KQkq - 0 1',
       move: 'e2e3',
       piece: 'Pawn',
@@ -188,7 +188,7 @@ describe('EditionBoardComponent', () => {
       capture: false,
       check: false,
       checkmate: false,
-      color: 'white',
+      color: WHITE,
       fen: 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1',
       move: 'e2e4',
       piece: 'Pawn',
@@ -219,7 +219,7 @@ describe('EditionBoardComponent', () => {
       capture: false,
       check: false,
       checkmate: false,
-      color: 'white',
+      color: WHITE,
       fen: 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1',
       move: 'e2e4',
       piece: 'Pawn',
@@ -244,7 +244,7 @@ describe('EditionBoardComponent', () => {
       capture: false,
       check: false,
       checkmate: false,
-      color: 'white',
+      color: WHITE,
       fen: 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1',
       move: 'e2e4',
       piece: 'Pawn',
@@ -254,7 +254,7 @@ describe('EditionBoardComponent', () => {
       capture: false,
       check: false,
       checkmate: false,
-      color: 'black',
+      color: BLACK,
       fen: 'rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq e6 0 2',
       move: 'e7e5',
       piece: 'Pawn',
@@ -291,7 +291,7 @@ describe('EditionBoardComponent', () => {
       capture: false,
       check: false,
       checkmate: false,
-      color: 'black',
+      color: BLACK,
       fen: 'rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq e6 0 2',
       move: 'e7e5',
       piece: 'Pawn',
