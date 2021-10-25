@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BoardComponent } from '../common/component/board/board.component';
 import { Line } from '../common/model/class/line';
-import { INITIAL_FEN } from '../common/model/constant/constant';
+import { INITIAL_FEN, WHITE } from '../common/model/constant/constant';
 import { IBoard } from '../common/model/interface/board';
 import { Move } from '../common/model/interface/move';
 import { MoveEvent } from '../common/model/interface/move-event';
@@ -27,7 +27,7 @@ export class EditionBoardComponent implements OnInit {
       previousFENPosition: INITIAL_FEN,
       moveList: [],
     };
-    this.line = new Line('name', [this.currentPosition]);
+    this.line = new Line('name', WHITE, [this.currentPosition]);
   }
 
   ngOnInit(): void {}
@@ -53,9 +53,13 @@ export class EditionBoardComponent implements OnInit {
       moveToSend: event.move,
       moveToShow: this.movePipe.transform(event),
     };
+    // Si es jugada de  blanco y existe otra jugada se debe mostrar un  mensaje de error
+    //https://material.angular.io/components/dialog/examples
+    // The move don't exists
     if (!this.currentPosition.moveList.some((move) => move.moveToSend === currentMove.moveToSend)) {
       this.currentPosition.moveList.push(currentMove);
     }
+    // The position after the move exists
     if (this.line.existsPosition(event.fen)) {
       this.currentPosition = this.line.getPositionByFEN(event.fen);
     } else {

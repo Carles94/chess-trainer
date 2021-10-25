@@ -4,9 +4,11 @@ import { Position } from '../interface/position';
 export class Line {
   name: string;
   positionList: Position[];
-  constructor(name: string, positionList: Position[]) {
+  color: string;
+  constructor(name: string, color: string, positionList: Position[]) {
     this.name = name;
     this.positionList = positionList;
+    this.color = color;
   }
 
   public getPositionByFEN(FENPosition: string): Position {
@@ -22,11 +24,19 @@ export class Line {
     return this.positionList.some((element) => this.compareFEN(element.FENPosition, FENPosition));
   }
 
-  private compareFEN(positionFEN: string, other: string): boolean {
-    return positionFEN.startsWith(other.slice(0, -4));
-  }
-
   public deletePosition(FENPosition: string) {
     this.positionList = this.positionList.filter((element) => !this.compareFEN(element.FENPosition, FENPosition));
+  }
+
+  public canAddMove(moveColor: string, FENPosition: string): boolean {
+    if (this.existsPosition(FENPosition) && this.color === moveColor) {
+      const positionToAddMove = this.getPositionByFEN(FENPosition);
+      return positionToAddMove.moveList.length === 0;
+    }
+    return true;
+  }
+
+  private compareFEN(positionFEN: string, other: string): boolean {
+    return positionFEN.startsWith(other.slice(0, -4));
   }
 }
