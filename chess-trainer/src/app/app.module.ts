@@ -9,10 +9,12 @@ import { EditionBoardComponent } from './edition-board/edition-board.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { EditionVerticalPanelComponent } from './edition-board/edition-vertical-panel/edition-vertical-panel.component';
 import { EditionFooterPanelComponent } from './edition-board/edition-footer-panel/edition-footer-panel.component';
 import { MovePipe } from './common/pipe/move.pipe';
+import { ReplaceMoveConfirmationDialogComponent } from './common/component/replace-move-confirmation-dialog/replace-move-confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import { MovePipe } from './common/pipe/move.pipe';
     EditionVerticalPanelComponent,
     EditionFooterPanelComponent,
     MovePipe,
+    ReplaceMoveConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +34,7 @@ import { MovePipe } from './common/pipe/move.pipe';
     MatGridListModule,
     MatDividerModule,
     MatListModule,
+    MatDialogModule,
   ],
   providers: [MovePipe],
   bootstrap: [AppComponent],

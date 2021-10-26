@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { BoardComponent } from '../common/component/board/board.component';
+import { ReplaceMoveConfirmationDialogComponent } from '../common/component/replace-move-confirmation-dialog/replace-move-confirmation-dialog.component';
 import { Line } from '../common/model/class/line';
 import { INITIAL_FEN, WHITE } from '../common/model/constant/constant';
 import { IBoard } from '../common/model/interface/board';
@@ -20,7 +22,7 @@ export class EditionBoardComponent implements OnInit {
   private line: Line;
   public currentPosition: Position;
 
-  constructor(private readonly movePipe: MovePipe) {
+  constructor(private readonly movePipe: MovePipe, public dialog: MatDialog) {
     // Only if there are no position in the line
     this.currentPosition = {
       FENPosition: INITIAL_FEN,
@@ -58,6 +60,12 @@ export class EditionBoardComponent implements OnInit {
     // The move don't exists
     if (!this.currentPosition.moveList.some((move) => move.moveToSend === currentMove.moveToSend)) {
       this.currentPosition.moveList.push(currentMove);
+      if (!this.line.canAddMove(event.color, event.fen)) {
+        const dialogRef = this.dialog.open(ReplaceMoveConfirmationDialogComponent);
+        dialogRef.afterClosed().subscribe((result) => {
+          console.log(`Dialog result: ${result}`);
+        });
+      }
     }
     // The position after the move exists
     if (this.line.existsPosition(event.fen)) {
