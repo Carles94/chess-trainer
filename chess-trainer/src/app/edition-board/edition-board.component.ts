@@ -55,16 +55,17 @@ export class EditionBoardComponent implements OnInit {
       moveToSend: event.move,
       moveToShow: this.movePipe.transform(event),
     };
-    // Si es jugada de  blanco y existe otra jugada se debe mostrar un  mensaje de error
-    //https://material.angular.io/components/dialog/examples
     // The move don't exists
     if (!this.currentPosition.moveList.some((move) => move.moveToSend === currentMove.moveToSend)) {
       this.currentPosition.moveList.push(currentMove);
-      if (!this.line.canAddMove(event.color, event.fen)) {
+      //TODO test that
+      // Si es jugada de  blanco y existe otra jugada se debe mostrar un  mensaje de error
+      if (!this.line.canAddMove(event.color, this.currentPosition.FENPosition)) {
         const dialogRef = this.dialog.open(ReplaceMoveConfirmationDialogComponent);
         dialogRef.afterClosed().subscribe((result) => {
           console.log(`Dialog result: ${result}`);
         });
+        return;
       }
     }
     // The position after the move exists
