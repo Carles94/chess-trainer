@@ -230,7 +230,7 @@ describe('MovePipe', () => {
       capture: false,
       check: false,
       checkmate: false,
-      color: 'white',
+      color: WHITE,
       fen: 'rnbqkbnr/ppppp1pp/8/5p2/8/5N2/PPPPPPPP/RNBQKBR1 b Qkq - 0 2',
       move: 'h1g1',
       piece: 'Rook',

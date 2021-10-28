@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { WHITE } from '../model/constant/constant';
 import { MoveEvent } from '../model/interface/move-event';
 
 @Pipe({
@@ -8,8 +9,8 @@ export class MovePipe implements PipeTransform {
   transform(moveEvent: MoveEvent): string {
     //TODO case two pieces can go  same square
     const endSquare = moveEvent.move.slice(-2);
-    let moveNumber = moveEvent.color === 'white' ? moveEvent.fen.slice(-1) : parseInt(moveEvent.fen.slice(-1)) - 1;
-    const dots = moveEvent.color === 'white' ? '.' : '...';
+    let moveNumber = moveEvent.color === WHITE ? moveEvent.fen.slice(-1) : parseInt(moveEvent.fen.slice(-1)) - 1;
+    const dots = moveEvent.color === WHITE ? '.' : '...';
     let pieceLetter = this.selectPieceLetter(moveEvent);
     const captureSimbol = moveEvent.capture ? 'x' : '';
     const endDecorator = moveEvent.checkmate ? '#' : moveEvent.check ? '+' : '';
