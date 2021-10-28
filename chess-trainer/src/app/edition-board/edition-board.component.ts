@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { BoardComponent } from '../common/component/board/board.component';
 import { ReplaceMoveConfirmationDialogComponent } from '../common/component/replace-move-confirmation-dialog/replace-move-confirmation-dialog.component';
 import { Line } from '../common/model/class/line';
@@ -19,28 +21,35 @@ export class EditionBoardComponent implements OnInit {
   @ViewChild(BoardComponent)
   board!: IBoard;
 
-  private line: Line;
+  line: Line | undefined;
+
   public currentPosition: Position;
 
-  constructor(private readonly movePipe: MovePipe, public dialog: MatDialog) {
+  constructor(private readonly movePipe: MovePipe, public dialog: MatDialog, private http: HttpClient) {
     // Only if there are no position in the line
     this.currentPosition = {
       FENPosition: INITIAL_FEN,
       previousFENPosition: INITIAL_FEN,
       moveList: [],
     };
-    this.line = new Line('name', WHITE, [this.currentPosition]);
+    //this.line = new Line('name', WHITE, [this.currentPosition]);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.http
+      .request('GET', 'http://localhost:8080/api/line', {
+        responseType: 'json',
+      })
+      .subscribe((line) => console.log(line));
+  }
 
   public handleUndo(): void {
-    this.currentPosition = this.line.getPositionByFEN(this.currentPosition.previousFENPosition);
+    //this.currentPosition = this.line.getPositionByFEN(this.currentPosition.previousFENPosition);
     this.board.undo();
   }
 
   public handleReset(): void {
-    this.currentPosition = this.line.getPositionByFEN(INITIAL_FEN);
+    //this.currentPosition = this.line.getPositionByFEN(INITIAL_FEN);
     this.board.reset();
   }
 
@@ -50,7 +59,7 @@ export class EditionBoardComponent implements OnInit {
 
   public handlePieceMoved(event: MoveEvent): void {
     console.log(event);
-    const currentMove: Move = {
+    /* const currentMove: Move = {
       positionFENAfter: event.fen,
       moveToSend: event.move,
       moveToShow: this.movePipe.transform(event),
@@ -78,14 +87,14 @@ export class EditionBoardComponent implements OnInit {
         moveList: [],
       };
       this.line.positionList.push(this.currentPosition);
-    }
+    }*/
   }
 
   public handleDeleteMove(moveEvent: Move): void {
     this.currentPosition.moveList = [
       ...this.currentPosition.moveList.filter((move) => move.moveToSend !== moveEvent.moveToSend),
     ];
-    this.line.deletePosition(moveEvent.positionFENAfter);
+    //this.line.deletePosition(moveEvent.positionFENAfter);
   }
 
   public handleNextMove(move: Move): void {

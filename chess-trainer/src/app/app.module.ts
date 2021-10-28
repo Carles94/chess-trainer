@@ -16,6 +16,7 @@ import { EditionFooterPanelComponent } from './edition-board/edition-footer-pane
 import { MovePipe } from './common/pipe/move.pipe';
 import { ReplaceMoveConfirmationDialogComponent } from './common/component/replace-move-confirmation-dialog/replace-move-confirmation-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatListModule,
     MatDialogModule,
     BrowserAnimationsModule,
+    HttpClientModule,
   ],
   providers: [MovePipe],
   bootstrap: [AppComponent],
