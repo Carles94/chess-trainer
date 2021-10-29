@@ -37,10 +37,10 @@ export class EditionBoardComponent implements OnInit {
 
   ngOnInit(): void {
     this.http
-      .request('GET', 'http://localhost:8080/api/line', {
+      .request('GET', `http://localhost:8080/chess-trainer/position/get`, {
         responseType: 'json',
       })
-      .subscribe((line) => console.log(line));
+      .subscribe((position) => console.log(position));
   }
 
   public handleUndo(): void {
@@ -59,6 +59,10 @@ export class EditionBoardComponent implements OnInit {
 
   public handlePieceMoved(event: MoveEvent): void {
     console.log(event);
+    this.http.request('POST', 'http://localhost:8080/chess-trainer/move', {
+      responseType: 'json',
+      body: event,
+    });
     /* const currentMove: Move = {
       positionFENAfter: event.fen,
       moveToSend: event.move,
@@ -90,10 +94,14 @@ export class EditionBoardComponent implements OnInit {
     }*/
   }
 
-  public handleDeleteMove(moveEvent: Move): void {
+  public handleDeleteMove(move: Move): void {
     this.currentPosition.moveList = [
-      ...this.currentPosition.moveList.filter((move) => move.moveToSend !== moveEvent.moveToSend),
+      ...this.currentPosition.moveList.filter((move) => move.moveToSend !== move.moveToSend),
     ];
+    this.http.request('DELETE', 'http://localhost:8080/chess-trainer/move', {
+      responseType: 'json',
+      body: move,
+    });
     //this.line.deletePosition(moveEvent.positionFENAfter);
   }
 
