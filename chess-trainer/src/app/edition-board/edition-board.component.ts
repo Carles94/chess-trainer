@@ -59,10 +59,11 @@ export class EditionBoardComponent implements OnInit {
 
   public handlePieceMoved(event: MoveEvent): void {
     console.log(event);
-    this.http.request('POST', 'http://localhost:8080/chess-trainer/move', {
-      responseType: 'json',
-      body: event,
-    });
+    this.http
+      .post('http://localhost:8080/chess-trainer/move', event, {
+        responseType: 'json',
+      })
+      .subscribe((position) => console.log(position));
     /* const currentMove: Move = {
       positionFENAfter: event.fen,
       moveToSend: event.move,
@@ -98,10 +99,12 @@ export class EditionBoardComponent implements OnInit {
     this.currentPosition.moveList = [
       ...this.currentPosition.moveList.filter((move) => move.moveToSend !== move.moveToSend),
     ];
-    this.http.request('DELETE', 'http://localhost:8080/chess-trainer/move', {
-      responseType: 'json',
-      body: move,
-    });
+    this.http
+      .request('DELETE', 'http://localhost:8080/chess-trainer/move', {
+        responseType: 'json',
+        body: move,
+      })
+      .subscribe((position) => console.log(position));
     //this.line.deletePosition(moveEvent.positionFENAfter);
   }
 

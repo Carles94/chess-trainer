@@ -27,13 +27,15 @@ public class ChessController {
     }
 
     @PostMapping(value = "/move")
-    public void postMove(@RequestBody MoveEvent moveEvent) {
+    public @ResponseBody Position postMove(@RequestBody MoveEvent moveEvent) {
         System.out.println("Post move  called with " + moveEvent);
+        return new Position();
     }
 
     @DeleteMapping(value = "/move")
-    public void deleteMove(@RequestBody Move move) {
+    public @ResponseBody Position deleteMove(@RequestBody Move move) {
         System.out.println("Delete move called with " + move);
+        return new Position();
     }
 
 }
