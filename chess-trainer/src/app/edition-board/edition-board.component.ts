@@ -1,11 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
 import { BoardComponent } from '../common/component/board/board.component';
-import { ReplaceMoveConfirmationDialogComponent } from '../common/component/replace-move-confirmation-dialog/replace-move-confirmation-dialog.component';
 import { Line } from '../common/model/class/line';
-import { INITIAL_FEN, WHITE } from '../common/model/constant/constant';
+import { INITIAL_FEN } from '../common/model/constant/constant';
 import { IBoard } from '../common/model/interface/board';
 import { Move } from '../common/model/interface/move';
 import { MoveEvent } from '../common/model/interface/move-event';
@@ -36,8 +34,10 @@ export class EditionBoardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const parameter: string = this.replaceAll(INITIAL_FEN, '/', '_');
+    console.log(parameter);
     this.http
-      .request('GET', `http://localhost:8080/chess-trainer/position/get`, {
+      .request('GET', `http://localhost:8080/chess-trainer/position/${parameter}`, {
         responseType: 'json',
       })
       .subscribe((position) => console.log(position));
@@ -114,5 +114,13 @@ export class EditionBoardComponent implements OnInit {
 
   public handleUndoUntilAlternative(): void {
     console.log('TODO handle until alternative');
+  }
+
+  private replaceAll(str: string, find: string, replace: string): string {
+    return str.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
+  }
+  // Makes the string to find safer
+  private escapeRegExp(string: string) {
+    return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
   }
 }

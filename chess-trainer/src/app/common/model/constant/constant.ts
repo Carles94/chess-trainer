@@ -1,3 +1,3 @@
-export const INITIAL_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
-export const WHITE = 'white';
-export const BLACK = 'black';
+export const INITIAL_FEN: string = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+export const WHITE: string = 'white';
+export const BLACK: string = 'black';
