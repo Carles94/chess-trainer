@@ -1,12 +1,15 @@
 package com.chess.trainer.backend.controller;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import com.chess.trainer.backend.model.Line;
 import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
+import com.chess.trainer.backend.service.LineService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,23 +25,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @CrossOrigin(origins = "http://localhost:4200")
 public class ChessController {
 
-    private Line line;
+    @Autowired
+    private LineService lineService;
 
     public ChessController() {
-        line = new Line();
-        line.setPositionList(new ArrayList<>());
-        var initialPosition = new Position();
-        initialPosition.setFENPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-        initialPosition.setMoveList(new ArrayList<>());
-        initialPosition.setPreviousFENPosition("");
-        line.getPositionList().add(initialPosition);
     }
 
-    @GetMapping(value = "/position/{FENPosition}")
-    public @ResponseBody Position getPosition(@PathVariable String FENPosition) {
-        System.out.println("Get  position  called with " + FENPosition);
+    @GetMapping(value = "/position/{uuid}/{FENPosition}")
+    public @ResponseBody Position getPosition(@PathVariable String FENPosition, @PathVariable UUID uuid) {
+        System.out.println("Get  position  called with " + FENPosition + " and " + uuid);
         var positionToSearch = FENPosition.replaceAll("_", "/");
-        var result = line.getPositionList().stream()
+        Line currentLine = lineService.getLineFromUUID(uuid);
+        var result = currentLine.getPositionList().stream()
                 .filter((position) -> (position.getFENPosition()).equals(positionToSearch)).findFirst();
         return result.get();
     }

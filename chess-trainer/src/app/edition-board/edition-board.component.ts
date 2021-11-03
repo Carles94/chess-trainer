@@ -34,10 +34,11 @@ export class EditionBoardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const parameter: string = this.replaceAll(INITIAL_FEN, '/', '_');
-    console.log(parameter);
+    const FENParameter: string = this.replaceAll(INITIAL_FEN, '/', '_');
+    const uuidParameter: string = '53f93e7c-4d34-433a-b0d2-824f134a9829';
+    console.log(FENParameter);
     this.http
-      .request('GET', `http://localhost:8080/chess-trainer/position/${parameter}`, {
+      .request('GET', `http://localhost:8080/chess-trainer/position/${uuidParameter}/${FENParameter}`, {
         responseType: 'json',
       })
       .subscribe((position) => console.log(position));
