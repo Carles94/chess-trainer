@@ -1,6 +1,5 @@
 package com.chess.trainer.backend.controller;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 import com.chess.trainer.backend.model.Line;
@@ -9,7 +8,6 @@ import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.service.LineService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,19 +23,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @CrossOrigin(origins = "http://localhost:4200")
 public class ChessController {
 
-    @Autowired
     private LineService lineService;
 
-    public ChessController() {
+    public ChessController(LineService lineService) {
+        this.lineService = lineService;
     }
 
     @GetMapping(value = "/position/{uuid}/{FENPosition}")
     public @ResponseBody Position getPosition(@PathVariable String FENPosition, @PathVariable UUID uuid) {
         System.out.println("Get  position  called with " + FENPosition + " and " + uuid);
         var positionToSearch = FENPosition.replaceAll("_", "/");
+        var reducedPositionToSearch = positionToSearch.substring(0, positionToSearch.length() - 4);
         Line currentLine = lineService.getLineFromUUID(uuid);
         var result = currentLine.getPositionList().stream()
-                .filter((position) -> (position.getFENPosition()).equals(positionToSearch)).findFirst();
+                .filter((position) -> (position.getFENPosition().startsWith(reducedPositionToSearch))).findFirst();
         return result.get();
     }
 
