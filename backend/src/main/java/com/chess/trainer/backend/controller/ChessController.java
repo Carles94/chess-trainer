@@ -1,5 +1,6 @@
 package com.chess.trainer.backend.controller;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.chess.trainer.backend.model.Line;
@@ -41,9 +42,15 @@ public class ChessController {
     }
 
     @PostMapping(value = "/move")
-    public @ResponseBody Position postMove(@RequestBody MoveEvent moveEvent) {
-        System.out.println("Post move  called with " + moveEvent);
-        return new Position();
+    public @ResponseBody Position postMove(@RequestBody MoveEvent moveEvent, @RequestBody Position currentPosition,
+            @RequestBody UUID uuid) {
+        System.out.println("Post move  called with " + moveEvent + ", " + currentPosition + " and " + uuid);
+        Position result = new Position();
+        result.setFENPosition(moveEvent.getFen());
+        result.setMoveList(new ArrayList<>());
+        result.setPreviousFENPosition(currentPosition.getFENPosition());
+        lineService.addMove(moveEvent, currentPosition, uuid);
+        return result;
     }
 
     @DeleteMapping(value = "/move")

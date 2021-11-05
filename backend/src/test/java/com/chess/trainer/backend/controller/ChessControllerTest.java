@@ -3,10 +3,12 @@ package com.chess.trainer.backend.controller;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 import com.chess.trainer.backend.model.Line;
+import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.service.LineService;
 
@@ -88,9 +90,32 @@ class ChessControllerTest {
         positionList.add(position2);
         line.setPositionList(positionList);
         when(lineService.getLineFromUUID(uuid)).thenReturn(line);
-        // Act + Assert
+        // Act
         Position result = chessController.getPosition(inputFENPosition, uuid);
         // Assert
         Assertions.assertEquals(position2, result);
+    }
+
+    @Test
+    void testPostMove() {
+        // Arrange
+        MoveEvent moveEvent = new MoveEvent();
+        moveEvent.setCapture(false);
+        moveEvent.setCheck(false);
+        moveEvent.setCheckmate(false);
+        moveEvent.setColor("white");
+        moveEvent.setFen("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+        moveEvent.setMove("e2e4");
+        moveEvent.setPiece("Pawn");
+        moveEvent.setStalemate(false);
+        UUID uuid = UUID.randomUUID();
+        var currentPosition = new Position();
+        currentPosition.setFENPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        // Act
+        Position result = chessController.postMove(moveEvent, currentPosition, uuid);
+        // Assert
+        Assertions.assertEquals(moveEvent.getFen(), result.getFENPosition());
+        Assertions.assertEquals(Collections.EMPTY_LIST, result.getMoveList());
+        Assertions.assertEquals(currentPosition.getFENPosition(), result.getPreviousFENPosition());
     }
 }
