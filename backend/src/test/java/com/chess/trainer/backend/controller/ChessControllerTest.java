@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.chess.trainer.backend.model.Line;
+import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.service.LineService;
@@ -117,5 +118,27 @@ class ChessControllerTest {
         Assertions.assertEquals(moveEvent.getFen(), result.getFENPosition());
         Assertions.assertEquals(Collections.EMPTY_LIST, result.getMoveList());
         Assertions.assertEquals(currentPosition.getFENPosition(), result.getPreviousFENPosition());
+    }
+
+    @Test
+    void testDeleteMove() {
+        // Arrange
+        Move moveToDelete = new Move();
+        moveToDelete.setMoveToSend("e2e4");
+        UUID uuid = UUID.randomUUID();
+        var currentPosition = new Position();
+        currentPosition.setFENPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        List<Move> moveList = new ArrayList<>();
+        moveList.add(moveToDelete);
+        Move otherMove = new Move();
+        otherMove.setMoveToSend("d2d4");
+        moveList.add(otherMove);
+        currentPosition.setMoveList(moveList);
+        // Act
+        Position result = chessController.deleteMove(moveToDelete, currentPosition, uuid);
+        // Assert
+        Assertions.assertEquals(currentPosition.getFENPosition(), result.getFENPosition());
+        Assertions.assertEquals(1, result.getMoveList().size());
+        Assertions.assertEquals(otherMove, result.getMoveList().get(0));
     }
 }
