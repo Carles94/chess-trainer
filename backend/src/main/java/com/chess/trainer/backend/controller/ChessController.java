@@ -31,13 +31,13 @@ public class ChessController {
     }
 
     @GetMapping(value = "/position/{uuid}/{FENPosition}")
-    public @ResponseBody Position getPosition(@PathVariable String FENPosition, @PathVariable UUID uuid) {
-        System.out.println("Get  position  called with " + FENPosition + " and " + uuid);
-        var positionToSearch = FENPosition.replaceAll("_", "/");
+    public @ResponseBody Position getPosition(@PathVariable String FenPosition, @PathVariable UUID lineUuid) {
+        System.out.println("Get  position  called with " + FenPosition + " and " + lineUuid);
+        var positionToSearch = FenPosition.replaceAll("_", "/");
+        Line currentLine = lineService.getPositionFromLineByFen(positionToSearch, lineUuid);
         var reducedPositionToSearch = positionToSearch.substring(0, positionToSearch.length() - 4);
-        Line currentLine = lineService.getLineFromUUID(uuid);
         var result = currentLine.getPositionList().stream()
-                .filter((position) -> (position.getFENPosition().startsWith(reducedPositionToSearch))).findFirst();
+                .filter((position) -> (position.getFenPosition().startsWith(reducedPositionToSearch))).findFirst();
         return result.get();
     }
 
@@ -46,9 +46,9 @@ public class ChessController {
             @RequestBody UUID uuid) {
         System.out.println("Post move  called with " + moveEvent + ", " + currentPosition + " and " + uuid);
         Position result = new Position();
-        result.setFENPosition(moveEvent.getFen());
+        result.setFenPosition(moveEvent.getFen());
         result.setMoveList(new ArrayList<>());
-        result.setPreviousFENPosition(currentPosition.getFENPosition());
+        result.setPreviousFenPosition(currentPosition.getFenPosition());
         lineService.addMove(moveEvent, currentPosition, uuid);
         return result;
     }

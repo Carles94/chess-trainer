@@ -1,5 +1,7 @@
 package com.chess.trainer.backend.controller;
 
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -43,13 +45,13 @@ class ChessControllerTest {
         Line line = new Line();
         List<Position> positionList = new ArrayList<>();
         var position = new Position();
-        position.setFENPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        position.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
         positionList.add(position);
         var position2 = new Position();
-        position2.setFENPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+        position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);
-        when(lineService.getLineFromUUID(uuid)).thenReturn(line);
+        when(lineService.getPositionFromLineByFen(position.getFenPosition(), uuid)).thenReturn(line);
         // Act
         Position result = chessController.getPosition(inputFENPosition, uuid);
         // Assert
@@ -64,13 +66,13 @@ class ChessControllerTest {
         Line line = new Line();
         List<Position> positionList = new ArrayList<>();
         var position = new Position();
-        position.setFENPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        position.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
         positionList.add(position);
         var position2 = new Position();
-        position2.setFENPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+        position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);
-        when(lineService.getLineFromUUID(uuid)).thenReturn(line);
+        when(lineService.getPositionFromLineByFen(anyString(), eq(uuid))).thenReturn(line);
         // Act + Assert
         // TODO customize exceptions
         Assertions.assertThrows(Exception.class, () -> chessController.getPosition(inputFENPosition, uuid));
@@ -84,13 +86,13 @@ class ChessControllerTest {
         Line line = new Line();
         List<Position> positionList = new ArrayList<>();
         var position = new Position();
-        position.setFENPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        position.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
         positionList.add(position);
         var position2 = new Position();
-        position2.setFENPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+        position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);
-        when(lineService.getLineFromUUID(uuid)).thenReturn(line);
+        when(lineService.getPositionFromLineByFen(position2.getFenPosition(), eq(uuid))).thenReturn(line);
         // Act
         Position result = chessController.getPosition(inputFENPosition, uuid);
         // Assert
@@ -111,13 +113,13 @@ class ChessControllerTest {
         moveEvent.setStalemate(false);
         UUID uuid = UUID.randomUUID();
         var currentPosition = new Position();
-        currentPosition.setFENPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        currentPosition.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
         // Act
         Position result = chessController.postMove(moveEvent, currentPosition, uuid);
         // Assert
-        Assertions.assertEquals(moveEvent.getFen(), result.getFENPosition());
+        Assertions.assertEquals(moveEvent.getFen(), result.getFenPosition());
         Assertions.assertEquals(Collections.EMPTY_LIST, result.getMoveList());
-        Assertions.assertEquals(currentPosition.getFENPosition(), result.getPreviousFENPosition());
+        Assertions.assertEquals(currentPosition.getFenPosition(), result.getPreviousFenPosition());
     }
 
     @Test
@@ -127,7 +129,7 @@ class ChessControllerTest {
         moveToDelete.setMoveToSend("e2e4");
         UUID uuid = UUID.randomUUID();
         var currentPosition = new Position();
-        currentPosition.setFENPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        currentPosition.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
         List<Move> moveList = new ArrayList<>();
         moveList.add(moveToDelete);
         Move otherMove = new Move();
@@ -137,7 +139,7 @@ class ChessControllerTest {
         // Act
         Position result = chessController.deleteMove(moveToDelete, currentPosition, uuid);
         // Assert
-        Assertions.assertEquals(currentPosition.getFENPosition(), result.getFENPosition());
+        Assertions.assertEquals(currentPosition.getFenPosition(), result.getFenPosition());
         Assertions.assertEquals(1, result.getMoveList().size());
         Assertions.assertEquals(otherMove, result.getMoveList().get(0));
     }

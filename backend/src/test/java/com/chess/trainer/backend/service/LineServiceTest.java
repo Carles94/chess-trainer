@@ -34,6 +34,6 @@ public class LineServiceTest {
                 line.getPositionList().get(0).getMoveList().get(0).getMoveToSend());
         Assertions.assertEquals(moveEvent.getFen(),
                 line.getPositionList().get(0).getMoveList().get(0).getPositionFENAfter());
-        Assertions.assertEquals(moveEvent.getFen(), line.getPositionList().get(1).getFENPosition());
+        Assertions.assertEquals(moveEvent.getFen(), line.getPositionList().get(1).getFenPosition());
     }
 }

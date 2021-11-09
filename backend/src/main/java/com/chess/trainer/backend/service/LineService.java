@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class LineService {
 
-    public Line getLineFromUUID(UUID uuid) {
+    public Line getPositionFromLineByFen(String FenPosition, UUID lineUuid) {
         // TODO implementation
         return new Line();
     }

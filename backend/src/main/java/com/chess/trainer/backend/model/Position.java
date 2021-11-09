@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class Position {
-    private String FENPosition;
-    private String previousFENPosition;
+    private String FenPosition;
+    private String previousFenPosition;
     private List<Move> moveList;
 }
