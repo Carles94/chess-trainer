@@ -31,14 +31,11 @@ public class ChessController {
     }
 
     @GetMapping(value = "/position/{uuid}/{FENPosition}")
-    public @ResponseBody Position getPosition(@PathVariable String FenPosition, @PathVariable UUID lineUuid) {
-        System.out.println("Get  position  called with " + FenPosition + " and " + lineUuid);
-        var positionToSearch = FenPosition.replaceAll("_", "/");
-        Line currentLine = lineService.getPositionFromLineByFen(positionToSearch, lineUuid);
-        var reducedPositionToSearch = positionToSearch.substring(0, positionToSearch.length() - 4);
-        var result = currentLine.getPositionList().stream()
-                .filter((position) -> (position.getFenPosition().startsWith(reducedPositionToSearch))).findFirst();
-        return result.get();
+    public @ResponseBody Position getPosition(@PathVariable String fenPosition, @PathVariable UUID lineUuid) {
+        System.out.println("Get  position  called with " + fenPosition + " and " + lineUuid);
+        var positionToSearch = fenPosition.replaceAll("_", "/");
+        Position positionToSend = lineService.getPositionFromLineByFen(positionToSearch, lineUuid);
+        return positionToSend;
     }
 
     @PostMapping(value = "/move")

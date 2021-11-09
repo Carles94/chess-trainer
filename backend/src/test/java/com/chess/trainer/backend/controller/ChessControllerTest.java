@@ -51,7 +51,7 @@ class ChessControllerTest {
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);
-        when(lineService.getPositionFromLineByFen(position.getFenPosition(), uuid)).thenReturn(line);
+        when(lineService.getPositionFromLineByFen(position.getFenPosition(), uuid)).thenReturn(position);
         // Act
         Position result = chessController.getPosition(inputFENPosition, uuid);
         // Assert
@@ -72,7 +72,7 @@ class ChessControllerTest {
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);
-        when(lineService.getPositionFromLineByFen(anyString(), eq(uuid))).thenReturn(line);
+        when(lineService.getPositionFromLineByFen(anyString(), eq(uuid))).thenReturn(null);
         // Act + Assert
         // TODO customize exceptions
         Assertions.assertThrows(Exception.class, () -> chessController.getPosition(inputFENPosition, uuid));
@@ -92,7 +92,7 @@ class ChessControllerTest {
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);
-        when(lineService.getPositionFromLineByFen(position2.getFenPosition(), eq(uuid))).thenReturn(line);
+        when(lineService.getPositionFromLineByFen(position2.getFenPosition(), uuid)).thenReturn(position2);
         // Act
         Position result = chessController.getPosition(inputFENPosition, uuid);
         // Assert
