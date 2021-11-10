@@ -3,6 +3,7 @@ package com.chess.trainer.backend.service;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -96,17 +97,36 @@ public class LineServiceTest {
         Assertions.assertEquals(position2, result);
     }
 
-    // @Test
-    // TODO
+    @Test
     void testAddMove() {
         // Arrange
         MoveEvent moveEvent = new MoveEvent();
+        moveEvent.setCapture(false);
+        moveEvent.setCheck(false);
+        moveEvent.setCheckmate(false);
+        moveEvent.setColor("white");
+        moveEvent.setFen("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+        moveEvent.setMove("e2e4");
+        moveEvent.setPiece("Pawn");
+        moveEvent.setStalemate(false);
         Line line = new Line();
+        List<Position> positionList = new ArrayList<>();
+        Position position = new Position();
+        position.setMoveList(new ArrayList<>());
+        position.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        positionList.add(position);
+        line.setPositionList(positionList);
         UUID uuid = UUID.randomUUID();
         Position currentPosition = new Position();
+        currentPosition.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        when(lineRepository.findById(uuid)).thenReturn(Optional.of(line));
         // Act
-        lineService.addMove(moveEvent, currentPosition, uuid);
+        Position result = lineService.addMove(moveEvent, currentPosition, uuid);
         // Assert
+        Assertions.assertEquals(moveEvent.getFen(), result.getFenPosition());
+        Assertions.assertEquals(Collections.EMPTY_LIST, result.getMoveList());
+        Assertions.assertEquals(currentPosition.getFenPosition(), result.getPreviousFenPosition());
+
         Assertions.assertEquals(moveEvent.getMove(),
                 line.getPositionList().get(0).getMoveList().get(0).getMoveToSend());
         Assertions.assertEquals(moveEvent.getFen(),

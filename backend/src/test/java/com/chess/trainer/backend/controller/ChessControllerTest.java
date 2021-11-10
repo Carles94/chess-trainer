@@ -1,6 +1,9 @@
 package com.chess.trainer.backend.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,10 +43,13 @@ class ChessControllerTest {
         UUID lineUuid = UUID.randomUUID();
         String inputFenPosition = "rnbqkbnr_pppppppp_8_8_4P3_8_PPPP1PPP_RNBQKBNR b KQkq e3 0 1";
         String expectedFenPosition = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1";
+        Position expectedPosition = new Position();
+        when(lineService.getPositionFromLineByFen(anyString(), any(UUID.class))).thenReturn(expectedPosition);
         // Act
-        chessController.getPosition(inputFenPosition, lineUuid);
+        Position result = chessController.getPosition(inputFenPosition, lineUuid);
         // Assert
         verify(lineService).getPositionFromLineByFen(expectedFenPosition, lineUuid);
+        Assertions.assertEquals(expectedPosition, result);
     }
 
     @Test

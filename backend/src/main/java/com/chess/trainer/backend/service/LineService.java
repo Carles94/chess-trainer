@@ -1,8 +1,10 @@
 package com.chess.trainer.backend.service;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.chess.trainer.backend.model.Line;
+import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.repository.LineRepository;
@@ -26,7 +28,21 @@ public class LineService {
         return result.get();
     }
 
-    public void addMove(MoveEvent moveEvent, Position currentPosition, UUID uuid) {
-        // TODO implementation
+    public Position addMove(MoveEvent moveEvent, Position currentPosition, UUID uuid) {
+        var futureCurrentPosition = new Position();
+        futureCurrentPosition.setFenPosition(moveEvent.getFen());
+        futureCurrentPosition.setMoveList(new ArrayList<>());
+        futureCurrentPosition.setPreviousFenPosition(currentPosition.getFenPosition());
+        Line line = lineRepository.findById(uuid).get();
+        line.getPositionList().add(futureCurrentPosition);
+        var reducedFenPosition = currentPosition.getFenPosition().substring(0,
+                currentPosition.getFenPosition().length() - 4);
+        var currentPositionInLine = line.getPositionList().stream()
+                .filter((position) -> (position.getFenPosition().startsWith(reducedFenPosition))).findFirst().get();
+        Move currentMove = new Move();
+        currentMove.setMoveToSend(moveEvent.getMove());
+        currentMove.setPositionFENAfter(moveEvent.getFen());
+        currentPositionInLine.getMoveList().add(currentMove);
+        return futureCurrentPosition;
     }
 }

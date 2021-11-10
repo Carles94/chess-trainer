@@ -42,11 +42,7 @@ public class ChessController {
     public @ResponseBody Position postMove(@RequestBody MoveEvent moveEvent, @RequestBody Position currentPosition,
             @RequestBody UUID uuid) {
         System.out.println("Post move  called with " + moveEvent + ", " + currentPosition + " and " + uuid);
-        Position result = new Position();
-        result.setFenPosition(moveEvent.getFen());
-        result.setMoveList(new ArrayList<>());
-        result.setPreviousFenPosition(currentPosition.getFenPosition());
-        lineService.addMove(moveEvent, currentPosition, uuid);
+        Position result = lineService.addMove(moveEvent, currentPosition, uuid);
         return result;
     }
 
