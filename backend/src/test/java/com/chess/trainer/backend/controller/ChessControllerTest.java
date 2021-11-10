@@ -1,15 +1,12 @@
 package com.chess.trainer.backend.controller;
 
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import com.chess.trainer.backend.model.Line;
 import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
@@ -40,63 +37,13 @@ class ChessControllerTest {
     @Test
     void testGetPosition() {
         // Arrange
-        String inputFENPosition = "rnbqkbnr_pppppppp_8_8_8_8_PPPPPPPP_RNBQKBNR w KQkq - 0 1";
-        UUID uuid = UUID.randomUUID();
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
-        position.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-        positionList.add(position);
-        var position2 = new Position();
-        position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
-        positionList.add(position2);
-        line.setPositionList(positionList);
-        when(lineService.getPositionFromLineByFen(position.getFenPosition(), uuid)).thenReturn(position);
+        UUID lineUuid = UUID.randomUUID();
+        String inputFenPosition = "rnbqkbnr_pppppppp_8_8_4P3_8_PPPP1PPP_RNBQKBNR b KQkq e3 0 1";
+        String expectedFenPosition = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1";
         // Act
-        Position result = chessController.getPosition(inputFENPosition, uuid);
+        chessController.getPosition(inputFenPosition, lineUuid);
         // Assert
-        Assertions.assertEquals(position, result);
-    }
-
-    @Test
-    void testGetPositionUnexistant() {
-        // Arrange
-        String inputFENPosition = "rnbqkbnr_pppppppp_8_8_3P3_8_PPPP1PPP_RNBQKBNR b KQkq e3 0 1";
-        UUID uuid = UUID.randomUUID();
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
-        position.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-        positionList.add(position);
-        var position2 = new Position();
-        position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
-        positionList.add(position2);
-        line.setPositionList(positionList);
-        when(lineService.getPositionFromLineByFen(anyString(), eq(uuid))).thenReturn(null);
-        // Act + Assert
-        // TODO customize exceptions
-        Assertions.assertThrows(Exception.class, () -> chessController.getPosition(inputFENPosition, uuid));
-    }
-
-    @Test
-    void testGetPositionByTransposition() {
-        // Arrange
-        String inputFENPosition = "rnbqkbnr_pppppppp_8_8_4P3_8_PPPP1PPP_RNBQKBNR b KQkq e3 2 3";
-        UUID uuid = UUID.randomUUID();
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
-        position.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-        positionList.add(position);
-        var position2 = new Position();
-        position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
-        positionList.add(position2);
-        line.setPositionList(positionList);
-        when(lineService.getPositionFromLineByFen(position2.getFenPosition(), uuid)).thenReturn(position2);
-        // Act
-        Position result = chessController.getPosition(inputFENPosition, uuid);
-        // Assert
-        Assertions.assertEquals(position2, result);
+        verify(lineService).getPositionFromLineByFen(expectedFenPosition, lineUuid);
     }
 
     @Test

@@ -22,8 +22,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class LineServiceTest {
 
+    // Class to test
     private LineService lineService;
 
+    // Mock
     private LineRepository lineRepository;
 
     @BeforeEach
