@@ -12,6 +12,7 @@ import com.chess.trainer.backend.model.Line;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.repository.LineRepository;
+import com.chess.trainer.backend.repository.PositionRepository;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,9 +31,9 @@ public class LineServiceTest {
     private LineRepository lineRepository;
 
     @BeforeEach
-    public void init(@Mock LineRepository lineRepository) {
+    public void init(@Mock LineRepository lineRepository, @Mock PositionRepository positionRepository) {
         this.lineRepository = lineRepository;
-        lineService = new LineService(lineRepository);
+        lineService = new LineService(lineRepository, positionRepository);
     }
 
     @Test
