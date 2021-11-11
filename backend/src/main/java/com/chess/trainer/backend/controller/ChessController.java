@@ -1,9 +1,7 @@
 package com.chess.trainer.backend.controller;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
-import com.chess.trainer.backend.model.Line;
 import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;

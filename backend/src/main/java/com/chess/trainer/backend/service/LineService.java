@@ -1,6 +1,7 @@
 package com.chess.trainer.backend.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.UUID;
 
 import com.chess.trainer.backend.model.Line;
@@ -18,6 +19,12 @@ public class LineService {
 
     public LineService(LineRepository lineRepository) {
         this.lineRepository = lineRepository;
+        Line line = new Line();
+        Position position = new Position();
+        position.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        position.setMoveList(new ArrayList<>());
+        line.setPositionList(Collections.singletonList(position));
+        lineRepository.save(line);
     }
 
     public Position getPositionFromLineByFen(String FenPosition, UUID lineUuid) {
