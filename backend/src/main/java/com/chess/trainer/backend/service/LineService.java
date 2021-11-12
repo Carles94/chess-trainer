@@ -10,6 +10,7 @@ import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.repository.LineRepository;
 import com.chess.trainer.backend.repository.PositionRepository;
+import com.chess.trainer.backend.utils.LineUtils;
 
 import org.springframework.stereotype.Service;
 
@@ -32,12 +33,9 @@ public class LineService {
         lineRepository.save(line);
     }
 
-    public Position getPositionFromLineByFen(String FenPosition, UUID lineUuid) {
+    public Position getPositionFromLineByFen(String fenPosition, UUID lineUuid) {
         Line line = lineRepository.findById(lineUuid).get();
-        var reducedFenPosition = FenPosition.substring(0, FenPosition.length() - 4);
-        var result = line.getPositionList().stream()
-                .filter((position) -> (position.getFenPosition().startsWith(reducedFenPosition))).findFirst();
-        return result.get();
+        return LineUtils.getPositionFromLineByFen(fenPosition, line);
     }
 
     public Position addMove(MoveEvent moveEvent, Position currentPosition, UUID uuid) {
@@ -47,10 +45,7 @@ public class LineService {
         futureCurrentPosition.setPreviousFenPosition(currentPosition.getFenPosition());
         Line line = lineRepository.findById(uuid).get();
         line.getPositionList().add(futureCurrentPosition);
-        var reducedFenPosition = currentPosition.getFenPosition().substring(0,
-                currentPosition.getFenPosition().length() - 4);
-        var currentPositionInLine = line.getPositionList().stream()
-                .filter((position) -> (position.getFenPosition().startsWith(reducedFenPosition))).findFirst().get();
+        var currentPositionInLine = LineUtils.getPositionFromLineByFen(currentPosition.getFenPosition(), line);
         Move currentMove = new Move();
         currentMove.setMoveToSend(moveEvent.getMove());
         currentMove.setPositionFENAfter(moveEvent.getFen());
