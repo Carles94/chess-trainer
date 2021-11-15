@@ -3,6 +3,7 @@ package com.chess.trainer.backend.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.chess.trainer.backend.constant.FenConstant;
 import com.chess.trainer.backend.model.Line;
 import com.chess.trainer.backend.model.Position;
 
@@ -17,11 +18,11 @@ public class LineUtilsTest {
     @Test
     void testGetPositionFromLineByFen() {
         // Arrange
-        String fenPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        String fenPosition = FenConstant.INITIAL_FEN;
         Line line = new Line();
         List<Position> positionList = new ArrayList<>();
         var position = new Position();
-        position.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        position.setFenPosition(FenConstant.INITIAL_FEN);
         positionList.add(position);
         var position2 = new Position();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
@@ -40,7 +41,7 @@ public class LineUtilsTest {
         Line line = new Line();
         List<Position> positionList = new ArrayList<>();
         var position = new Position();
-        position.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        position.setFenPosition(FenConstant.INITIAL_FEN);
         positionList.add(position);
         var position2 = new Position();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
@@ -58,7 +59,7 @@ public class LineUtilsTest {
         Line line = new Line();
         List<Position> positionList = new ArrayList<>();
         var position = new Position();
-        position.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        position.setFenPosition(FenConstant.INITIAL_FEN);
         positionList.add(position);
         var position2 = new Position();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");

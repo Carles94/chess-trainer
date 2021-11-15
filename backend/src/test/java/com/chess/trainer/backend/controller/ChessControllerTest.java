@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import com.chess.trainer.backend.constant.FenConstant;
 import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
@@ -66,7 +67,7 @@ class ChessControllerTest {
         moveEvent.setStalemate(false);
         UUID uuid = UUID.randomUUID();
         var currentPosition = new Position();
-        currentPosition.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        currentPosition.setFenPosition(FenConstant.INITIAL_FEN);
         // Act
         Position result = chessController.postMove(moveEvent, currentPosition, uuid);
         // Assert
@@ -82,7 +83,7 @@ class ChessControllerTest {
         moveToDelete.setMoveToSend("e2e4");
         UUID uuid = UUID.randomUUID();
         var currentPosition = new Position();
-        currentPosition.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        currentPosition.setFenPosition(FenConstant.INITIAL_FEN);
         List<Move> moveList = new ArrayList<>();
         moveList.add(moveToDelete);
         Move otherMove = new Move();

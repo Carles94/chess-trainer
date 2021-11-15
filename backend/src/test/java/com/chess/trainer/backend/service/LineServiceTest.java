@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.chess.trainer.backend.constant.FenConstant;
 import com.chess.trainer.backend.model.Line;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
@@ -39,12 +40,12 @@ public class LineServiceTest {
     @Test
     void testGetPositionFromLineByFen() {
         // Arrange
-        String inputFenPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        String inputFenPosition = FenConstant.INITIAL_FEN;
         UUID uuid = UUID.randomUUID();
         Line line = new Line();
         List<Position> positionList = new ArrayList<>();
         var position = new Position();
-        position.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        position.setFenPosition(FenConstant.INITIAL_FEN);
         positionList.add(position);
         var position2 = new Position();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
@@ -65,7 +66,7 @@ public class LineServiceTest {
         Line line = new Line();
         List<Position> positionList = new ArrayList<>();
         var position = new Position();
-        position.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        position.setFenPosition(FenConstant.INITIAL_FEN);
         positionList.add(position);
         var position2 = new Position();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
@@ -85,7 +86,7 @@ public class LineServiceTest {
         Line line = new Line();
         List<Position> positionList = new ArrayList<>();
         var position = new Position();
-        position.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        position.setFenPosition(FenConstant.INITIAL_FEN);
         positionList.add(position);
         var position2 = new Position();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
@@ -114,12 +115,12 @@ public class LineServiceTest {
         List<Position> positionList = new ArrayList<>();
         Position position = new Position();
         position.setMoveList(new ArrayList<>());
-        position.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        position.setFenPosition(FenConstant.INITIAL_FEN);
         positionList.add(position);
         line.setPositionList(positionList);
         UUID uuid = UUID.randomUUID();
         Position currentPosition = new Position();
-        currentPosition.setFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        currentPosition.setFenPosition(FenConstant.INITIAL_FEN);
         when(lineRepository.findById(uuid)).thenReturn(Optional.of(line));
         // Act
         Position result = lineService.addMove(moveEvent, currentPosition, uuid);
