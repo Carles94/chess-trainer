@@ -57,23 +57,16 @@ class ChessControllerTest {
     void testPostMove() {
         // Arrange
         MoveEvent moveEvent = new MoveEvent();
-        moveEvent.setCapture(false);
-        moveEvent.setCheck(false);
-        moveEvent.setCheckmate(false);
-        moveEvent.setColor("white");
-        moveEvent.setFen("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
-        moveEvent.setMove("e2e4");
-        moveEvent.setPiece("Pawn");
-        moveEvent.setStalemate(false);
         UUID uuid = UUID.randomUUID();
         var currentPosition = new Position();
         currentPosition.setFenPosition(FenConstant.INITIAL_FEN);
+        var expectedPosition = new Position();
+        when(lineService.addMove(moveEvent, currentPosition, uuid)).thenReturn(expectedPosition);
         // Act
         Position result = chessController.postMove(moveEvent, currentPosition, uuid);
         // Assert
-        Assertions.assertEquals(moveEvent.getFen(), result.getFenPosition());
-        Assertions.assertEquals(Collections.EMPTY_LIST, result.getMoveList());
-        Assertions.assertEquals(currentPosition.getFenPosition(), result.getPreviousFenPosition());
+        verify(lineService).addMove(moveEvent, currentPosition, uuid);
+        Assertions.assertEquals(expectedPosition, result);
     }
 
     @Test
