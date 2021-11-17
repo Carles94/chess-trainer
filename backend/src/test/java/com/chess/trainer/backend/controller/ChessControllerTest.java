@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.chess.trainer.backend.constant.FenConstant;
+import com.chess.trainer.backend.model.DeleteMoveBody;
 import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
@@ -83,8 +84,12 @@ class ChessControllerTest {
         otherMove.setMoveToSend("d2d4");
         moveList.add(otherMove);
         currentPosition.setMoveList(moveList);
+        DeleteMoveBody deleteMoveBody = new DeleteMoveBody();
+        deleteMoveBody.setCurrentPosition(currentPosition);
+        deleteMoveBody.setLineUuid(uuid);
+        deleteMoveBody.setMove(moveToDelete);
         // Act
-        Position result = chessController.deleteMove(moveToDelete, currentPosition, uuid);
+        Position result = chessController.deleteMove(deleteMoveBody);
         // Assert
         Assertions.assertEquals(currentPosition.getFenPosition(), result.getFenPosition());
         Assertions.assertEquals(1, result.getMoveList().size());
