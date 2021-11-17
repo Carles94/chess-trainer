@@ -20,10 +20,12 @@ import lombok.Data;
 @Table(name = "lines")
 public class Line {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator", parameters = {
-            @Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-    private UUID uuid = UUID.randomUUID();;
+    // @GeneratedValue(generator = "UUID")
+    // @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator",
+    // parameters = {
+    // @Parameter(name = "uuid_gen_strategy_class", value =
+    // "org.hibernate.id.uuid.CustomVersionOneStrategy") })
+    private UUID uuid;
     private String name;
     private String color;
     @OneToMany(targetEntity = Position.class, fetch = FetchType.EAGER)

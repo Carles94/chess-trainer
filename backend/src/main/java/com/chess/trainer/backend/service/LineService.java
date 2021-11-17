@@ -26,6 +26,7 @@ public class LineService {
         this.positionRepository = positionRepository;
         // TODO always init a new Line with this position
         Line line = new Line();
+        line.setUuid(UUID.fromString("53f93e7c-4d34-433a-b0d2-824f134a9829"));
         Position position = new Position();
         position.setFenPosition(FenConstant.INITIAL_FEN);
         position.setMoveList(new ArrayList<>());

@@ -2,6 +2,7 @@ package com.chess.trainer.backend.controller;
 
 import java.util.UUID;
 
+import com.chess.trainer.backend.model.DeleteMoveBody;
 import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
@@ -28,7 +29,7 @@ public class ChessController {
         this.lineService = lineService;
     }
 
-    @GetMapping(value = "/position/{uuid}/{FENPosition}")
+    @GetMapping(value = "/position/{lineUuid}/{fenPosition}")
     public @ResponseBody Position getPosition(@PathVariable String fenPosition, @PathVariable UUID lineUuid) {
         System.out.println("Get  position  called with " + fenPosition + " and " + lineUuid);
         var positionToSearch = fenPosition.replaceAll("_", "/");
@@ -37,6 +38,7 @@ public class ChessController {
     }
 
     @PostMapping(value = "/move")
+    // TODO unify the body in one variable
     public @ResponseBody Position postMove(@RequestBody MoveEvent moveEvent, @RequestBody Position currentPosition,
             @RequestBody UUID uuid) {
         System.out.println("Post move  called with " + moveEvent + ", " + currentPosition + " and " + uuid);
@@ -45,12 +47,12 @@ public class ChessController {
     }
 
     @DeleteMapping(value = "/move")
-    public @ResponseBody Position deleteMove(@RequestBody Move move, @RequestBody Position currentPosition,
-            @RequestBody UUID uuid) {
-        System.out.println("Delete move called with " + move + ", " + currentPosition + " and  " + uuid);
-        currentPosition.getMoveList().remove(move);
+    public @ResponseBody Position deleteMove(@RequestBody DeleteMoveBody deleteMoveBody) {
+        System.out.println("Delete move called with " + deleteMoveBody.getMove() + ", "
+                + deleteMoveBody.getCurrentPosition() + " and  " + deleteMoveBody.getLineUuid());
+        // currentPosition.getMoveList().remove(move);
         // TODO update line
-        return currentPosition;
+        return deleteMoveBody.getCurrentPosition();
     }
 
 }
