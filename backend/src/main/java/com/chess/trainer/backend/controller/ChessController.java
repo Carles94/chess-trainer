@@ -3,9 +3,8 @@ package com.chess.trainer.backend.controller;
 import java.util.UUID;
 
 import com.chess.trainer.backend.model.DeleteMoveBody;
-import com.chess.trainer.backend.model.Move;
-import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
+import com.chess.trainer.backend.model.PostMoveBody;
 import com.chess.trainer.backend.service.LineService;
 
 import org.springframework.stereotype.Controller;
@@ -37,12 +36,13 @@ public class ChessController {
         return positionToSend;
     }
 
+    // TODO see why receive null :(
     @PostMapping(value = "/move")
-    // TODO unify the body in one variable
-    public @ResponseBody Position postMove(@RequestBody MoveEvent moveEvent, @RequestBody Position currentPosition,
-            @RequestBody UUID uuid) {
-        System.out.println("Post move  called with " + moveEvent + ", " + currentPosition + " and " + uuid);
-        Position result = lineService.addMove(moveEvent, currentPosition, uuid);
+    public @ResponseBody Position postMove(@RequestBody PostMoveBody postMoveBody) {
+        System.out.println("Post move  called with " + postMoveBody.getMoveEvent() + ", "
+                + postMoveBody.getCurrentPosition() + " and " + postMoveBody.getLineUuid());
+        Position result = lineService.addMove(postMoveBody.getMoveEvent(), postMoveBody.getCurrentPosition(),
+                UUID.fromString(postMoveBody.getLineUuid()));
         return result;
     }
 

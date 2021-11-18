@@ -6,7 +6,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +14,7 @@ import com.chess.trainer.backend.model.DeleteMoveBody;
 import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
+import com.chess.trainer.backend.model.PostMoveBody;
 import com.chess.trainer.backend.service.LineService;
 
 import org.junit.jupiter.api.Assertions;
@@ -62,9 +62,13 @@ class ChessControllerTest {
         var currentPosition = new Position();
         currentPosition.setFenPosition(FenConstant.INITIAL_FEN);
         var expectedPosition = new Position();
+        PostMoveBody postMoveBody = new PostMoveBody();
+        postMoveBody.setCurrentPosition(currentPosition);
+        postMoveBody.setMoveEvent(moveEvent);
+        postMoveBody.setLineUuid(uuid.toString());
         when(lineService.addMove(moveEvent, currentPosition, uuid)).thenReturn(expectedPosition);
         // Act
-        Position result = chessController.postMove(moveEvent, currentPosition, uuid);
+        Position result = chessController.postMove(postMoveBody);
         // Assert
         verify(lineService).addMove(moveEvent, currentPosition, uuid);
         Assertions.assertEquals(expectedPosition, result);
