@@ -5,6 +5,7 @@ import { BoardComponent } from '../common/component/board/board.component';
 import { Line } from '../common/model/class/line';
 import { INITIAL_FEN } from '../common/model/constant/constant';
 import { IBoard } from '../common/model/interface/board';
+import { DeleteMoveBody } from '../common/model/interface/delete-move-body';
 import { Move } from '../common/model/interface/move';
 import { MoveEvent } from '../common/model/interface/move-event';
 import { Position } from '../common/model/interface/position';
@@ -19,8 +20,6 @@ import { MovePipe } from '../common/pipe/move.pipe';
 export class EditionBoardComponent implements OnInit {
   @ViewChild(BoardComponent)
   board!: IBoard;
-
-  line: Line | undefined;
 
   public currentPosition: Position;
 
@@ -48,8 +47,6 @@ export class EditionBoardComponent implements OnInit {
   }
 
   public handleUndo(): void {
-    //TODO see why move list does not update
-    console.log(this.currentPosition);
     const fenParameter: string = this.replaceAll(this.currentPosition.previousFenPosition, '/', '_');
     this.http
       .request('GET', `http://localhost:8080/chess-trainer/position/${this.lineUuid}/${fenParameter}`, {
@@ -74,7 +71,6 @@ export class EditionBoardComponent implements OnInit {
   }
 
   public handleReverse(): void {
-    console.log(this.currentPosition);
     this.board.reverse();
   }
 
@@ -123,15 +119,19 @@ export class EditionBoardComponent implements OnInit {
   }
 
   public handleDeleteMove(move: Move): void {
+    const deleteBody: DeleteMoveBody = {
+      move: move,
+      currentPosition: this.currentPosition,
+      lineUuid: this.lineUuid,
+    };
     this.http
       .request('DELETE', 'http://localhost:8080/chess-trainer/move', {
         responseType: 'json',
-        body: move,
+        body: deleteBody,
       })
       .subscribe((position: any) => {
         this.currentPosition = position;
       });
-    //this.line.deletePosition(moveEvent.positionFENAfter);
   }
 
   public handleNextMove(move: Move): void {

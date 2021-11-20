@@ -3,6 +3,7 @@ package com.chess.trainer.backend.service;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 import com.chess.trainer.backend.constant.FenConstant;
 import com.chess.trainer.backend.model.Line;
+import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.repository.LineRepository;
@@ -134,5 +136,25 @@ public class LineServiceTest {
         Assertions.assertEquals(moveEvent.getFen(),
                 line.getPositionList().get(0).getMoveList().get(0).getPositionFENAfter());
         Assertions.assertEquals(moveEvent.getFen(), line.getPositionList().get(1).getFenPosition());
+    }
+
+    @Test
+    void testDeleteMove() {
+        // Arrange
+        Line line = new Line();
+        Move moveToDelete = new Move();
+        moveToDelete.setMoveToSend("e2e4");
+        Move otherMove = new Move();
+        otherMove.setMoveToSend("d2d4");
+        UUID uuid = UUID.randomUUID();
+        Position currentPosition = new Position();
+        currentPosition.setFenPosition(FenConstant.INITIAL_FEN);
+        currentPosition.setMoveList(Arrays.asList(moveToDelete, otherMove));
+        line.setPositionList(Collections.singletonList(currentPosition));
+        when(lineRepository.findById(uuid)).thenReturn(Optional.of(line));
+        // Act
+        Position result = lineService.deleteMove(moveToDelete, currentPosition, uuid);
+        // Assert
+        Assertions.assertEquals(Collections.singleton(otherMove), result.getMoveList());
     }
 }

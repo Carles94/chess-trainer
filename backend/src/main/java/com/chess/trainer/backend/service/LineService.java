@@ -3,6 +3,7 @@ package com.chess.trainer.backend.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.chess.trainer.backend.constant.FenConstant;
 import com.chess.trainer.backend.model.Line;
@@ -14,6 +15,8 @@ import com.chess.trainer.backend.repository.PositionRepository;
 import com.chess.trainer.backend.utils.LineUtils;
 
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class LineService {
@@ -58,7 +61,21 @@ public class LineService {
         currentMove.setMoveToShow(moveEvent.getMoveToShow());
         currentPositionInLine.getMoveList().add(currentMove);
         positionRepository.save(currentPositionInLine);
+        // TODO see if necessary
         lineRepository.save(line);
         return futureCurrentPosition;
+    }
+
+    public Position deleteMove(Move moveToDelete, Position currentPosition, UUID uuid) {
+        Line line = lineRepository.findById(uuid).get();
+        var currentPositionInLine = LineUtils.getPositionFromLineByFen(currentPosition.getFenPosition(), line);
+        List<Move> currentPositionMoveList = currentPositionInLine.getMoveList().stream()
+                .filter((move) -> !move.getMoveToSend().equals(moveToDelete.getMoveToSend()))
+                .collect(Collectors.toList());
+        currentPositionInLine.setMoveList(currentPositionMoveList);
+        positionRepository.save(currentPositionInLine);
+        // TODO see if necessary
+        lineRepository.save(line);
+        return currentPositionInLine;
     }
 }

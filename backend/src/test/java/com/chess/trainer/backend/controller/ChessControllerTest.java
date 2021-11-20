@@ -92,11 +92,12 @@ class ChessControllerTest {
         deleteMoveBody.setCurrentPosition(currentPosition);
         deleteMoveBody.setLineUuid(uuid.toString());
         deleteMoveBody.setMove(moveToDelete);
+        Position expectedResult = new Position();
+        when(lineService.deleteMove(moveToDelete, currentPosition, uuid)).thenReturn(expectedResult);
         // Act
         Position result = chessController.deleteMove(deleteMoveBody);
         // Assert
-        Assertions.assertEquals(currentPosition.getFenPosition(), result.getFenPosition());
-        Assertions.assertEquals(1, result.getMoveList().size());
-        Assertions.assertEquals(otherMove, result.getMoveList().get(0));
+        verify(lineService).deleteMove(moveToDelete, currentPosition, uuid);
+        Assertions.assertEquals(result, expectedResult);
     }
 }

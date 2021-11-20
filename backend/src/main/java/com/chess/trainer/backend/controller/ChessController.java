@@ -49,9 +49,9 @@ public class ChessController {
     public @ResponseBody Position deleteMove(@RequestBody DeleteMoveBody deleteMoveBody) {
         System.out.println("Delete move called with " + deleteMoveBody.getMove() + ", "
                 + deleteMoveBody.getCurrentPosition() + " and  " + deleteMoveBody.getLineUuid());
-        // currentPosition.getMoveList().remove(move);
-        // TODO update line
-        return deleteMoveBody.getCurrentPosition();
+        Position result = lineService.deleteMove(deleteMoveBody.getMove(), deleteMoveBody.getCurrentPosition(),
+                UUID.fromString(deleteMoveBody.getLineUuid()));
+        return result;
     }
 
 }
