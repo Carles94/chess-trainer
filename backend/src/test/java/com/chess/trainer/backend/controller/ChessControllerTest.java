@@ -90,7 +90,7 @@ class ChessControllerTest {
         currentPosition.setMoveList(moveList);
         DeleteMoveBody deleteMoveBody = new DeleteMoveBody();
         deleteMoveBody.setCurrentPosition(currentPosition);
-        deleteMoveBody.setLineUuid(uuid);
+        deleteMoveBody.setLineUuid(uuid.toString());
         deleteMoveBody.setMove(moveToDelete);
         // Act
         Position result = chessController.deleteMove(deleteMoveBody);

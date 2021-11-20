@@ -48,6 +48,7 @@ public class LineService {
         futureCurrentPosition.setPreviousFenPosition(currentPosition.getFenPosition());
         Line line = lineRepository.findById(uuid).get();
         line.getPositionList().add(futureCurrentPosition);
+        positionRepository.save(futureCurrentPosition);
 
         // Creates a new move and adds to position
         var currentPositionInLine = LineUtils.getPositionFromLineByFen(currentPosition.getFenPosition(), line);

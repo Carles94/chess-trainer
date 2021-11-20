@@ -11,8 +11,8 @@ export class Line {
     this.color = color;
   }
 
-  public getPositionByFEN(FENPosition: string): Position {
-    const result = this.positionList.find((element) => this.compareFEN(element.FENPosition, FENPosition));
+  public getPositionByFen(fenPosition: string): Position {
+    const result = this.positionList.find((element) => this.compareFen(element.fenPosition, fenPosition));
     if (result) {
       return result;
     } else {
@@ -20,23 +20,23 @@ export class Line {
     }
   }
 
-  public existsPosition(FENPosition: string): boolean {
-    return this.positionList.some((element) => this.compareFEN(element.FENPosition, FENPosition));
+  public existsPosition(fenPosition: string): boolean {
+    return this.positionList.some((element) => this.compareFen(element.fenPosition, fenPosition));
   }
 
-  public deletePosition(FENPosition: string) {
-    this.positionList = this.positionList.filter((element) => !this.compareFEN(element.FENPosition, FENPosition));
+  public deletePosition(fenPosition: string) {
+    this.positionList = this.positionList.filter((element) => !this.compareFen(element.fenPosition, fenPosition));
   }
 
-  public canAddMove(moveColor: string, FENPosition: string): boolean {
-    if (this.existsPosition(FENPosition) && this.color === moveColor) {
-      const positionToAddMove = this.getPositionByFEN(FENPosition);
+  public canAddMove(moveColor: string, fenPosition: string): boolean {
+    if (this.existsPosition(fenPosition) && this.color === moveColor) {
+      const positionToAddMove = this.getPositionByFen(fenPosition);
       return positionToAddMove.moveList.length === 0;
     }
     return true;
   }
 
-  private compareFEN(positionFEN: string, other: string): boolean {
-    return positionFEN.startsWith(other.slice(0, -4));
+  private compareFen(fenPosition: string, other: string): boolean {
+    return fenPosition.startsWith(other.slice(0, -4));
   }
 }

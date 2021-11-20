@@ -36,7 +36,6 @@ public class ChessController {
         return positionToSend;
     }
 
-    // TODO see why receive null :(
     @PostMapping(value = "/move")
     public @ResponseBody Position postMove(@RequestBody PostMoveBody postMoveBody) {
         System.out.println("Post move  called with " + postMoveBody.getMoveEvent() + ", "

@@ -8,6 +8,7 @@ import { IBoard } from '../common/model/interface/board';
 import { Move } from '../common/model/interface/move';
 import { MoveEvent } from '../common/model/interface/move-event';
 import { Position } from '../common/model/interface/position';
+import { PostMoveBody } from '../common/model/interface/post-move-body';
 import { MovePipe } from '../common/pipe/move.pipe';
 
 @Component({
@@ -23,34 +24,41 @@ export class EditionBoardComponent implements OnInit {
 
   public currentPosition: Position;
 
+  lineUuid = '53f93e7c-4d34-433a-b0d2-824f134a9829';
+
   constructor(private readonly movePipe: MovePipe, public dialog: MatDialog, private http: HttpClient) {
     this.currentPosition = {
-      FENPosition: INITIAL_FEN,
-      previousFENPosition: INITIAL_FEN,
+      fenPosition: INITIAL_FEN,
+      previousFenPosition: INITIAL_FEN,
       moveList: [],
     };
   }
 
   ngOnInit(): void {
-    const FENParameter: string = this.replaceAll(INITIAL_FEN, '/', '_');
-    const uuidParameter: string = '53f93e7c-4d34-433a-b0d2-824f134a9829';
+    const fenParameter: string = this.replaceAll(INITIAL_FEN, '/', '_');
     this.http
-      .request('GET', `http://localhost:8080/chess-trainer/position/${uuidParameter}/${FENParameter}`, {
+      .request('GET', `http://localhost:8080/chess-trainer/position/${this.lineUuid}/${fenParameter}`, {
         responseType: 'json',
       })
       .subscribe((position: any) => (this.currentPosition = position));
   }
 
   public handleUndo(): void {
-    //this.currentPosition = this.line.getPositionByFEN(this.currentPosition.previousFENPosition);
+    //TODO see why move list does not update
+    console.log(this.currentPosition);
+    const fenParameter: string = this.replaceAll(this.currentPosition.previousFenPosition, '/', '_');
+    this.http
+      .request('GET', `http://localhost:8080/chess-trainer/position/${this.lineUuid}/${fenParameter}`, {
+        responseType: 'json',
+      })
+      .subscribe((position: any) => (this.currentPosition = position));
     this.board.undo();
   }
 
   public handleReset(): void {
-    const FENParameter: string = this.replaceAll(INITIAL_FEN, '/', '_');
-    const uuidParameter: string = '53f93e7c-4d34-433a-b0d2-824f134a9829';
+    const fenParameter: string = this.replaceAll(INITIAL_FEN, '/', '_');
     this.http
-      .request('GET', `http://localhost:8080/chess-trainer/position/${uuidParameter}/${FENParameter}`, {
+      .request('GET', `http://localhost:8080/chess-trainer/position/${this.lineUuid}/${fenParameter}`, {
         responseType: 'json',
       })
       .subscribe((position: any) => (this.currentPosition = position));
@@ -58,23 +66,21 @@ export class EditionBoardComponent implements OnInit {
   }
 
   public handleReverse(): void {
+    console.log(this.currentPosition);
     this.board.reverse();
   }
 
   public handlePieceMoved(event: MoveEvent): void {
-    console.log(event);
-    const uuidParameter: string = '53f93e7c-4d34-433a-b0d2-824f134a9829';
-    const position = this.currentPosition;
+    const body: PostMoveBody = {
+      moveEvent: event,
+      currentPosition: this.currentPosition,
+      lineUuid: this.lineUuid,
+    };
     this.http
-      .post(
-        'http://localhost:8080/chess-trainer/move',
-        { event, position, uuidParameter },
-        {
-          responseType: 'json',
-        }
-      )
+      .post('http://localhost:8080/chess-trainer/move', body, {
+        responseType: 'json',
+      })
       .subscribe((position: any) => (this.currentPosition = position));
-    console.log(this.currentPosition);
     /* const currentMove: Move = {
       positionFENAfter: event.fen,
       moveToSend: event.move,
