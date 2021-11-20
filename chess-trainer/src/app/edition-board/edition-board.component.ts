@@ -24,6 +24,8 @@ export class EditionBoardComponent implements OnInit {
 
   public currentPosition: Position;
 
+  public moveList: Move[] = [];
+
   lineUuid = '53f93e7c-4d34-433a-b0d2-824f134a9829';
 
   constructor(private readonly movePipe: MovePipe, public dialog: MatDialog, private http: HttpClient) {
@@ -40,7 +42,9 @@ export class EditionBoardComponent implements OnInit {
       .request('GET', `http://localhost:8080/chess-trainer/position/${this.lineUuid}/${fenParameter}`, {
         responseType: 'json',
       })
-      .subscribe((position: any) => (this.currentPosition = position));
+      .subscribe((position: any) => {
+        this.currentPosition = position;
+      });
   }
 
   public handleUndo(): void {
@@ -51,7 +55,9 @@ export class EditionBoardComponent implements OnInit {
       .request('GET', `http://localhost:8080/chess-trainer/position/${this.lineUuid}/${fenParameter}`, {
         responseType: 'json',
       })
-      .subscribe((position: any) => (this.currentPosition = position));
+      .subscribe((position: any) => {
+        this.currentPosition = position;
+      });
     this.board.undo();
   }
 
@@ -61,7 +67,9 @@ export class EditionBoardComponent implements OnInit {
       .request('GET', `http://localhost:8080/chess-trainer/position/${this.lineUuid}/${fenParameter}`, {
         responseType: 'json',
       })
-      .subscribe((position: any) => (this.currentPosition = position));
+      .subscribe((position: any) => {
+        this.currentPosition = position;
+      });
     this.board.reset();
   }
 
@@ -72,7 +80,7 @@ export class EditionBoardComponent implements OnInit {
 
   public handlePieceMoved(event: MoveEvent): void {
     const body: PostMoveBody = {
-      moveEvent: event,
+      moveEvent: { ...event, moveToShow: this.movePipe.transform(event) },
       currentPosition: this.currentPosition,
       lineUuid: this.lineUuid,
     };
@@ -80,7 +88,9 @@ export class EditionBoardComponent implements OnInit {
       .post('http://localhost:8080/chess-trainer/move', body, {
         responseType: 'json',
       })
-      .subscribe((position: any) => (this.currentPosition = position));
+      .subscribe((position: any) => {
+        this.currentPosition = position;
+      });
     /* const currentMove: Move = {
       positionFENAfter: event.fen,
       moveToSend: event.move,
@@ -118,7 +128,9 @@ export class EditionBoardComponent implements OnInit {
         responseType: 'json',
         body: move,
       })
-      .subscribe((position: any) => (this.currentPosition = position));
+      .subscribe((position: any) => {
+        this.currentPosition = position;
+      });
     //this.line.deletePosition(moveEvent.positionFENAfter);
   }
 

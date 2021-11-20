@@ -7,4 +7,5 @@ export interface MoveEvent {
   piece: string;
   stalemate: boolean;
   capture: boolean;
+  moveToShow?: string;
 }

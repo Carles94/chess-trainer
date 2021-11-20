@@ -55,6 +55,7 @@ public class LineService {
         Move currentMove = new Move();
         currentMove.setMoveToSend(moveEvent.getMove());
         currentMove.setPositionFENAfter(moveEvent.getFen());
+        currentMove.setMoveToShow(moveEvent.getMoveToShow());
         currentPositionInLine.getMoveList().add(currentMove);
         positionRepository.save(currentPositionInLine);
         lineRepository.save(line);

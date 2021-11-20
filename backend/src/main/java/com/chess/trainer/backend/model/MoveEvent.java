@@ -12,4 +12,5 @@ public class MoveEvent {
     private String piece;
     private boolean stalemate;
     private boolean capture;
+    private String moveToShow;
 }
