@@ -13,4 +13,10 @@ public class LineUtils {
         return result;
     }
 
+    public static boolean existsPositionInLine(String fenPosition, Line line) {
+        var reducedFenPosition = fenPosition.substring(0, fenPosition.length() - 4);
+        return line.getPositionList().stream()
+                .anyMatch((position) -> (position.getFenPosition().startsWith(reducedFenPosition)));
+    }
+
 }

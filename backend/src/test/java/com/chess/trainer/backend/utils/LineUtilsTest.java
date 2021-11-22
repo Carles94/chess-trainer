@@ -70,4 +70,62 @@ public class LineUtilsTest {
         // Assert
         Assertions.assertEquals(position2, result);
     }
+
+    @Test
+    void testExistsPositionInLine() {
+        // Arrange
+        String fenPosition = FenConstant.INITIAL_FEN;
+        Line line = new Line();
+        List<Position> positionList = new ArrayList<>();
+        var position = new Position();
+        position.setFenPosition(FenConstant.INITIAL_FEN);
+        positionList.add(position);
+        var position2 = new Position();
+        position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+        positionList.add(position2);
+        line.setPositionList(positionList);
+        // Act
+        boolean result = LineUtils.existsPositionInLine(fenPosition, line);
+        // Assert
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void testExistsPositionInLineUnexistant() {
+        // Arrange
+        String fenPosition = "rnbqkbnr/pppppppp/8/8/3P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1";
+        Line line = new Line();
+        List<Position> positionList = new ArrayList<>();
+        var position = new Position();
+        position.setFenPosition(FenConstant.INITIAL_FEN);
+        positionList.add(position);
+        var position2 = new Position();
+        position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+        positionList.add(position2);
+        line.setPositionList(positionList);
+        // Act
+        // TODO customize exceptions
+        boolean result = LineUtils.existsPositionInLine(fenPosition, line);
+        // Assert
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    void testExistsPositionInLineByTransposition() {
+        // Arrange
+        String fenPosition = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 2 3";
+        Line line = new Line();
+        List<Position> positionList = new ArrayList<>();
+        var position = new Position();
+        position.setFenPosition(FenConstant.INITIAL_FEN);
+        positionList.add(position);
+        var position2 = new Position();
+        position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+        positionList.add(position2);
+        line.setPositionList(positionList);
+        // Act
+        boolean result = LineUtils.existsPositionInLine(fenPosition, line);
+        // Assert
+        Assertions.assertTrue(result);
+    }
 }
