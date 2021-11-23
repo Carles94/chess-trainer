@@ -1,5 +1,9 @@
 package com.chess.trainer.backend.service;
 
+import static org.mockito.ArgumentMatchers.any;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -32,9 +36,11 @@ public class LineServiceTest {
 
     // Mock
     private LineRepository lineRepository;
+    private PositionRepository positionRepository;
 
     @BeforeEach
     public void init(@Mock LineRepository lineRepository, @Mock PositionRepository positionRepository) {
+        this.positionRepository = positionRepository;
         this.lineRepository = lineRepository;
         lineService = new LineService(lineRepository, positionRepository);
     }
@@ -139,6 +145,50 @@ public class LineServiceTest {
     }
 
     @Test
+    void testAddMoveToExistingPositionAndExistingMove() {
+        // Arrange
+        MoveEvent moveEvent = new MoveEvent();
+        moveEvent.setCapture(false);
+        moveEvent.setCheck(false);
+        moveEvent.setCheckmate(false);
+        moveEvent.setColor("white");
+        moveEvent.setFen("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+        moveEvent.setMove("e2e4");
+        moveEvent.setPiece("Pawn");
+        moveEvent.setStalemate(false);
+        Line line = new Line();
+        List<Position> positionList = new ArrayList<>();
+        Position position = new Position();
+        Move repeatedMove = new Move();
+        repeatedMove.setMoveToSend("e2e4");
+        position.setMoveList(Collections.singletonList(repeatedMove));
+        position.setFenPosition(FenConstant.INITIAL_FEN);
+        positionList.add(position);
+        line.setPositionList(positionList);
+        Position position2 = new Position();
+        position2.setMoveList(new ArrayList<>());
+        position2.setFenPosition(moveEvent.getFen());
+        positionList.add(position2);
+        line.setPositionList(positionList);
+        UUID uuid = UUID.randomUUID();
+        Position currentPosition = new Position();
+        currentPosition.setFenPosition(FenConstant.INITIAL_FEN);
+        when(lineRepository.findById(uuid)).thenReturn(Optional.of(line));
+        // Act
+        Position result = lineService.addMove(moveEvent, currentPosition, uuid);
+        // Assert
+        Assertions.assertEquals(position2, result);
+
+        Assertions.assertEquals(2, line.getPositionList().size());
+        Assertions.assertEquals(1, line.getPositionList().get(0).getMoveList().size());
+        Assertions.assertEquals(position.getMoveList(), line.getPositionList().get(0).getMoveList());
+        Assertions.assertEquals(position2, line.getPositionList().get(1));
+
+        verify(lineRepository, times(1)).save(any());
+        verify(positionRepository, times(1)).save(any());
+    }
+
+    @Test
     void testDeleteMove() {
         // Arrange
         Line line = new Line();
@@ -155,6 +205,6 @@ public class LineServiceTest {
         // Act
         Position result = lineService.deleteMove(moveToDelete, currentPosition, uuid);
         // Assert
-        Assertions.assertEquals(Collections.singleton(otherMove), result.getMoveList());
+        Assertions.assertEquals(Collections.singletonList(otherMove), result.getMoveList());
     }
 }
