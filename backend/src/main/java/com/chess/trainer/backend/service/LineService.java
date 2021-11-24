@@ -13,6 +13,7 @@ import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.repository.LineRepository;
 import com.chess.trainer.backend.repository.PositionRepository;
 import com.chess.trainer.backend.utils.LineUtils;
+import com.chess.trainer.backend.utils.PositionUtils;
 
 import org.springframework.stereotype.Service;
 
@@ -60,10 +61,7 @@ public class LineService {
 
         // Creates a new move and adds to position
         var currentPositionInLine = LineUtils.getPositionFromLineByFen(currentPosition.getFenPosition(), line);
-        // TODO extract
-        boolean existsMoveInPosition = currentPositionInLine.getMoveList().stream()
-                .anyMatch((move) -> move.getMoveToSend().equals(moveToAdd.getMove()));
-        if (!existsMoveInPosition) {
+        if (!PositionUtils.existsMoveInPosition(moveToAdd.getMove(), currentPositionInLine)) {
             Move currentMove = new Move();
             currentMove.setMoveToSend(moveToAdd.getMove());
             currentMove.setPositionFENAfter(moveToAdd.getFen());
