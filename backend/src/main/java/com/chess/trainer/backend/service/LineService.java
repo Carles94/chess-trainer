@@ -77,6 +77,7 @@ public class LineService {
     public Position deleteMove(Move moveToDelete, Position currentPosition, UUID uuid) {
         Line line = lineRepository.findById(uuid).get();
         var currentPositionInLine = LineUtils.getPositionFromLineByFen(currentPosition.getFenPosition(), line);
+        // TODO refactor
         List<Move> currentPositionMoveList = currentPositionInLine.getMoveList().stream()
                 .filter((move) -> !move.getMoveToSend().equals(moveToDelete.getMoveToSend()))
                 .collect(Collectors.toList());
