@@ -3,7 +3,6 @@ package com.chess.trainer.backend.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import com.chess.trainer.backend.constant.FenConstant;
 import com.chess.trainer.backend.model.Line;
@@ -16,8 +15,6 @@ import com.chess.trainer.backend.utils.LineUtils;
 import com.chess.trainer.backend.utils.PositionUtils;
 
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class LineService {
@@ -61,7 +58,7 @@ public class LineService {
 
         // Creates a new move and adds to position
         var currentPositionInLine = LineUtils.getPositionFromLineByFen(currentPosition.getFenPosition(), line);
-        if (!PositionUtils.existsMoveInPosition(moveToAdd.getMove(), currentPositionInLine)) {
+        if (!PositionUtils.existsMove(moveToAdd.getMove(), currentPositionInLine)) {
             Move currentMove = new Move();
             currentMove.setMoveToSend(moveToAdd.getMove());
             currentMove.setPositionFENAfter(moveToAdd.getFen());
@@ -76,12 +73,8 @@ public class LineService {
 
     public Position deleteMove(Move moveToDelete, Position currentPosition, UUID uuid) {
         Line line = lineRepository.findById(uuid).get();
-        var currentPositionInLine = LineUtils.getPositionFromLineByFen(currentPosition.getFenPosition(), line);
-        // TODO refactor
-        List<Move> currentPositionMoveList = currentPositionInLine.getMoveList().stream()
-                .filter((move) -> !move.getMoveToSend().equals(moveToDelete.getMoveToSend()))
-                .collect(Collectors.toList());
-        currentPositionInLine.setMoveList(currentPositionMoveList);
+        Position currentPositionInLine = LineUtils.getPositionFromLineByFen(currentPosition.getFenPosition(), line);
+        currentPositionInLine = PositionUtils.deleteMove(moveToDelete, currentPositionInLine);
         positionRepository.save(currentPositionInLine);
         // TODO see if necessary
         lineRepository.save(line);
