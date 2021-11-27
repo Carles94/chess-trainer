@@ -22,7 +22,7 @@ public class LineUtils {
 
     // TODO apply that
     public static boolean canAddMove(String fenPositionToAddMove, String color, Line line) {
-        if (LineUtils.existsPositionInLine(fenPositionToAddMove, line) && line.getColor() == color) {
+        if (color.equals(line.getColor())) {
             Position positionToAddMove = LineUtils.getPositionFromLineByFen(fenPositionToAddMove, line);
             return positionToAddMove.getMoveList().size() == 0;
         }

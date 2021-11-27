@@ -46,30 +46,33 @@ public class LineService {
         // Creates a new position and add to line
         Line line = lineRepository.findById(uuid).get();
         Position futureCurrentPosition;
-        if (!LineUtils.existsPositionInLine(moveToAdd.getFen(), line)) {
-            futureCurrentPosition = new Position();
-            futureCurrentPosition.setFenPosition(moveToAdd.getFen());
-            futureCurrentPosition.setMoveList(new ArrayList<>());
-            futureCurrentPosition.setPreviousFenPosition(currentPosition.getFenPosition());
-            line.getPositionList().add(futureCurrentPosition);
-            positionRepository.save(futureCurrentPosition);
-        } else {
-            futureCurrentPosition = LineUtils.getPositionFromLineByFen(moveToAdd.getFen(), line);
-        }
+        if (LineUtils.canAddMove(currentPosition.getFenPosition(), moveToAdd.getColor(), line)) {
+            if (!LineUtils.existsPositionInLine(moveToAdd.getFen(), line)) {
+                futureCurrentPosition = new Position();
+                futureCurrentPosition.setFenPosition(moveToAdd.getFen());
+                futureCurrentPosition.setMoveList(new ArrayList<>());
+                futureCurrentPosition.setPreviousFenPosition(currentPosition.getFenPosition());
+                line.getPositionList().add(futureCurrentPosition);
+                positionRepository.save(futureCurrentPosition);
+            } else {
+                futureCurrentPosition = LineUtils.getPositionFromLineByFen(moveToAdd.getFen(), line);
+            }
 
-        // Creates a new move and adds to position
-        var currentPositionInLine = LineUtils.getPositionFromLineByFen(currentPosition.getFenPosition(), line);
-        if (!PositionUtils.existsMove(moveToAdd.getMove(), currentPositionInLine)) {
-            Move currentMove = new Move();
-            currentMove.setMoveToSend(moveToAdd.getMove());
-            currentMove.setPositionFENAfter(moveToAdd.getFen());
-            currentMove.setMoveToShow(moveToAdd.getMoveToShow());
-            currentPositionInLine.getMoveList().add(currentMove);
-            positionRepository.save(currentPositionInLine);
-            // TODO see if necessary
-            lineRepository.save(line);
+            // Creates a new move and adds to position
+            var currentPositionInLine = LineUtils.getPositionFromLineByFen(currentPosition.getFenPosition(), line);
+            if (!PositionUtils.existsMove(moveToAdd.getMove(), currentPositionInLine)) {
+                Move currentMove = new Move();
+                currentMove.setMoveToSend(moveToAdd.getMove());
+                currentMove.setPositionFENAfter(moveToAdd.getFen());
+                currentMove.setMoveToShow(moveToAdd.getMoveToShow());
+                currentPositionInLine.getMoveList().add(currentMove);
+                positionRepository.save(currentPositionInLine);
+                // TODO see if necessary
+                lineRepository.save(line);
+            }
+            return futureCurrentPosition;
         }
-        return futureCurrentPosition;
+        return null;
     }
 
     public Position deleteMove(Move moveToDelete, Position currentPosition, UUID uuid) {

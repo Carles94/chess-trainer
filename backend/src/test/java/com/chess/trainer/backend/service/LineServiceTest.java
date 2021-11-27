@@ -189,6 +189,41 @@ public class LineServiceTest {
     }
 
     @Test
+    void testAddMoveToSameColor() {
+        // Arrange
+        MoveEvent moveEvent = new MoveEvent();
+        moveEvent.setCapture(false);
+        moveEvent.setCheck(false);
+        moveEvent.setCheckmate(false);
+        moveEvent.setColor("white");
+        moveEvent.setFen("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+        moveEvent.setMove("d2d4");
+        moveEvent.setPiece("Pawn");
+        moveEvent.setStalemate(false);
+        Line line = new Line();
+        line.setColor(Constants.WHITE);
+        List<Position> positionList = new ArrayList<>();
+        Position position = new Position();
+        Move whiteMove = new Move();
+        whiteMove.setMoveToSend("d2d4");
+        position.setMoveList(Collections.singletonList(whiteMove));
+        position.setFenPosition(Constants.INITIAL_FEN);
+        positionList.add(position);
+        line.setPositionList(positionList);
+        UUID uuid = UUID.randomUUID();
+        Position currentPosition = new Position();
+        currentPosition.setFenPosition(Constants.INITIAL_FEN);
+        when(lineRepository.findById(uuid)).thenReturn(Optional.of(line));
+        // Act
+        Position result = lineService.addMove(moveEvent, currentPosition, uuid);
+        // Assert
+        Assertions.assertNull(result);
+
+        verify(lineRepository, times(1)).save(any());
+        verify(positionRepository, times(1)).save(any());
+    }
+
+    @Test
     void testDeleteMove() {
         // Arrange
         Line line = new Line();

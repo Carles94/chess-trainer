@@ -207,7 +207,6 @@ public class LineUtilsTest {
         Assertions.assertTrue(result);
     }
 
-    // TODO do more tests
     @Test
     void testCanAddMove() {
         // Arrange
@@ -230,5 +229,48 @@ public class LineUtilsTest {
         boolean result = LineUtils.canAddMove(fenPosition, color, line);
         // Assert
         Assertions.assertFalse(result);
+    }
+
+    @Test
+    void testCanAddMoveWithoutMove() {
+        // Arrange
+        String color = Constants.WHITE;
+        String fenPosition = Constants.INITIAL_FEN;
+        Line line = new Line();
+        line.setColor(color);
+        List<Position> positionList = new ArrayList<>();
+        var position = new Position();
+        position.setFenPosition(Constants.INITIAL_FEN);
+        position.setMoveList(Collections.emptyList());
+        positionList.add(position);
+        line.setPositionList(positionList);
+        // Act
+        boolean result = LineUtils.canAddMove(fenPosition, color, line);
+        // Assert
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void testCanAddMoveDifferentColor() {
+        // Arrange
+        String color = Constants.WHITE;
+        String fenPosition = Constants.INITIAL_FEN;
+        Line line = new Line();
+        line.setColor(Constants.BLACK);
+        List<Position> positionList = new ArrayList<>();
+        var position = new Position();
+        position.setFenPosition(Constants.INITIAL_FEN);
+        Move move = new Move();
+        move.setMoveToSend("e2e4");
+        position.setMoveList(Collections.singletonList(move));
+        positionList.add(position);
+        var position2 = new Position();
+        position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+        positionList.add(position2);
+        line.setPositionList(positionList);
+        // Act
+        boolean result = LineUtils.canAddMove(fenPosition, color, line);
+        // Assert
+        Assertions.assertTrue(result);
     }
 }
