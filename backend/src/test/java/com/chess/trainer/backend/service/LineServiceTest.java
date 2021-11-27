@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.chess.trainer.backend.constant.FenConstant;
+import com.chess.trainer.backend.constant.Constants;
 import com.chess.trainer.backend.model.Line;
 import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;
@@ -48,12 +48,12 @@ public class LineServiceTest {
     @Test
     void testGetPositionFromLineByFen() {
         // Arrange
-        String inputFenPosition = FenConstant.INITIAL_FEN;
+        String inputFenPosition = Constants.INITIAL_FEN;
         UUID uuid = UUID.randomUUID();
         Line line = new Line();
         List<Position> positionList = new ArrayList<>();
         var position = new Position();
-        position.setFenPosition(FenConstant.INITIAL_FEN);
+        position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
         var position2 = new Position();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
@@ -74,7 +74,7 @@ public class LineServiceTest {
         Line line = new Line();
         List<Position> positionList = new ArrayList<>();
         var position = new Position();
-        position.setFenPosition(FenConstant.INITIAL_FEN);
+        position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
         var position2 = new Position();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
@@ -94,7 +94,7 @@ public class LineServiceTest {
         Line line = new Line();
         List<Position> positionList = new ArrayList<>();
         var position = new Position();
-        position.setFenPosition(FenConstant.INITIAL_FEN);
+        position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
         var position2 = new Position();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
@@ -123,12 +123,12 @@ public class LineServiceTest {
         List<Position> positionList = new ArrayList<>();
         Position position = new Position();
         position.setMoveList(new ArrayList<>());
-        position.setFenPosition(FenConstant.INITIAL_FEN);
+        position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
         line.setPositionList(positionList);
         UUID uuid = UUID.randomUUID();
         Position currentPosition = new Position();
-        currentPosition.setFenPosition(FenConstant.INITIAL_FEN);
+        currentPosition.setFenPosition(Constants.INITIAL_FEN);
         when(lineRepository.findById(uuid)).thenReturn(Optional.of(line));
         // Act
         Position result = lineService.addMove(moveEvent, currentPosition, uuid);
@@ -162,7 +162,7 @@ public class LineServiceTest {
         Move repeatedMove = new Move();
         repeatedMove.setMoveToSend("e2e4");
         position.setMoveList(Collections.singletonList(repeatedMove));
-        position.setFenPosition(FenConstant.INITIAL_FEN);
+        position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
         line.setPositionList(positionList);
         Position position2 = new Position();
@@ -172,7 +172,7 @@ public class LineServiceTest {
         line.setPositionList(positionList);
         UUID uuid = UUID.randomUUID();
         Position currentPosition = new Position();
-        currentPosition.setFenPosition(FenConstant.INITIAL_FEN);
+        currentPosition.setFenPosition(Constants.INITIAL_FEN);
         when(lineRepository.findById(uuid)).thenReturn(Optional.of(line));
         // Act
         Position result = lineService.addMove(moveEvent, currentPosition, uuid);
@@ -198,7 +198,7 @@ public class LineServiceTest {
         otherMove.setMoveToSend("d2d4");
         UUID uuid = UUID.randomUUID();
         Position currentPosition = new Position();
-        currentPosition.setFenPosition(FenConstant.INITIAL_FEN);
+        currentPosition.setFenPosition(Constants.INITIAL_FEN);
         currentPosition.setMoveList(Arrays.asList(moveToDelete, otherMove));
         line.setPositionList(Collections.singletonList(currentPosition));
         when(lineRepository.findById(uuid)).thenReturn(Optional.of(line));

@@ -20,4 +20,12 @@ public class LineUtils {
                 .anyMatch((position) -> (position.getFenPosition().startsWith(reducedFenPosition)));
     }
 
+    // TODO apply that
+    public static boolean canAddMove(String fenPositionToAddMove, String color, Line line) {
+        if (LineUtils.existsPositionInLine(fenPositionToAddMove, line) && line.getColor() == color) {
+            Position positionToAddMove = LineUtils.getPositionFromLineByFen(fenPositionToAddMove, line);
+            return positionToAddMove.getMoveList().size() == 0;
+        }
+        return true;
+    }
 }
