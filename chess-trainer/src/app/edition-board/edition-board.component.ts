@@ -11,6 +11,7 @@ import { MoveEvent } from '../common/model/interface/move-event';
 import { Position } from '../common/model/interface/position';
 import { PostMoveBody } from '../common/model/interface/post-move-body';
 import { MovePipe } from '../common/pipe/move.pipe';
+import { HttpUtils } from '../common/utils/http-utils';
 
 @Component({
   selector: 'app-edition-board',
@@ -37,36 +38,25 @@ export class EditionBoardComponent implements OnInit {
 
   ngOnInit(): void {
     const fenParameter: string = this.replaceAll(INITIAL_FEN, '/', '_');
-    this.http
-      .request('GET', `http://localhost:8080/chess-trainer/position/${this.lineUuid}/${fenParameter}`, {
-        responseType: 'json',
-      })
-      .subscribe((position: any) => {
-        this.currentPosition = position;
-      });
+
+    HttpUtils.getPosition(this.lineUuid, fenParameter, this.http).subscribe((position: any) => {
+      this.currentPosition = position;
+    });
   }
 
   public handleUndo(): void {
     const fenParameter: string = this.replaceAll(this.currentPosition.previousFenPosition, '/', '_');
-    this.http
-      .request('GET', `http://localhost:8080/chess-trainer/position/${this.lineUuid}/${fenParameter}`, {
-        responseType: 'json',
-      })
-      .subscribe((position: any) => {
-        this.currentPosition = position;
-      });
+    HttpUtils.getPosition(this.lineUuid, fenParameter, this.http).subscribe((position: any) => {
+      this.currentPosition = position;
+    });
     this.board.undo();
   }
 
   public handleReset(): void {
     const fenParameter: string = this.replaceAll(INITIAL_FEN, '/', '_');
-    this.http
-      .request('GET', `http://localhost:8080/chess-trainer/position/${this.lineUuid}/${fenParameter}`, {
-        responseType: 'json',
-      })
-      .subscribe((position: any) => {
-        this.currentPosition = position;
-      });
+    HttpUtils.getPosition(this.lineUuid, fenParameter, this.http).subscribe((position: any) => {
+      this.currentPosition = position;
+    });
     this.board.reset();
   }
 
@@ -80,13 +70,9 @@ export class EditionBoardComponent implements OnInit {
       currentPosition: this.currentPosition,
       lineUuid: this.lineUuid,
     };
-    this.http
-      .post('http://localhost:8080/chess-trainer/move', body, {
-        responseType: 'json',
-      })
-      .subscribe((position: any) => {
-        this.currentPosition = position;
-      });
+    HttpUtils.postMoveEvent(body, this.http).subscribe((position: any) => {
+      this.currentPosition = position;
+    });
   }
 
   public handleDeleteMove(move: Move): void {
@@ -95,14 +81,9 @@ export class EditionBoardComponent implements OnInit {
       currentPosition: this.currentPosition,
       lineUuid: this.lineUuid,
     };
-    this.http
-      .request('DELETE', 'http://localhost:8080/chess-trainer/move', {
-        responseType: 'json',
-        body: deleteBody,
-      })
-      .subscribe((position: any) => {
-        this.currentPosition = position;
-      });
+    HttpUtils.deleteMove(deleteBody, this.http).subscribe((position: any) => {
+      this.currentPosition = position;
+    });
   }
 
   public handleNextMove(move: Move): void {
