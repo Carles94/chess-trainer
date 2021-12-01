@@ -46,7 +46,7 @@ public class LineService {
         // Creates a new position and add to line
         Line line = lineRepository.findById(uuid).get();
         Position futureCurrentPosition;
-        if (LineUtils.canAddMove(currentPosition.getFenPosition(), moveToAdd.getColor(), line)) {
+        if (LineUtils.canAddMove(moveToAdd.getMove(), currentPosition.getFenPosition(), moveToAdd.getColor(), line)) {
             if (!LineUtils.existsPositionInLine(moveToAdd.getFen(), line)) {
                 futureCurrentPosition = new Position();
                 futureCurrentPosition.setFenPosition(moveToAdd.getFen());

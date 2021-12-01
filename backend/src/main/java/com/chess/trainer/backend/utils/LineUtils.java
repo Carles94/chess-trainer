@@ -20,11 +20,11 @@ public class LineUtils {
                 .anyMatch((position) -> (position.getFenPosition().startsWith(reducedFenPosition)));
     }
 
-    // TODO apply that
-    public static boolean canAddMove(String fenPositionToAddMove, String color, Line line) {
+    public static boolean canAddMove(String move, String fenPositionToAddMove, String color, Line line) {
         if (color.equals(line.getColor())) {
             Position positionToAddMove = LineUtils.getPositionFromLineByFen(fenPositionToAddMove, line);
-            return positionToAddMove.getMoveList().size() == 0;
+            return positionToAddMove.getMoveList().size() == 0 || (positionToAddMove.getMoveList().size() == 1
+                    && positionToAddMove.getMoveList().get(0).getMoveToSend().equals(move));
         }
         return true;
     }
