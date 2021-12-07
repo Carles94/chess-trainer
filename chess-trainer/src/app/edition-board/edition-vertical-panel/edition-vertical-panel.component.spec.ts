@@ -94,21 +94,4 @@ describe('EditionVerticalPanelComponent', () => {
     // Assert
     expect(component['selectedMove']).toBe(move);
   });
-
-  it('should unselect the move', () => {
-    //Arrange
-    const move: Move = {
-      moveToSend: 'd2d4',
-      moveToShow: '',
-      positionFenAfter: 'rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1',
-    };
-    const event = {
-      options: [{ value: move }],
-    };
-    component.selectedMove = move;
-    // Act
-    component.handleSelectMove(event);
-    // Assert
-    expect(component['selectedMove']).toBe(undefined);
-  });
 });

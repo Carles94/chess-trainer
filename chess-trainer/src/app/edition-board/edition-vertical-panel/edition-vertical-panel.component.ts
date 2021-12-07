@@ -38,11 +38,6 @@ export class EditionVerticalPanelComponent implements OnInit {
   }
 
   public handleSelectMove(selectedMoveEvent: any): void {
-    const nextSelectedMove: Move = selectedMoveEvent.options[0].value;
-    if (!this.selectedMove || this.selectedMove.moveToSend !== nextSelectedMove.moveToSend) {
-      this.selectedMove = nextSelectedMove;
-    } else {
-      this.selectedMove = undefined;
-    }
+    this.selectedMove = selectedMoveEvent.options[0].value;
   }
 }
