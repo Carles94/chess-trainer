@@ -17,6 +17,7 @@ import { MovePipe } from './common/pipe/move.pipe';
 import { ReplaceMoveConfirmationDialogComponent } from './common/component/replace-move-confirmation-dialog/replace-move-confirmation-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatDialogModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    MatButtonToggleModule,
   ],
   providers: [MovePipe],
   bootstrap: [AppComponent],

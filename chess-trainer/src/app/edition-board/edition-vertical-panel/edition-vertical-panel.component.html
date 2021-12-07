@@ -1,7 +1,7 @@
 <mat-card>
     <h2>Moves</h2>
     <mat-selection-list #moves [multiple]="false" (selectionChange)="handleSelectMove($event)">
-        <mat-list-option *ngFor="let move of moveList" [value]="move">
+        <mat-list-option *ngFor="let move of moveList" [value]="move" [ngClass]="{'selectedItem': move?.moveToSend === selectedMove?.moveToSend}"        >
           {{move.moveToShow}}
         </mat-list-option>
       </mat-selection-list>

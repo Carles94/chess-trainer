@@ -15,7 +15,7 @@ export class EditionVerticalPanelComponent implements OnInit {
   @Output('nextMove')
   public nextMoveEmitter: EventEmitter<Move> = new EventEmitter();
 
-  private selectedMove: Move | undefined;
+  public selectedMove: Move | undefined;
 
   constructor() {
     this.moveList = [];
@@ -38,6 +38,11 @@ export class EditionVerticalPanelComponent implements OnInit {
   }
 
   public handleSelectMove(selectedMoveEvent: any): void {
-    this.selectedMove = selectedMoveEvent.options[0].value;
+    const nextSelectedMove: Move = selectedMoveEvent.options[0].value;
+    if (!this.selectedMove || this.selectedMove.moveToSend !== nextSelectedMove.moveToSend) {
+      this.selectedMove = nextSelectedMove;
+    } else {
+      this.selectedMove = undefined;
+    }
   }
 }
