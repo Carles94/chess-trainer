@@ -6,7 +6,8 @@ import { PostMoveBody } from '../model/interface/post-move-body';
 
 export class HttpUtils {
   static getPosition(lineUuid: string, fenPosition: string, http: HttpClient): Observable<Object> {
-    return http.request('GET', `${environment.apiUrl}/position/${lineUuid}/${fenPosition}`, {
+    const fenPositionToSend: string = this.replaceAll(fenPosition, '/', '_');
+    return http.request('GET', `${environment.apiUrl}/position/${lineUuid}/${fenPositionToSend}`, {
       responseType: 'json',
     });
   }
@@ -22,5 +23,13 @@ export class HttpUtils {
       responseType: 'json',
       body: body,
     });
+  }
+
+  private static replaceAll(str: string, find: string, replace: string): string {
+    return str.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
+  }
+  // Makes the string to find safer
+  private static escapeRegExp(string: string) {
+    return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
   }
 }

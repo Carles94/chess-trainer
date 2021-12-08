@@ -36,21 +36,18 @@ export class EditionBoardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const fenParameter: string = this.replaceAll(INITIAL_FEN, '/', '_');
-
-    HttpUtils.getPosition(this.lineUuid, fenParameter, this.http).subscribe((position: any) => {
+    HttpUtils.getPosition(this.lineUuid, INITIAL_FEN, this.http).subscribe((position: any) => {
       this.currentPosition = position;
+      this.positionStack.push(INITIAL_FEN);
     });
-    this.positionStack.push(INITIAL_FEN);
   }
 
   public handleUndo(): void {
     // Only undo if we are not in the initial position
     if (this.positionStack.length !== 1) {
       this.positionStack.pop();
-      const previousPosition = this.positionStack[this.positionStack.length - 1];
-      const fenParameter: string = this.replaceAll(previousPosition, '/', '_');
-      HttpUtils.getPosition(this.lineUuid, fenParameter, this.http).subscribe((position: any) => {
+      const previousPosition: string = this.positionStack[this.positionStack.length - 1];
+      HttpUtils.getPosition(this.lineUuid, previousPosition, this.http).subscribe((position: any) => {
         this.currentPosition = position;
       });
       this.board.undo();
@@ -58,9 +55,9 @@ export class EditionBoardComponent implements OnInit {
   }
 
   public handleReset(): void {
-    const fenParameter: string = this.replaceAll(INITIAL_FEN, '/', '_');
-    HttpUtils.getPosition(this.lineUuid, fenParameter, this.http).subscribe((position: any) => {
+    HttpUtils.getPosition(this.lineUuid, INITIAL_FEN, this.http).subscribe((position: any) => {
       this.currentPosition = position;
+      this.positionStack = [position.fenPosition];
     });
     this.board.reset();
   }
@@ -100,13 +97,5 @@ export class EditionBoardComponent implements OnInit {
 
   public handleUndoUntilAlternative(): void {
     console.log('TODO handle until alternative');
-  }
-
-  private replaceAll(str: string, find: string, replace: string): string {
-    return str.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
-  }
-  // Makes the string to find safer
-  private escapeRegExp(string: string) {
-    return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
   }
 }
