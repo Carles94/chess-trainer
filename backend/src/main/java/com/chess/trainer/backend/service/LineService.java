@@ -51,7 +51,6 @@ public class LineService {
                 futureCurrentPosition = new Position();
                 futureCurrentPosition.setFenPosition(moveToAdd.getFen());
                 futureCurrentPosition.setMoveList(new ArrayList<>());
-                futureCurrentPosition.setPreviousFenPosition(currentPosition.getFenPosition());
                 line.getPositionList().add(futureCurrentPosition);
                 positionRepository.save(futureCurrentPosition);
             } else {

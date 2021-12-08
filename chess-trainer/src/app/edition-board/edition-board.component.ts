@@ -24,14 +24,13 @@ export class EditionBoardComponent implements OnInit {
 
   public currentPosition: Position;
 
-  public moveList: Move[] = [];
+  private positionStack: string[] = [];
 
   lineUuid = '53f93e7c-4d34-433a-b0d2-824f134a9829';
 
   constructor(private readonly movePipe: MovePipe, public dialog: MatDialog, private http: HttpClient) {
     this.currentPosition = {
       fenPosition: INITIAL_FEN,
-      previousFenPosition: INITIAL_FEN,
       moveList: [],
     };
   }
@@ -42,14 +41,20 @@ export class EditionBoardComponent implements OnInit {
     HttpUtils.getPosition(this.lineUuid, fenParameter, this.http).subscribe((position: any) => {
       this.currentPosition = position;
     });
+    this.positionStack.push(INITIAL_FEN);
   }
 
   public handleUndo(): void {
-    const fenParameter: string = this.replaceAll(this.currentPosition.previousFenPosition, '/', '_');
-    HttpUtils.getPosition(this.lineUuid, fenParameter, this.http).subscribe((position: any) => {
-      this.currentPosition = position;
-    });
-    this.board.undo();
+    // Only undo if we are not in the initial position
+    if (this.positionStack.length !== 1) {
+      this.positionStack.pop();
+      const previousPosition = this.positionStack[this.positionStack.length - 1];
+      const fenParameter: string = this.replaceAll(previousPosition, '/', '_');
+      HttpUtils.getPosition(this.lineUuid, fenParameter, this.http).subscribe((position: any) => {
+        this.currentPosition = position;
+      });
+      this.board.undo();
+    }
   }
 
   public handleReset(): void {
@@ -71,7 +76,10 @@ export class EditionBoardComponent implements OnInit {
       lineUuid: this.lineUuid,
     };
     HttpUtils.postMoveEvent(body, this.http).subscribe((position: any) => {
-      this.currentPosition = position;
+      if (position) {
+        this.currentPosition = position;
+        this.positionStack.push(position.fenPosition);
+      }
     });
   }
 

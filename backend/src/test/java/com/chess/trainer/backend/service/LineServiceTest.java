@@ -135,7 +135,6 @@ public class LineServiceTest {
         // Assert
         Assertions.assertEquals(moveEvent.getFen(), result.getFenPosition());
         Assertions.assertEquals(Collections.EMPTY_LIST, result.getMoveList());
-        Assertions.assertEquals(currentPosition.getFenPosition(), result.getPreviousFenPosition());
 
         Assertions.assertEquals(moveEvent.getMove(),
                 line.getPositionList().get(0).getMoveList().get(0).getMoveToSend());

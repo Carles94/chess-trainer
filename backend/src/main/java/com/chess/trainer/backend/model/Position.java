@@ -16,7 +16,6 @@ public class Position {
     // TODO the fen position is not unique between Lines
     @Id
     private String FenPosition;
-    private String previousFenPosition;
     @ElementCollection
     private List<Move> moveList;
 }
