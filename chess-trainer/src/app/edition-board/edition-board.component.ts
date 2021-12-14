@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BoardComponent } from '../common/component/board/board.component';
+import { ReplaceMoveConfirmationDialogComponent } from '../common/component/replace-move-confirmation-dialog/replace-move-confirmation-dialog.component';
 import { Line } from '../common/model/class/line';
 import { INITIAL_FEN } from '../common/model/constant/constant';
 import { IBoard } from '../common/model/interface/board';
@@ -76,6 +77,9 @@ export class EditionBoardComponent implements OnInit {
       if (position) {
         this.currentPosition = position;
         this.positionStack.push(position.fenPosition);
+      } else {
+        this.dialog.open(ReplaceMoveConfirmationDialogComponent);
+        this.board.undo();
       }
     });
   }

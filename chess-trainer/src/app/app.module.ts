@@ -18,6 +18,8 @@ import { ReplaceMoveConfirmationDialogComponent } from './common/component/repla
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { SelectOpeningComponent } from './common/component/select-opening/select-opening.component';
+import { ManageOpeningComponent } from './manage-opening/manage-opening.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     EditionFooterPanelComponent,
     MovePipe,
     ReplaceMoveConfirmationDialogComponent,
+    SelectOpeningComponent,
+    ManageOpeningComponent,
   ],
   imports: [
     BrowserModule,
