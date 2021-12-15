@@ -1,1 +1,15 @@
-<p>select-opening works!</p>
+<h2>Select opening :</h2>
+<mat-selection-list [multiple]="false" (selectionChange)="handleSelectColor($event)">
+    <mat-list-option [value]="WHITE">
+        {{WHITE}}
+    </mat-list-option>
+    <mat-selection-list *ngIf="selectedColor === WHITE">
+        <mat-list-option *ngFor="let opening of openingList" [value]="opening">
+            {{opening.name}}
+        </mat-list-option>
+    </mat-selection-list>
+    <mat-list-option [value]="BLACK">
+        {{BLACK}}
+    </mat-list-option>
+</mat-selection-list>
+

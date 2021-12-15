@@ -3,7 +3,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BoardComponent } from '../common/component/board/board.component';
 import { ReplaceMoveConfirmationDialogComponent } from '../common/component/replace-move-confirmation-dialog/replace-move-confirmation-dialog.component';
-import { Line } from '../common/model/class/line';
 import { INITIAL_FEN } from '../common/model/constant/constant';
 import { IBoard } from '../common/model/interface/board';
 import { DeleteMoveBody } from '../common/model/interface/delete-move-body';
