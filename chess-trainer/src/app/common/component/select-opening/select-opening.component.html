@@ -3,9 +3,14 @@
     <mat-list-option [value]="WHITE">
         {{WHITE}}
     </mat-list-option>
-    <mat-selection-list *ngIf="selectedColor === WHITE">
+    <mat-selection-list [multiple]="false" *ngIf="selectedColor === WHITE" (selectionChange)="handleSelectOpening($event)">
         <mat-list-option *ngFor="let opening of openingList" [value]="opening">
             {{opening.name}}
+            <mat-selection-list [multiple]="false" *ngIf="selectedOpening === opening.name" (selectionChange)="handleSelectLine($event)">
+                <mat-list-option *ngFor="let line of lineList" [value]="line">
+                    {{line.name}}
+                </mat-list-option>
+            </mat-selection-list>
         </mat-list-option>
     </mat-selection-list>
     <mat-list-option [value]="BLACK">
