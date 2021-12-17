@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { SelectOpeningComponent } from './common/component/select-opening/select-opening.component';
 import { ManageOpeningComponent } from './manage-opening/manage-opening.component';
+import { ShowOpeningsComponent } from './common/component/select-opening/show-openings/show-openings.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ManageOpeningComponent } from './manage-opening/manage-opening.componen
     ReplaceMoveConfirmationDialogComponent,
     SelectOpeningComponent,
     ManageOpeningComponent,
+    ShowOpeningsComponent,
   ],
   imports: [
     BrowserModule,

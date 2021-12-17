@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ThrowStmt } from '@angular/compiler';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BLACK, WHITE } from '../../model/constant/constant';
 import { Line } from '../../model/interface/line';
 import { Opening } from '../../model/interface/opening';
+import { ShowOpeningsComponent } from './show-openings/show-openings.component';
 
 @Component({
   selector: 'app-select-opening',
@@ -9,14 +11,14 @@ import { Opening } from '../../model/interface/opening';
   styleUrls: ['./select-opening.component.scss'],
 })
 export class SelectOpeningComponent implements OnInit {
+  @ViewChild('showWhiteOpenings', { static: false })
+  public showWhiteOpenings!: ShowOpeningsComponent;
+  @ViewChild('showWhiteOpenings', { static: false })
+  public showBlackOpenings!: ShowOpeningsComponent;
   public WHITE = WHITE;
   public BLACK = BLACK;
-
   public openingList: Opening[] = [];
-  public lineList: Line[] = [];
-
   public selectedColor = '';
-  public selectedOpening = '';
 
   constructor() {
     this.openingList.push({
@@ -38,17 +40,7 @@ export class SelectOpeningComponent implements OnInit {
   handleSelectColor(event: any): void {
     console.log(event);
     this.selectedColor = event.option.value;
-    this.lineList = [];
-    this.selectedOpening = '';
-  }
-
-  handleSelectOpening(event: any): void {
-    console.log(event);
-    this.selectedOpening = event.option.value.name;
-    this.lineList = this.openingList[0].lineList;
-  }
-
-  handleSelectLine(event: any): void {
-    console.log(event);
+    this.showBlackOpenings.resetSelection();
+    this.showWhiteOpenings.resetSelection();
   }
 }

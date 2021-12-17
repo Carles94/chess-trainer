@@ -1,0 +1,10 @@
+<mat-selection-list [multiple]="false" (selectionChange)="handleSelectOpening($event)">
+    <mat-list-option *ngFor="let opening of openingList" [value]="opening">
+        {{opening.name}}
+        <mat-selection-list [multiple]="false" *ngIf="selectedOpening === opening.name" (selectionChange)="handleSelectLine($event)">
+            <mat-list-option *ngFor="let line of selectedLineList" [value]="line">
+                {{line.name}}
+            </mat-list-option>
+        </mat-selection-list>
+    </mat-list-option>
+</mat-selection-list>
