@@ -3,10 +3,10 @@
     <mat-list-option [value]="WHITE">
         {{WHITE}}
     </mat-list-option>
-    <app-show-openings #showWhiteOpenings *ngIf="selectedColor === WHITE" [openingList]=openingList></app-show-openings>
+    <app-show-openings #showWhiteOpenings *ngIf="selectedColor === WHITE" [openingList]=whiteOpeningList></app-show-openings>
     <mat-list-option [value]="BLACK">
         {{BLACK}}
     </mat-list-option>
-    <app-show-openings #showBlackOpenings *ngIf="selectedColor === BLACK" [openingList]=openingList></app-show-openings>
+    <app-show-openings #showBlackOpenings *ngIf="selectedColor === BLACK" [openingList]=blackOpeningList></app-show-openings>
 </mat-selection-list>
 

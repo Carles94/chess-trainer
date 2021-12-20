@@ -25,6 +25,7 @@ export class ShowOpeningsComponent implements OnInit {
 
   handleSelectLine(event: any): void {
     console.log(event);
+    //TODO redirect ?
   }
 
   resetSelection(): void {
