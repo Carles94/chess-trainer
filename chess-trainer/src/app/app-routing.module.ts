@@ -6,7 +6,7 @@ import { ManageOpeningComponent } from './manage-opening/manage-opening.componen
 const routes: Routes = [
   { path: 'edition-board', component: EditionBoardComponent },
   { path: 'manage-opening', component: ManageOpeningComponent },
-  { path: '', redirectTo: '/edition-board', pathMatch: 'full' }, // default path
+  { path: '', redirectTo: '/manage-opening', pathMatch: 'full' }, // default path
 ];
 
 @NgModule({

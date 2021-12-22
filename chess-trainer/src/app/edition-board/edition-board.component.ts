@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { BoardComponent } from '../common/component/board/board.component';
 import { ReplaceMoveConfirmationDialogComponent } from '../common/component/replace-move-confirmation-dialog/replace-move-confirmation-dialog.component';
 import { INITIAL_FEN } from '../common/model/constant/constant';
@@ -26,9 +27,14 @@ export class EditionBoardComponent implements OnInit {
 
   private positionStack: string[] = [];
 
-  lineUuid = '53f93e7c-4d34-433a-b0d2-824f134a9829';
+  lineUuid = '';
 
-  constructor(private readonly movePipe: MovePipe, public dialog: MatDialog, private http: HttpClient) {
+  constructor(
+    private readonly movePipe: MovePipe,
+    public dialog: MatDialog,
+    private http: HttpClient,
+    private route: ActivatedRoute
+  ) {
     this.currentPosition = {
       fenPosition: INITIAL_FEN,
       moveList: [],
@@ -36,6 +42,8 @@ export class EditionBoardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let possibleUuid = this.route.snapshot.queryParamMap.get('lineUuid');
+    this.lineUuid = possibleUuid ? possibleUuid : '';
     HttpUtils.getPosition(this.lineUuid, INITIAL_FEN, this.http).subscribe((position: any) => {
       this.currentPosition = position;
       this.positionStack.push(INITIAL_FEN);
