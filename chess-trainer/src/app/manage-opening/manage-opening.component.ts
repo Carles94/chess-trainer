@@ -10,4 +10,20 @@ export class ManageOpeningComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  handleRemove(): void {
+    console.log('Remove opening');
+  }
+
+  handleAdd(): void {
+    console.log('Add opening');
+  }
+
+  handleRename(): void {
+    console.log('Rename opening');
+  }
+
+  handleCopy(): void {
+    console.log('Copy opening');
+  }
 }
