@@ -1,7 +1,7 @@
 <h1>Manage openings</h1>
 <app-select-opening (selectLine)="handleSelectLine($event)"></app-select-opening>
-<button mat-button (click)="handleRemove()">REMOVE OPENING</button>
-<button mat-button (click)="handleCopy()">COPY OPENING</button>
-<button mat-button (click)="handleRename()">RENAME OPENING</button>
-<button mat-button [routerLink]="['/edition-board']" [queryParams]="{lineUuid:lineUuid}">EDIT OPENING</button>
+<button mat-button [disabled]="!lineUuid" (click)="handleRemove()">REMOVE OPENING</button>
+<button mat-button [disabled]="!lineUuid" (click)="handleCopy()">COPY OPENING</button>
+<button mat-button [disabled]="!lineUuid" (click)="handleRename()">RENAME OPENING</button>
+<button mat-button [disabled]="!lineUuid" [routerLink]="['/edition-board']" [queryParams]="{lineUuid:lineUuid}">EDIT OPENING</button>
 <button mat-button (click)="handleAdd()">ADD OPENING</button>

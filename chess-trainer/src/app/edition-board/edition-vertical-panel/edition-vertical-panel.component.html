@@ -6,7 +6,7 @@
         </mat-list-option>
       </mat-selection-list>
     <mat-card-actions>
-        <button mat-button (click)="handleNextMove()">NEXT</button>
-        <button mat-button (click)="handleDeleteMove()">DELETE</button>
+        <button mat-button [disabled]="!selectedMove" (click)="handleNextMove()">NEXT</button>
+        <button mat-button [disabled]="!selectedMove" (click)="handleDeleteMove()">DELETE</button>
     </mat-card-actions>
 </mat-card>

@@ -7,7 +7,7 @@ import { Line } from '../common/model/interface/line';
   styleUrls: ['./manage-opening.component.scss'],
 })
 export class ManageOpeningComponent implements OnInit {
-  public lineUuid: string = '53f93e7c-4d34-433a-b0d2-824f134a9829';
+  public lineUuid: string = '';
   constructor() {}
 
   ngOnInit(): void {}
