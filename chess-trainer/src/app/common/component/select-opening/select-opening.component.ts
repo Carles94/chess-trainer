@@ -1,5 +1,6 @@
-import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { BLACK, WHITE } from '../../model/constant/constant';
+import { Line } from '../../model/interface/line';
 import { Opening } from '../../model/interface/opening';
 import { ShowOpeningsComponent } from './show-openings/show-openings.component';
 
@@ -13,6 +14,8 @@ export class SelectOpeningComponent implements OnInit {
   public showWhiteOpeningsQueryList!: QueryList<ShowOpeningsComponent>;
   @ViewChildren('showBlackOpenings')
   public showBlackOpeningsQueryList!: QueryList<ShowOpeningsComponent>;
+  @Output('selectLine')
+  public selectLineEmitter: EventEmitter<Line> = new EventEmitter();
   public WHITE = WHITE;
   public BLACK = BLACK;
   public openingList: Opening[] = [];
@@ -25,10 +28,11 @@ export class SelectOpeningComponent implements OnInit {
   constructor() {
     this.openingList.push(
       {
-        uuid: '',
+        uuid: 'uuidWhite',
         name: 'opening',
         lineList: [
           {
+            uuid: 'uuidWhite',
             name: 'line',
             positionList: [],
             color: WHITE,
@@ -37,10 +41,11 @@ export class SelectOpeningComponent implements OnInit {
         color: WHITE,
       },
       {
-        uuid: '',
+        uuid: 'uuidBlack',
         name: 'openingBlack',
         lineList: [
           {
+            uuid: 'uuidBlack',
             name: 'lineBlack',
             positionList: [],
             color: BLACK,
@@ -73,5 +78,9 @@ export class SelectOpeningComponent implements OnInit {
     if (this.showWhiteOpenings) {
       this.showWhiteOpenings.resetSelection();
     }
+  }
+
+  handleSelectLine(line: Line): void {
+    this.selectLineEmitter.emit(line);
   }
 }

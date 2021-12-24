@@ -1,7 +1,7 @@
 import { Position } from './position';
 
 export interface Line {
-  //TODO add uuid
+  uuid: string;
   name: string;
   positionList: Position[];
   color: string;

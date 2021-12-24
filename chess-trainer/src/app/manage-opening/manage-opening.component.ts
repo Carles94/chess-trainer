@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Line } from '../common/model/interface/line';
 
 @Component({
   selector: 'app-manage-opening',
@@ -25,5 +26,9 @@ export class ManageOpeningComponent implements OnInit {
 
   handleCopy(): void {
     console.log('Copy opening');
+  }
+
+  handleSelectLine(line: Line) {
+    this.lineUuid = line.uuid;
   }
 }
