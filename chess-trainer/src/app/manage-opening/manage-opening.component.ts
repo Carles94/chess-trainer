@@ -1,5 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { WHITE } from '../common/model/constant/constant';
 import { Line } from '../common/model/interface/line';
+import { HttpUtils } from '../common/utils/http-utils';
 
 @Component({
   selector: 'app-manage-opening',
@@ -8,7 +11,7 @@ import { Line } from '../common/model/interface/line';
 })
 export class ManageOpeningComponent implements OnInit {
   public lineUuid: string = '';
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {}
 
@@ -17,7 +20,14 @@ export class ManageOpeningComponent implements OnInit {
   }
 
   handleAdd(): void {
-    console.log('Add opening');
+    console.log('Add line');
+    let line: Line = {
+      name: 'name',
+      color: WHITE,
+      uuid: '',
+      positionList: [],
+    };
+    HttpUtils.postCreateLine(line, this.http);
   }
 
   handleRename(): void {
