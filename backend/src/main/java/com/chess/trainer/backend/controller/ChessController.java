@@ -3,9 +3,12 @@ package com.chess.trainer.backend.controller;
 import java.util.UUID;
 
 import com.chess.trainer.backend.model.DeleteMoveBody;
+import com.chess.trainer.backend.model.Line;
+import com.chess.trainer.backend.model.Opening;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.model.PostMoveBody;
 import com.chess.trainer.backend.service.LineService;
+import com.chess.trainer.backend.service.OpeningService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -52,6 +55,12 @@ public class ChessController {
         Position result = lineService.deleteMove(deleteMoveBody.getMove(), deleteMoveBody.getCurrentPosition(),
                 UUID.fromString(deleteMoveBody.getLineUuid()));
         return result;
+    }
+
+    @PostMapping(value = "/line/create")
+    public @ResponseBody Line postCreateLine(@RequestBody Line line) {
+        System.out.println("Post move  called with " + line.getColor() + " and " + line.getName());
+        return new Line();
     }
 
 }
