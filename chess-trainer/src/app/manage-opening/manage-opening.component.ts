@@ -27,7 +27,7 @@ export class ManageOpeningComponent implements OnInit {
       uuid: '',
       positionList: [],
     };
-    HttpUtils.postCreateLine(line, this.http);
+    HttpUtils.postCreateLine(line, this.http).subscribe((line) => console.log(line));
   }
 
   handleRename(): void {
