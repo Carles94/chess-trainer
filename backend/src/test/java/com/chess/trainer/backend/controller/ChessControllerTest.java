@@ -2,6 +2,7 @@ package com.chess.trainer.backend.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -10,12 +11,15 @@ import java.util.List;
 import java.util.UUID;
 
 import com.chess.trainer.backend.constant.Constants;
+import com.chess.trainer.backend.model.CreateLineBody;
 import com.chess.trainer.backend.model.DeleteMoveBody;
+import com.chess.trainer.backend.model.Line;
 import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.model.PostMoveBody;
 import com.chess.trainer.backend.service.LineService;
+import com.chess.trainer.backend.service.OpeningService;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,11 +36,13 @@ class ChessControllerTest {
 
     // Mocks
     private LineService lineService;
+    private OpeningService openingService;
 
     @BeforeEach
-    public void init(@Mock LineService lineService) {
+    public void init(@Mock LineService lineService, @Mock OpeningService openingService) {
         this.lineService = lineService;
-        chessController = new ChessController(lineService);
+        this.openingService = openingService;
+        chessController = new ChessController(lineService, openingService);
     }
 
     @Test
@@ -98,6 +104,25 @@ class ChessControllerTest {
         Position result = chessController.deleteMove(deleteMoveBody);
         // Assert
         verify(lineService).deleteMove(moveToDelete, currentPosition, uuid);
-        Assertions.assertEquals(result, expectedResult);
+        Assertions.assertEquals(expectedResult, result);
+    }
+
+    @Test
+    void testPostCreateLine() {
+        // Arrange
+        CreateLineBody createLineBody = new CreateLineBody();
+        String lineColor = "lineColor";
+        createLineBody.setLineColor(lineColor);
+        String lineName = "lineName";
+        createLineBody.setLineName(lineName);
+        String openingName = "openingName";
+        createLineBody.setOpeningName(openingName);
+        Line expectedResult = new Line();
+        when(openingService.createLine(lineName, lineColor, openingName)).thenReturn(expectedResult);
+        // Act
+        Line result = chessController.postCreateLine(createLineBody);
+        // Assert
+        verify(openingService).createLine(lineName, lineColor, openingName);
+        Assertions.assertEquals(expectedResult, result);
     }
 }

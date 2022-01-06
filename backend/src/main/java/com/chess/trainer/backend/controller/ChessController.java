@@ -2,9 +2,9 @@ package com.chess.trainer.backend.controller;
 
 import java.util.UUID;
 
+import com.chess.trainer.backend.model.CreateLineBody;
 import com.chess.trainer.backend.model.DeleteMoveBody;
 import com.chess.trainer.backend.model.Line;
-import com.chess.trainer.backend.model.Opening;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.model.PostMoveBody;
 import com.chess.trainer.backend.service.LineService;
@@ -26,9 +26,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ChessController {
 
     private LineService lineService;
+    private OpeningService openingService;
 
-    public ChessController(LineService lineService) {
+    public ChessController(LineService lineService, OpeningService openingService) {
         this.lineService = lineService;
+        this.openingService = openingService;
     }
 
     @GetMapping(value = "/position/{lineUuid}/{fenPosition}")
@@ -58,9 +60,12 @@ public class ChessController {
     }
 
     @PostMapping(value = "/line/create")
-    public @ResponseBody Line postCreateLine(@RequestBody Line line) {
-        System.out.println("Post move  called with " + line.getColor() + " and " + line.getName());
-        return new Line();
+    public @ResponseBody Line postCreateLine(@RequestBody CreateLineBody createLineBody) {
+        System.out.println("Post move  called with " + createLineBody.getLineColor() + ", "
+                + createLineBody.getLineName() + " and " + createLineBody.getOpeningName());
+        Line result = this.openingService.createLine(createLineBody.getLineName(), createLineBody.getLineColor(),
+                createLineBody.getOpeningName());
+        return result;
     }
 
 }
