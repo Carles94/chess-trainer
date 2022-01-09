@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { CreateLineBody } from '../model/interface/create-line-body';
 import { DeleteMoveBody } from '../model/interface/delete-move-body';
 import { Line } from '../model/interface/line';
 import { PostMoveBody } from '../model/interface/post-move-body';
@@ -26,7 +27,7 @@ export class HttpUtils {
     });
   }
 
-  static postCreateLine(body: Line, http: HttpClient): Observable<Object> {
+  static postCreateLine(body: CreateLineBody, http: HttpClient): Observable<Object> {
     return http.post(`${environment.apiUrl}/line/create`, body, {
       responseType: 'json',
     });

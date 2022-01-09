@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { WHITE } from '../common/model/constant/constant';
+import { CreateLineBody } from '../common/model/interface/create-line-body';
 import { Line } from '../common/model/interface/line';
 import { HttpUtils } from '../common/utils/http-utils';
 
@@ -21,13 +22,12 @@ export class ManageOpeningComponent implements OnInit {
 
   handleAdd(): void {
     console.log('Add line');
-    let line: Line = {
-      name: 'name',
-      color: WHITE,
-      uuid: '',
-      positionList: [],
+    let body: CreateLineBody = {
+      lineColor: WHITE,
+      lineName: 'lineName',
+      openingName: 'openingName',
     };
-    HttpUtils.postCreateLine(line, this.http).subscribe((line) => console.log(line));
+    HttpUtils.postCreateLine(body, this.http).subscribe((line) => console.log(line));
   }
 
   handleRename(): void {
