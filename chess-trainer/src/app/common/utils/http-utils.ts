@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CreateLineBody } from '../model/interface/create-line-body';
 import { DeleteMoveBody } from '../model/interface/delete-move-body';
-import { Line } from '../model/interface/line';
 import { PostMoveBody } from '../model/interface/post-move-body';
 
 export class HttpUtils {
@@ -29,6 +28,12 @@ export class HttpUtils {
 
   static postCreateLine(body: CreateLineBody, http: HttpClient): Observable<Object> {
     return http.post(`${environment.apiUrl}/line/create`, body, {
+      responseType: 'json',
+    });
+  }
+
+  static getOpenings(http: HttpClient): Observable<any> {
+    return http.post(`${environment.apiUrl}/openings`, {
       responseType: 'json',
     });
   }

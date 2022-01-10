@@ -1,10 +1,13 @@
 package com.chess.trainer.backend.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import com.chess.trainer.backend.model.CreateLineBody;
 import com.chess.trainer.backend.model.DeleteMoveBody;
 import com.chess.trainer.backend.model.Line;
+import com.chess.trainer.backend.model.Opening;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.model.PostMoveBody;
 import com.chess.trainer.backend.service.LineService;
@@ -56,6 +59,13 @@ public class ChessController {
                 + deleteMoveBody.getCurrentPosition() + " and  " + deleteMoveBody.getLineUuid());
         Position result = lineService.deleteMove(deleteMoveBody.getMove(), deleteMoveBody.getCurrentPosition(),
                 UUID.fromString(deleteMoveBody.getLineUuid()));
+        return result;
+    }
+
+    @GetMapping(value = "/openings")
+    public @ResponseBody List<Opening> getOpenings() {
+        System.out.println("Get openings  called");
+        List<Opening> result = this.openingService.getOpenings();
         return result;
     }
 

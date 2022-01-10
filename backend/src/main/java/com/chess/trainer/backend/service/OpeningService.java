@@ -66,4 +66,9 @@ public class OpeningService {
 
         return result;
     }
+
+    // TODO change when user are implemented
+    public List<Opening> getOpenings() {
+        return (List<Opening>) openingRepository.findAll();
+    }
 }

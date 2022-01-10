@@ -110,4 +110,16 @@ class OpeningServiceTest {
 
         verify(positionRepository).save(result.getPositionList().get(0));
     }
+
+    @Test
+    public void testGetOpenings() {
+        // Arrange
+        List<Opening> openingList = new ArrayList<>();
+        openingList.add(new Opening());
+        when(openingRepository.findAll()).thenReturn(openingList);
+        // Act
+        List<Opening> result = openingService.getOpenings();
+        // Assert
+        Assertions.assertEquals(openingList, result);
+    }
 }

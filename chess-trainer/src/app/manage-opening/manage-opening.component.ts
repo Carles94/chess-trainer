@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { WHITE } from '../common/model/constant/constant';
 import { CreateLineBody } from '../common/model/interface/create-line-body';
 import { Line } from '../common/model/interface/line';
+import { Opening } from '../common/model/interface/opening';
 import { HttpUtils } from '../common/utils/http-utils';
 
 @Component({
@@ -12,7 +13,10 @@ import { HttpUtils } from '../common/utils/http-utils';
 })
 export class ManageOpeningComponent implements OnInit {
   public lineUuid: string = '';
-  constructor(private http: HttpClient) {}
+  public openingList: Opening[] = [];
+  constructor(private http: HttpClient) {
+    HttpUtils.getOpenings(this.http).subscribe((returnedOpenings) => (this.openingList = returnedOpenings));
+  }
 
   ngOnInit(): void {}
 
@@ -28,6 +32,8 @@ export class ManageOpeningComponent implements OnInit {
       openingName: 'openingName',
     };
     HttpUtils.postCreateLine(body, this.http).subscribe((line) => console.log(line));
+    HttpUtils.getOpenings(this.http).subscribe((returnedOpenings) => (this.openingList = returnedOpenings));
+    // TODO fix openings doesnt show
   }
 
   handleRename(): void {

@@ -16,6 +16,7 @@ import com.chess.trainer.backend.model.DeleteMoveBody;
 import com.chess.trainer.backend.model.Line;
 import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;
+import com.chess.trainer.backend.model.Opening;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.model.PostMoveBody;
 import com.chess.trainer.backend.service.LineService;
@@ -123,6 +124,20 @@ class ChessControllerTest {
         Line result = chessController.postCreateLine(createLineBody);
         // Assert
         verify(openingService).createLine(lineName, lineColor, openingName);
+        Assertions.assertEquals(expectedResult, result);
+    }
+
+    @Test
+    void testGetOpenings() {
+        // Arrange
+        List<Opening> expectedResult = new ArrayList<>();
+        Opening opening = new Opening();
+        expectedResult.add(opening);
+        when(openingService.getOpenings()).thenReturn(expectedResult);
+        // Act
+        List<Opening> result = chessController.getOpenings();
+        // Assert
+        verify(openingService).getOpenings();
         Assertions.assertEquals(expectedResult, result);
     }
 }
