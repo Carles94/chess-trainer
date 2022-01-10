@@ -1,10 +1,12 @@
 package com.chess.trainer.backend.model;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -12,10 +14,12 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "positions")
+@IdClass(PositionPK.class)
 public class Position {
-    // TODO the fen position is not unique between Lines
     @Id
-    private String FenPosition;
+    private String fenPosition;
+    @Id
+    private UUID lineUuid;
     @ElementCollection
     private List<Move> moveList;
 }

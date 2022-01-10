@@ -47,20 +47,22 @@ public class OpeningService {
         Line result = new Line();
         result.setColor(lineColor);
         result.setName(lineName);
+        UUID lineUuid = UUID.randomUUID();
+        result.setUuid(lineUuid);
         // Create initial position
         List<Position> positionList = new ArrayList<>();
         Position initialPosition = new Position();
+        initialPosition.setLineUuid(lineUuid);
         initialPosition.setFenPosition(Constants.INITIAL_FEN);
         initialPosition.setMoveList(Collections.EMPTY_LIST);
         positionList.add(initialPosition);
         result.setPositionList(positionList);
-        result.setUuid(UUID.randomUUID());
         lineOpening.getLineList().add(result);
 
         // Update database
-        openingRepository.save(lineOpening);
-        result = lineRepository.save(result);
         positionRepository.save(initialPosition);
+        result = lineRepository.save(result);
+        openingRepository.save(lineOpening);
 
         return result;
     }

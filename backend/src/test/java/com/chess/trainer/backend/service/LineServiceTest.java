@@ -134,6 +134,7 @@ public class LineServiceTest {
         Position result = lineService.addMove(moveEvent, currentPosition, uuid);
         // Assert
         Assertions.assertEquals(moveEvent.getFen(), result.getFenPosition());
+        Assertions.assertEquals(uuid, result.getLineUuid());
         Assertions.assertEquals(Collections.EMPTY_LIST, result.getMoveList());
 
         Assertions.assertEquals(moveEvent.getMove(),
@@ -141,6 +142,8 @@ public class LineServiceTest {
         Assertions.assertEquals(moveEvent.getFen(),
                 line.getPositionList().get(0).getMoveList().get(0).getPositionFENAfter());
         Assertions.assertEquals(moveEvent.getFen(), line.getPositionList().get(1).getFenPosition());
+
+        verify(positionRepository, times(2)).save(any());
     }
 
     @Test
@@ -182,9 +185,6 @@ public class LineServiceTest {
         Assertions.assertEquals(1, line.getPositionList().get(0).getMoveList().size());
         Assertions.assertEquals(position.getMoveList(), line.getPositionList().get(0).getMoveList());
         Assertions.assertEquals(position2, line.getPositionList().get(1));
-
-        verify(lineRepository, times(1)).save(any());
-        verify(positionRepository, times(1)).save(any());
     }
 
     @Test
@@ -196,7 +196,7 @@ public class LineServiceTest {
         moveEvent.setCheckmate(false);
         moveEvent.setColor("white");
         moveEvent.setFen("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
-        moveEvent.setMove("d2d4");
+        moveEvent.setMove("e2e4");
         moveEvent.setPiece("Pawn");
         moveEvent.setStalemate(false);
         Line line = new Line();
@@ -217,9 +217,6 @@ public class LineServiceTest {
         Position result = lineService.addMove(moveEvent, currentPosition, uuid);
         // Assert
         Assertions.assertNull(result);
-
-        verify(lineRepository, times(1)).save(any());
-        verify(positionRepository, times(1)).save(any());
     }
 
     @Test

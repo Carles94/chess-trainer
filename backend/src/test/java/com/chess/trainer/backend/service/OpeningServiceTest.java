@@ -58,6 +58,7 @@ class OpeningServiceTest {
         Assertions.assertNotNull(result.getUuid());
         Assertions.assertEquals(1, result.getPositionList().size());
         Assertions.assertEquals(Constants.INITIAL_FEN, result.getPositionList().get(0).getFenPosition());
+        Assertions.assertEquals(result.getUuid(), result.getPositionList().get(0).getLineUuid());
         Assertions.assertTrue(result.getPositionList().get(0).getMoveList().isEmpty());
 
         verify(lineRepository).save(result);
@@ -95,6 +96,7 @@ class OpeningServiceTest {
         Assertions.assertNotNull(result.getUuid());
         Assertions.assertEquals(1, result.getPositionList().size());
         Assertions.assertEquals(Constants.INITIAL_FEN, result.getPositionList().get(0).getFenPosition());
+        Assertions.assertEquals(result.getUuid(), result.getPositionList().get(0).getLineUuid());
         Assertions.assertTrue(result.getPositionList().get(0).getMoveList().isEmpty());
 
         verify(lineRepository).save(result);

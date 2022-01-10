@@ -25,16 +25,6 @@ public class LineService {
     public LineService(LineRepository lineRepository, PositionRepository positionRepository) {
         this.lineRepository = lineRepository;
         this.positionRepository = positionRepository;
-        // TODO always init a new Line with this position
-        Line line = new Line();
-        line.setUuid(UUID.fromString("53f93e7c-4d34-433a-b0d2-824f134a9829"));
-        Position position = new Position();
-        position.setFenPosition(Constants.INITIAL_FEN);
-        position.setMoveList(new ArrayList<>());
-        positionRepository.save(position);
-        line.setPositionList(Collections.singletonList(position));
-        line.setColor(Constants.WHITE);
-        lineRepository.save(line);
     }
 
     public Position getPositionFromLineByFen(String fenPosition, UUID lineUuid) {
@@ -42,14 +32,15 @@ public class LineService {
         return LineUtils.getPositionFromLineByFen(fenPosition, line);
     }
 
-    public Position addMove(MoveEvent moveToAdd, Position currentPosition, UUID uuid) {
+    public Position addMove(MoveEvent moveToAdd, Position currentPosition, UUID lineUuid) {
         // Creates a new position and add to line
-        Line line = lineRepository.findById(uuid).get();
+        Line line = lineRepository.findById(lineUuid).get();
         Position futureCurrentPosition;
         if (LineUtils.canAddMove(moveToAdd.getMove(), currentPosition.getFenPosition(), moveToAdd.getColor(), line)) {
             if (!LineUtils.existsPositionInLine(moveToAdd.getFen(), line)) {
                 futureCurrentPosition = new Position();
                 futureCurrentPosition.setFenPosition(moveToAdd.getFen());
+                futureCurrentPosition.setLineUuid(lineUuid);
                 futureCurrentPosition.setMoveList(new ArrayList<>());
                 line.getPositionList().add(futureCurrentPosition);
                 positionRepository.save(futureCurrentPosition);
