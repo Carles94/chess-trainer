@@ -15,7 +15,9 @@ export class ManageOpeningComponent implements OnInit {
   public lineUuid: string = '';
   public openingList: Opening[] = [];
   constructor(private http: HttpClient) {
-    HttpUtils.getOpenings(this.http).subscribe((returnedOpenings) => (this.openingList = returnedOpenings));
+    HttpUtils.getOpenings(this.http).subscribe((returnedOpenings) => {
+      this.openingList = [...returnedOpenings];
+    });
   }
 
   ngOnInit(): void {}
@@ -31,9 +33,11 @@ export class ManageOpeningComponent implements OnInit {
       lineName: 'lineName',
       openingName: 'openingName',
     };
-    HttpUtils.postCreateLine(body, this.http).subscribe((line) => console.log(line));
-    HttpUtils.getOpenings(this.http).subscribe((returnedOpenings) => (this.openingList = returnedOpenings));
-    // TODO fix openings doesnt show
+    HttpUtils.postCreateLine(body, this.http).subscribe((line) =>
+      HttpUtils.getOpenings(this.http).subscribe((returnedOpenings) => {
+        this.openingList = [...returnedOpenings];
+      })
+    );
   }
 
   handleRename(): void {

@@ -33,7 +33,7 @@ export class HttpUtils {
   }
 
   static getOpenings(http: HttpClient): Observable<any> {
-    return http.post(`${environment.apiUrl}/openings`, {
+    return http.get(`${environment.apiUrl}/openings`, {
       responseType: 'json',
     });
   }

@@ -30,10 +30,7 @@ export class SelectOpeningComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.whiteOpeningList = this.openingList.filter((opening) => opening.color === WHITE);
-    this.blackOpeningList = this.openingList.filter((opening) => opening.color === BLACK);
-  }
+  ngOnInit(): void {}
 
   public ngAfterViewInit(): void {
     this.showWhiteOpeningsQueryList.changes.subscribe((comps: QueryList<ShowOpeningsComponent>) => {
@@ -46,6 +43,8 @@ export class SelectOpeningComponent implements OnInit {
 
   handleSelectColor(event: any): void {
     this.selectedColor = event.option.value;
+    this.whiteOpeningList = this.openingList.filter((opening) => opening.color === WHITE);
+    this.blackOpeningList = this.openingList.filter((opening) => opening.color === BLACK);
     if (this.showBlackOpenings) {
       this.showBlackOpenings.resetSelection();
     }
