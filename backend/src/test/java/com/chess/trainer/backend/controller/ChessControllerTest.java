@@ -2,7 +2,6 @@ package com.chess.trainer.backend.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -138,6 +137,21 @@ class ChessControllerTest {
         List<Opening> result = chessController.getOpenings();
         // Assert
         verify(openingService).getOpenings();
+        Assertions.assertEquals(expectedResult, result);
+    }
+
+    @Test
+    void testDeleteLine() {
+        // Arrange
+        List<Opening> expectedResult = new ArrayList<>();
+        Opening opening = new Opening();
+        expectedResult.add(opening);
+        String uuid = "lineUuid";
+        when(openingService.deleteLine(uuid)).thenReturn(expectedResult);
+        // Act
+        List<Opening> result = chessController.deleteLine(uuid);
+        // Assert
+        verify(openingService).deleteLine(uuid);
         Assertions.assertEquals(expectedResult, result);
     }
 }

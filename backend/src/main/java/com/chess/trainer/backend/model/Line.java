@@ -19,6 +19,6 @@ public class Line {
     private UUID uuid;
     private String name;
     private String color;
-    @OneToMany(targetEntity = Position.class, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Position.class, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Position> positionList;
 }
