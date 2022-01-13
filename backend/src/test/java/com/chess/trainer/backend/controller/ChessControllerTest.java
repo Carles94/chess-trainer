@@ -2,6 +2,7 @@ package com.chess.trainer.backend.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -147,11 +148,11 @@ class ChessControllerTest {
         Opening opening = new Opening();
         expectedResult.add(opening);
         String uuid = "lineUuid";
-        when(openingService.deleteLine(uuid)).thenReturn(expectedResult);
+        when(openingService.deleteLine(eq(uuid), anyString())).thenReturn(expectedResult);
         // Act
         List<Opening> result = chessController.deleteLine(uuid);
         // Assert
-        verify(openingService).deleteLine(uuid);
+        verify(openingService).deleteLine(eq(uuid), anyString());
         Assertions.assertEquals(expectedResult, result);
     }
 }

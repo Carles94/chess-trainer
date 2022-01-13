@@ -1,12 +1,15 @@
 package com.chess.trainer.backend.service;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.chess.trainer.backend.constant.Constants;
 import com.chess.trainer.backend.model.Line;
@@ -120,6 +123,46 @@ class OpeningServiceTest {
         // Act
         List<Opening> result = openingService.getOpenings();
         // Assert
+        Assertions.assertEquals(openingList, result);
+    }
+
+    @Test
+    public void testDeleteLineAndOpening() {
+        // Arrange
+        String lineUuid = UUID.randomUUID().toString();
+        String openingName = "openingName";
+        Opening opening = new Opening();
+        opening.setLineList(new ArrayList<>());
+        List<Opening> openingList = new ArrayList<>();
+        openingList.add(new Opening());
+        when(openingRepository.existsById(openingName)).thenReturn(true);
+        when(openingRepository.findById(openingName)).thenReturn(Optional.of(opening));
+        when(openingRepository.findAll()).thenReturn(openingList);
+        // Act
+        List<Opening> result = openingService.deleteLine(lineUuid, openingName);
+        // Assert
+        verify(lineRepository).deleteById(UUID.fromString(lineUuid));
+        verify(openingRepository).deleteById(openingName);
+        Assertions.assertEquals(openingList, result);
+    }
+
+    @Test
+    public void testDeleteLine() {
+        // Arrange
+        String lineUuid = UUID.randomUUID().toString();
+        String openingName = "openingName";
+        Opening opening = new Opening();
+        opening.setLineList(Collections.singletonList(new Line()));
+        List<Opening> openingList = new ArrayList<>();
+        openingList.add(new Opening());
+        when(openingRepository.existsById(openingName)).thenReturn(true);
+        when(openingRepository.findById(openingName)).thenReturn(Optional.of(opening));
+        when(openingRepository.findAll()).thenReturn(openingList);
+        // Act
+        List<Opening> result = openingService.deleteLine(lineUuid, openingName);
+        // Assert
+        verify(lineRepository).deleteById(UUID.fromString(lineUuid));
+        verify(openingRepository, never()).deleteById(openingName);
         Assertions.assertEquals(openingList, result);
     }
 }

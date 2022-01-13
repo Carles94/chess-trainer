@@ -72,9 +72,14 @@ public class OpeningService {
         return (List<Opening>) openingRepository.findAll();
     }
 
-    public List<Opening> deleteLine(String lineUuid) {
+    public List<Opening> deleteLine(String lineUuid, String openingName) {
+        // TODO check if id exists ?
         lineRepository.deleteById(UUID.fromString(lineUuid));
-        // TODO if the opening is empty, delete opening
+        if (openingRepository.existsById(openingName)) {
+            if (openingRepository.findById(openingName).get().getLineList().size() == 0) {
+                openingRepository.deleteById(openingName);
+            }
+        }
         return getOpenings();
     }
 }

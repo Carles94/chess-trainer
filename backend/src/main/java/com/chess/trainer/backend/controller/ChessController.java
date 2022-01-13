@@ -81,7 +81,8 @@ public class ChessController {
     @DeleteMapping(value = "/line")
     public @ResponseBody List<Opening> deleteLine(@RequestBody String lineUuid) {
         System.out.println("Delete line called with uuid " + lineUuid);
-        List<Opening> result = this.openingService.deleteLine(lineUuid);
+        String openingName = "openingName";
+        List<Opening> result = this.openingService.deleteLine(lineUuid, openingName);
         return result;
     }
 
