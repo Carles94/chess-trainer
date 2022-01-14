@@ -18,8 +18,11 @@ export class SelectOpeningComponent implements OnInit {
   public showBlackOpeningsQueryList!: QueryList<ShowOpeningsComponent>;
   @Output('selectLine')
   public selectLineEmitter: EventEmitter<Line> = new EventEmitter();
-  @Input('openings')
   public openingList: Opening[] = [];
+  @Input('openings') set openingListInput(value: Opening[]) {
+    this.openingList = [...value];
+    this.updateOpenings();
+  }
   public WHITE = WHITE;
   public BLACK = BLACK;
   public whiteOpeningList: Opening[] = [];
@@ -43,8 +46,7 @@ export class SelectOpeningComponent implements OnInit {
 
   handleSelectColor(event: any): void {
     this.selectedColor = event.option.value;
-    this.whiteOpeningList = this.openingList.filter((opening) => opening.color === WHITE);
-    this.blackOpeningList = this.openingList.filter((opening) => opening.color === BLACK);
+    this.updateOpenings();
     if (this.showBlackOpenings) {
       this.showBlackOpenings.resetSelection();
     }
@@ -55,5 +57,10 @@ export class SelectOpeningComponent implements OnInit {
 
   handleSelectLine(line: Line): void {
     this.selectLineEmitter.emit(line);
+  }
+
+  updateOpenings(): void {
+    this.whiteOpeningList = this.openingList.filter((opening) => opening.color === WHITE);
+    this.blackOpeningList = this.openingList.filter((opening) => opening.color === BLACK);
   }
 }

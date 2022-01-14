@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { WHITE } from '../common/model/constant/constant';
 import { CreateLineBody } from '../common/model/interface/create-line-body';
 import { Line } from '../common/model/interface/line';
@@ -14,7 +14,7 @@ import { HttpUtils } from '../common/utils/http-utils';
 export class ManageOpeningComponent implements OnInit {
   public lineUuid: string = '';
   public openingList: Opening[] = [];
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private detector: ChangeDetectorRef) {
     HttpUtils.getOpenings(this.http).subscribe((returnedOpenings) => {
       this.openingList = [...returnedOpenings];
     });
@@ -24,6 +24,10 @@ export class ManageOpeningComponent implements OnInit {
 
   handleRemove(): void {
     console.log('Remove opening');
+    HttpUtils.deleteLine(this.lineUuid, this.http).subscribe((returnedOpenings) => {
+      this.openingList = [...returnedOpenings];
+    });
+    this.lineUuid = '';
   }
 
   handleAdd(): void {

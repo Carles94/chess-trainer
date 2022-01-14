@@ -38,6 +38,13 @@ export class HttpUtils {
     });
   }
 
+  static deleteLine(body: string, http: HttpClient): Observable<any> {
+    return http.request('DELETE', `${environment.apiUrl}/line`, {
+      responseType: 'json',
+      body: body,
+    });
+  }
+
   private static replaceAll(str: string, find: string, replace: string): string {
     return str.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
   }

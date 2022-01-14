@@ -1,3 +1,4 @@
+{{openingList}}
 <mat-selection-list [multiple]="false" (selectionChange)="handleSelectOpening($event)">
     <mat-list-option *ngFor="let opening of openingList" [value]="opening">
         {{opening.name}}

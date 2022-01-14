@@ -73,12 +73,12 @@ public class OpeningService {
     }
 
     public List<Opening> deleteLine(String lineUuid, String openingName) {
-        // TODO check if id exists ?
+        Opening currentOpening = openingRepository.findById(openingName).get();
+        currentOpening.getLineList().removeIf((line) -> UUID.fromString(lineUuid).equals(line.getUuid()));
+        openingRepository.save(currentOpening);
         lineRepository.deleteById(UUID.fromString(lineUuid));
-        if (openingRepository.existsById(openingName)) {
-            if (openingRepository.findById(openingName).get().getLineList().size() == 0) {
-                openingRepository.deleteById(openingName);
-            }
+        if (currentOpening.getLineList().size() == 0) {
+            openingRepository.deleteById(openingName);
         }
         return getOpenings();
     }
