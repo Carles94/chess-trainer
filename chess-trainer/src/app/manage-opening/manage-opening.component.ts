@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { WHITE } from '../common/model/constant/constant';
 import { CreateLineBody } from '../common/model/interface/create-line-body';
 import { Line } from '../common/model/interface/line';
 import { Opening } from '../common/model/interface/opening';
 import { HttpUtils } from '../common/utils/http-utils';
+import { CreateLineDialogComponent } from './create-line-dialog/create-line-dialog.component';
 
 @Component({
   selector: 'app-manage-opening',
@@ -14,7 +16,7 @@ import { HttpUtils } from '../common/utils/http-utils';
 export class ManageOpeningComponent implements OnInit {
   public lineUuid: string = '';
   public openingList: Opening[] = [];
-  constructor(private http: HttpClient, private detector: ChangeDetectorRef) {
+  constructor(private http: HttpClient, private dialog: MatDialog) {
     HttpUtils.getOpenings(this.http).subscribe((returnedOpenings) => {
       this.openingList = [...returnedOpenings];
     });
@@ -31,17 +33,22 @@ export class ManageOpeningComponent implements OnInit {
   }
 
   handleAdd(): void {
-    console.log('Add line');
-    let body: CreateLineBody = {
-      lineColor: WHITE,
-      lineName: 'lineName',
-      openingName: 'openingName',
-    };
-    HttpUtils.postCreateLine(body, this.http).subscribe((line) =>
-      HttpUtils.getOpenings(this.http).subscribe((returnedOpenings) => {
-        this.openingList = [...returnedOpenings];
-      })
-    );
+    const dialogRef = this.dialog.open(CreateLineDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      console.log(result);
+      let body: CreateLineBody = {
+        lineColor: WHITE,
+        lineName: 'lineName',
+        openingName: 'openingName',
+      };
+      HttpUtils.postCreateLine(body, this.http).subscribe((line) =>
+        HttpUtils.getOpenings(this.http).subscribe((returnedOpenings) => {
+          this.openingList = [...returnedOpenings];
+        })
+      );
+    });
   }
 
   handleRename(): void {

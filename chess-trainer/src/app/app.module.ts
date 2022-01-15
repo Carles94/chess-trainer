@@ -9,7 +9,7 @@ import { EditionBoardComponent } from './edition-board/edition-board.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { EditionVerticalPanelComponent } from './edition-board/edition-vertical-panel/edition-vertical-panel.component';
 import { EditionFooterPanelComponent } from './edition-board/edition-footer-panel/edition-footer-panel.component';
@@ -21,6 +21,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { SelectOpeningComponent } from './common/component/select-opening/select-opening.component';
 import { ManageOpeningComponent } from './manage-opening/manage-opening.component';
 import { ShowOpeningsComponent } from './common/component/select-opening/show-openings/show-openings.component';
+import { CreateLineDialogComponent } from './manage-opening/create-line-dialog/create-line-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ShowOpeningsComponent } from './common/component/select-opening/show-op
     SelectOpeningComponent,
     ManageOpeningComponent,
     ShowOpeningsComponent,
+    CreateLineDialogComponent,
   ],
   imports: [
     BrowserModule,
