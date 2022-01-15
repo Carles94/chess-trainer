@@ -1,4 +1,24 @@
-<h2 mat-dialog-title>Create line</h2>
-<mat-dialog-content class="mat-typography">
-    create-line-dialog works!
-</mat-dialog-content>
+<form [formGroup]="form" (ngSubmit)="submit(form)">
+    <h3 mat-dialog-title>Select a color, an opening name and a line name</h3>
+    <mat-dialog-content class="mat-typography">
+    <div>
+        <label>Select the color</label>
+        <mat-radio-group [formControl]="colorControl">
+            <mat-radio-button [value]="WHITE">{{WHITE}}</mat-radio-button>
+            <mat-radio-button [value]="BLACK">{{BLACK}}</mat-radio-button>
+        </mat-radio-group>
+        </div>
+        <mat-form-field appearance="fill">
+        <mat-label>Enter your line name</mat-label>
+        <input matInput [formControl]="lineNameControl" required>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+        <mat-label>Enter your opening name</mat-label>
+        <input matInput [formControl]="openingNameControl" required>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-button [disabled]="form.invalid" type="submit">OK</button>
+    </mat-dialog-actions>
+</form>

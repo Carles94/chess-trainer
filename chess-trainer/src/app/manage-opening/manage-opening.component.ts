@@ -36,18 +36,14 @@ export class ManageOpeningComponent implements OnInit {
     const dialogRef = this.dialog.open(CreateLineDialogComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       console.log(result);
-      let body: CreateLineBody = {
-        lineColor: WHITE,
-        lineName: 'lineName',
-        openingName: 'openingName',
-      };
-      HttpUtils.postCreateLine(body, this.http).subscribe((line) =>
-        HttpUtils.getOpenings(this.http).subscribe((returnedOpenings) => {
-          this.openingList = [...returnedOpenings];
-        })
-      );
+      if (result) {
+        HttpUtils.postCreateLine(result, this.http).subscribe((line) =>
+          HttpUtils.getOpenings(this.http).subscribe((returnedOpenings) => {
+            this.openingList = [...returnedOpenings];
+          })
+        );
+      }
     });
   }
 

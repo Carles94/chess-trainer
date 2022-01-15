@@ -22,6 +22,10 @@ import { SelectOpeningComponent } from './common/component/select-opening/select
 import { ManageOpeningComponent } from './manage-opening/manage-opening.component';
 import { ShowOpeningsComponent } from './common/component/select-opening/show-openings/show-openings.component';
 import { CreateLineDialogComponent } from './manage-opening/create-line-dialog/create-line-dialog.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -49,6 +53,11 @@ import { CreateLineDialogComponent } from './manage-opening/create-line-dialog/c
     BrowserAnimationsModule,
     HttpClientModule,
     MatButtonToggleModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatRadioModule,
+    MatInputModule,
   ],
   providers: [MovePipe],
   bootstrap: [AppComponent],
