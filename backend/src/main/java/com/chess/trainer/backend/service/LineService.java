@@ -1,10 +1,8 @@
 package com.chess.trainer.backend.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.UUID;
 
-import com.chess.trainer.backend.constant.Constants;
 import com.chess.trainer.backend.model.Line;
 import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;

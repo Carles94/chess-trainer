@@ -18,6 +18,8 @@ export class SelectOpeningComponent implements OnInit {
   public showBlackOpeningsQueryList!: QueryList<ShowOpeningsComponent>;
   @Output('selectLine')
   public selectLineEmitter: EventEmitter<Line> = new EventEmitter();
+  @Output('selectOpening')
+  public selectOpeningEmitter: EventEmitter<Opening> = new EventEmitter();
   public openingList: Opening[] = [];
   @Input('openings') set openingListInput(value: Opening[]) {
     this.openingList = [...value];
@@ -57,6 +59,10 @@ export class SelectOpeningComponent implements OnInit {
 
   handleSelectLine(line: Line): void {
     this.selectLineEmitter.emit(line);
+  }
+
+  handleSelectOpening(opening: Opening): void {
+    this.selectOpeningEmitter.emit(opening);
   }
 
   updateOpenings(): void {

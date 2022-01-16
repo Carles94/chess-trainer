@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CreateLineBody } from '../model/interface/create-line-body';
+import { DeleteLineBody } from '../model/interface/delete-line-body';
 import { DeleteMoveBody } from '../model/interface/delete-move-body';
 import { PostMoveBody } from '../model/interface/post-move-body';
 
@@ -38,7 +39,7 @@ export class HttpUtils {
     });
   }
 
-  static deleteLine(body: string, http: HttpClient): Observable<any> {
+  static deleteLine(body: DeleteLineBody, http: HttpClient): Observable<any> {
     return http.request('DELETE', `${environment.apiUrl}/line`, {
       responseType: 'json',
       body: body,

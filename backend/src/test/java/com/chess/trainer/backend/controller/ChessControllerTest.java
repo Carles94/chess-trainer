@@ -2,7 +2,6 @@ package com.chess.trainer.backend.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -12,6 +11,7 @@ import java.util.UUID;
 
 import com.chess.trainer.backend.constant.Constants;
 import com.chess.trainer.backend.model.CreateLineBody;
+import com.chess.trainer.backend.model.DeleteLineBody;
 import com.chess.trainer.backend.model.DeleteMoveBody;
 import com.chess.trainer.backend.model.Line;
 import com.chess.trainer.backend.model.Move;
@@ -147,12 +147,16 @@ class ChessControllerTest {
         List<Opening> expectedResult = new ArrayList<>();
         Opening opening = new Opening();
         expectedResult.add(opening);
+        DeleteLineBody deleteLineBody = new DeleteLineBody();
         String uuid = "lineUuid";
-        when(openingService.deleteLine(eq(uuid), anyString())).thenReturn(expectedResult);
+        deleteLineBody.setLineUuid(uuid);
+        String openingName = "openingName";
+        deleteLineBody.setOpeningName(openingName);
+        when(openingService.deleteLine(uuid, openingName)).thenReturn(expectedResult);
         // Act
-        List<Opening> result = chessController.deleteLine(uuid);
+        List<Opening> result = chessController.deleteLine(deleteLineBody);
         // Assert
-        verify(openingService).deleteLine(eq(uuid), anyString());
+        verify(openingService).deleteLine(uuid, openingName);
         Assertions.assertEquals(expectedResult, result);
     }
 }

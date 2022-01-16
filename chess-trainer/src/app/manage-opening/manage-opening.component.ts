@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { WHITE } from '../common/model/constant/constant';
-import { CreateLineBody } from '../common/model/interface/create-line-body';
+import { DeleteLineBody } from '../common/model/interface/delete-line-body';
 import { Line } from '../common/model/interface/line';
 import { Opening } from '../common/model/interface/opening';
 import { HttpUtils } from '../common/utils/http-utils';
@@ -14,8 +13,10 @@ import { CreateLineDialogComponent } from './create-line-dialog/create-line-dial
   styleUrls: ['./manage-opening.component.scss'],
 })
 export class ManageOpeningComponent implements OnInit {
-  public lineUuid: string = '';
   public openingList: Opening[] = [];
+  public selectedLineUuid: string = '';
+  private selectedOpeningName: string = '';
+
   constructor(private http: HttpClient, private dialog: MatDialog) {
     HttpUtils.getOpenings(this.http).subscribe((returnedOpenings) => {
       this.openingList = [...returnedOpenings];
@@ -24,19 +25,24 @@ export class ManageOpeningComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  handleRemove(): void {
-    console.log('Remove opening');
-    HttpUtils.deleteLine(this.lineUuid, this.http).subscribe((returnedOpenings) => {
+  handleDelete(): void {
+    console.log('Delete line');
+    let body: DeleteLineBody = {
+      lineUuid: this.selectedLineUuid,
+      openingName: this.selectedOpeningName,
+    };
+    HttpUtils.deleteLine(body, this.http).subscribe((returnedOpenings) => {
       this.openingList = [...returnedOpenings];
     });
-    this.lineUuid = '';
+    this.selectedLineUuid = '';
   }
 
   handleAdd(): void {
+    // TODO add a check in order to not add  2 lines with the same name
+    // TODO there is a problem when you add 2  lines on the same opening
     const dialogRef = this.dialog.open(CreateLineDialogComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
       if (result) {
         HttpUtils.postCreateLine(result, this.http).subscribe((line) =>
           HttpUtils.getOpenings(this.http).subscribe((returnedOpenings) => {
@@ -56,6 +62,10 @@ export class ManageOpeningComponent implements OnInit {
   }
 
   handleSelectLine(line: Line) {
-    this.lineUuid = line.uuid;
+    this.selectedLineUuid = line.uuid;
+  }
+
+  handleSelectOpening(opening: Opening) {
+    this.selectedOpeningName = opening.name;
   }
 }

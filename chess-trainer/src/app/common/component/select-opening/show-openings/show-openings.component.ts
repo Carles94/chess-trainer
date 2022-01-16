@@ -14,6 +14,8 @@ export class ShowOpeningsComponent implements OnInit {
   selectedLineList: Line[] = [];
   @Output('selectedLine')
   selectedLineEmitter: EventEmitter<Line> = new EventEmitter();
+  @Output('selectedOpening')
+  selectedOpeningEmitter: EventEmitter<Opening> = new EventEmitter();
 
   constructor() {}
 
@@ -21,7 +23,8 @@ export class ShowOpeningsComponent implements OnInit {
 
   handleSelectOpening(event: any): void {
     this.selectedOpening = event.option.value.name;
-    this.selectedLineList = this.openingList[0].lineList;
+    this.selectedLineList = event.option.value.lineList;
+    this.selectedOpeningEmitter.emit(event.option.value);
   }
 
   handleSelectLine(event: any): void {

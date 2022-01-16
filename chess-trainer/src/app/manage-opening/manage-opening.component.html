@@ -1,7 +1,7 @@
 <h1>Manage openings</h1>
-<app-select-opening [openings]="openingList" (selectLine)="handleSelectLine($event)"></app-select-opening>
-<button mat-button [disabled]="!lineUuid" (click)="handleRemove()">REMOVE OPENING</button>
-<button mat-button [disabled]="!lineUuid" (click)="handleCopy()">COPY OPENING</button>
-<button mat-button [disabled]="!lineUuid" (click)="handleRename()">RENAME OPENING</button>
-<button mat-button [disabled]="!lineUuid" [routerLink]="['/edition-board']" [queryParams]="{lineUuid:lineUuid}">EDIT OPENING</button>
+<app-select-opening [openings]="openingList"(selectOpening)="handleSelectOpening($event)" (selectLine)="handleSelectLine($event)"></app-select-opening>
+<button mat-button [disabled]="!selectedLineUuid" (click)="handleDelete()">REMOVE OPENING</button>
+<button mat-button [disabled]="!selectedLineUuid" (click)="handleCopy()">COPY OPENING</button>
+<button mat-button [disabled]="!selectedLineUuid" (click)="handleRename()">RENAME OPENING</button>
+<button mat-button [disabled]="!selectedLineUuid" [routerLink]="['/edition-board']" [queryParams]="{lineUuid:selectedLineUuid}">EDIT OPENING</button>
 <button mat-button (click)="handleAdd()">ADD OPENING</button>

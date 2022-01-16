@@ -1,10 +1,10 @@
 package com.chess.trainer.backend.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import com.chess.trainer.backend.model.CreateLineBody;
+import com.chess.trainer.backend.model.DeleteLineBody;
 import com.chess.trainer.backend.model.DeleteMoveBody;
 import com.chess.trainer.backend.model.Line;
 import com.chess.trainer.backend.model.Opening;
@@ -79,10 +79,11 @@ public class ChessController {
     }
 
     @DeleteMapping(value = "/line")
-    public @ResponseBody List<Opening> deleteLine(@RequestBody String lineUuid) {
-        System.out.println("Delete line called with uuid " + lineUuid);
-        String openingName = "openingName";
-        List<Opening> result = this.openingService.deleteLine(lineUuid, openingName);
+    public @ResponseBody List<Opening> deleteLine(@RequestBody DeleteLineBody deleteLineBody) {
+        System.out.println("Delete line called with uuid " + deleteLineBody.getLineUuid() + " and "
+                + deleteLineBody.getOpeningName());
+        List<Opening> result = this.openingService.deleteLine(deleteLineBody.getLineUuid(),
+                deleteLineBody.getOpeningName());
         return result;
     }
 
