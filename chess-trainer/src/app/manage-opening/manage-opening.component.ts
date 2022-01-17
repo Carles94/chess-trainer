@@ -39,7 +39,6 @@ export class ManageOpeningComponent implements OnInit {
 
   handleAdd(): void {
     // TODO add a check in order to not add  2 lines with the same name
-    // TODO there is a problem when you add 2  lines on the same opening
     const dialogRef = this.dialog.open(CreateLineDialogComponent);
 
     dialogRef.afterClosed().subscribe((result) => {

@@ -60,14 +60,16 @@ public class OpeningService {
         lineOpening.getLineList().add(result);
 
         // Update database
-        positionRepository.save(initialPosition);
+        // TODO I can't understand why it only works if the opening don't exists
+        if (!openingRepository.existsById(openingName)) {
+            positionRepository.save(initialPosition);
+        }
         result = lineRepository.save(result);
         openingRepository.save(lineOpening);
-
         return result;
     }
 
-    // TODO change when user are implemented
+    // TODO change when users are implemented
     public List<Opening> getOpenings() {
         return (List<Opening>) openingRepository.findAll();
     }
