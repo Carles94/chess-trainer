@@ -52,14 +52,6 @@ export class ManageOpeningComponent implements OnInit {
     });
   }
 
-  handleRename(): void {
-    console.log('Rename opening');
-  }
-
-  handleCopy(): void {
-    console.log('Copy opening');
-  }
-
   handleSelectLine(line: Line) {
     this.selectedLineUuid = line.uuid;
   }

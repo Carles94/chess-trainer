@@ -26,6 +26,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
+import { MainUserComponent } from './main-user/main-user.component';
+import { PracticeOpeningComponent } from './practice-opening/practice-opening.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { MatInputModule } from '@angular/material/input';
     ManageOpeningComponent,
     ShowOpeningsComponent,
     CreateLineDialogComponent,
+    MainUserComponent,
+    PracticeOpeningComponent,
   ],
   imports: [
     BrowserModule,
