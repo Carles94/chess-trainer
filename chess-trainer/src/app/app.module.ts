@@ -28,6 +28,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
 import { MainUserComponent } from './main-user/main-user.component';
 import { PracticeOpeningComponent } from './practice-opening/practice-opening.component';
+import { PracticeBoardComponent } from './practice-board/practice-board.component';
+import { CardsBoardComponent } from './cards-board/cards-board.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { PracticeOpeningComponent } from './practice-opening/practice-opening.co
     CreateLineDialogComponent,
     MainUserComponent,
     PracticeOpeningComponent,
+    PracticeBoardComponent,
+    CardsBoardComponent,
   ],
   imports: [
     BrowserModule,

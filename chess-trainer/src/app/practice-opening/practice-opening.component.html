@@ -1,1 +1,6 @@
-<p>practice-opening works!</p>
+<h2>Practice opening</h2>
+<app-select-opening  [openings]="openingList"(selectOpening)="handleSelectOpening($event)" (selectLine)="handleSelectLine($event)"></app-select-opening>
+<div>
+    <button mat-button [disabled]="!selectedLineUuid" [routerLink]="['/practice-board']" [queryParams]="{lineUuid:selectedLineUuid}">Practice</button>
+    <button mat-button [disabled]="!selectedLineUuid" [routerLink]="['/cards-board']" [queryParams]="{lineUuid:selectedLineUuid}" >Cards</button>
+</div>
