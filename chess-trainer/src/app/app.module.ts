@@ -30,6 +30,7 @@ import { MainUserComponent } from './main-user/main-user.component';
 import { PracticeOpeningComponent } from './practice-opening/practice-opening.component';
 import { PracticeBoardComponent } from './practice-board/practice-board.component';
 import { CardsBoardComponent } from './cards-board/cards-board.component';
+import { PracticeFooterPanelComponent } from './practice-board/practice-footer-panel/practice-footer-panel.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { CardsBoardComponent } from './cards-board/cards-board.component';
     PracticeOpeningComponent,
     PracticeBoardComponent,
     CardsBoardComponent,
+    PracticeFooterPanelComponent,
   ],
   imports: [
     BrowserModule,
