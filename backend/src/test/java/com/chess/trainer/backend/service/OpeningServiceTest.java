@@ -6,7 +6,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,6 +13,7 @@ import java.util.UUID;
 import com.chess.trainer.backend.constant.Constants;
 import com.chess.trainer.backend.model.Line;
 import com.chess.trainer.backend.model.Opening;
+import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.repository.LineRepository;
 import com.chess.trainer.backend.repository.OpeningRepository;
 import com.chess.trainer.backend.repository.PositionRepository;
@@ -111,7 +111,7 @@ class OpeningServiceTest {
         Assertions.assertEquals(2, opening.getLineList().size());
         Assertions.assertEquals(result, opening.getLineList().get(1));
 
-        verify(positionRepository).save(result.getPositionList().get(0));
+        verify(positionRepository, never()).save(any(Position.class));
     }
 
     @Test
@@ -135,7 +135,6 @@ class OpeningServiceTest {
         opening.setLineList(new ArrayList<>());
         List<Opening> openingList = new ArrayList<>();
         openingList.add(new Opening());
-        when(openingRepository.existsById(openingName)).thenReturn(true);
         when(openingRepository.findById(openingName)).thenReturn(Optional.of(opening));
         when(openingRepository.findAll()).thenReturn(openingList);
         // Act
@@ -152,10 +151,11 @@ class OpeningServiceTest {
         String lineUuid = UUID.randomUUID().toString();
         String openingName = "openingName";
         Opening opening = new Opening();
-        opening.setLineList(Collections.singletonList(new Line()));
+        List<Line> lineList = new ArrayList<>();
+        lineList.add(new Line());
+        opening.setLineList(lineList);
         List<Opening> openingList = new ArrayList<>();
         openingList.add(new Opening());
-        when(openingRepository.existsById(openingName)).thenReturn(true);
         when(openingRepository.findById(openingName)).thenReturn(Optional.of(opening));
         when(openingRepository.findAll()).thenReturn(openingList);
         // Act
