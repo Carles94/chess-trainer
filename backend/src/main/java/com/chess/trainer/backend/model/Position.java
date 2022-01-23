@@ -22,4 +22,6 @@ public class Position {
     private UUID lineUuid;
     @ElementCollection
     private List<Move> moveList;
+    private int totalAnswers;
+    private int correctAnswers;
 }
