@@ -12,6 +12,7 @@ import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.model.PostMoveBody;
 import com.chess.trainer.backend.service.LineService;
 import com.chess.trainer.backend.service.OpeningService;
+import com.chess.trainer.backend.service.PositionService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,10 +31,12 @@ public class ChessController {
 
     private LineService lineService;
     private OpeningService openingService;
+    private PositionService positionService;
 
-    public ChessController(LineService lineService, OpeningService openingService) {
+    public ChessController(LineService lineService, OpeningService openingService, PositionService positionService) {
         this.lineService = lineService;
         this.openingService = openingService;
+        this.positionService = positionService;
     }
 
     @GetMapping(value = "/position/{lineUuid}/{fenPosition}")
@@ -87,4 +90,14 @@ public class ChessController {
         return result;
     }
 
+    @PostMapping(value = "/position")
+    public @ResponseBody Position updatePosition(@RequestBody PostMoveBody postMoveBody) {
+        System.out.println("Update position called with uuid " + postMoveBody.getLineUuid() + ", "
+                + postMoveBody.getCurrentPosition() + " and "
+                + postMoveBody.getMoveEvent());
+        Position result = this.positionService.updatePosition(postMoveBody.getMoveEvent(),
+                postMoveBody.getCurrentPosition(),
+                UUID.fromString(postMoveBody.getLineUuid()));
+        return result;
+    }
 }

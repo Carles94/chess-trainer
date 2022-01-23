@@ -21,6 +21,7 @@ import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.model.PostMoveBody;
 import com.chess.trainer.backend.service.LineService;
 import com.chess.trainer.backend.service.OpeningService;
+import com.chess.trainer.backend.service.PositionService;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,12 +39,15 @@ class ChessControllerTest {
     // Mocks
     private LineService lineService;
     private OpeningService openingService;
+    private PositionService positionService;
 
     @BeforeEach
-    public void init(@Mock LineService lineService, @Mock OpeningService openingService) {
+    public void init(@Mock LineService lineService, @Mock OpeningService openingService,
+            @Mock PositionService positionService) {
         this.lineService = lineService;
         this.openingService = openingService;
-        chessController = new ChessController(lineService, openingService);
+        this.positionService = positionService;
+        chessController = new ChessController(lineService, openingService, positionService);
     }
 
     @Test
@@ -158,5 +162,25 @@ class ChessControllerTest {
         // Assert
         verify(openingService).deleteLine(uuid, openingName);
         Assertions.assertEquals(expectedResult, result);
+    }
+
+    @Test
+    void testUpdatePosition() {
+        // Arrange
+        MoveEvent moveEvent = new MoveEvent();
+        UUID uuid = UUID.randomUUID();
+        var currentPosition = new Position();
+        currentPosition.setFenPosition(Constants.INITIAL_FEN);
+        var expectedPosition = new Position();
+        PostMoveBody postMoveBody = new PostMoveBody();
+        postMoveBody.setCurrentPosition(currentPosition);
+        postMoveBody.setMoveEvent(moveEvent);
+        postMoveBody.setLineUuid(uuid.toString());
+        when(positionService.updatePosition(moveEvent, currentPosition, uuid)).thenReturn(expectedPosition);
+        // Act
+        Position result = chessController.updatePosition(postMoveBody);
+        // Assert
+        verify(positionService).updatePosition(moveEvent, currentPosition, uuid);
+        Assertions.assertEquals(expectedPosition, result);
     }
 }

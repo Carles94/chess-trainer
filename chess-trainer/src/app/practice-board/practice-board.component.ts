@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BoardComponent } from '../common/component/board/board.component';
@@ -34,13 +35,12 @@ export class PracticeBoardComponent implements OnInit {
 
   public handlePieceMoved(event: MoveEvent): void {
     const body: PostMoveBody = {
-      moveEvent: { ...event, moveToShow: '' },
+      moveEvent: { ...event },
       currentPosition: this.currentPosition,
       lineUuid: this.lineUuid,
     };
-    // TODO add logic here
-
-    HttpUtils.postMoveEvent(body, this.http).subscribe((position: any) => {
+    // Update position using the move
+    HttpUtils.updatePosition(body, this.http).subscribe((position: any) => {
       this.currentPosition = position;
     });
   }
