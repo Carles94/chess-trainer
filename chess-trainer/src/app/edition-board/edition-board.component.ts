@@ -38,6 +38,8 @@ export class EditionBoardComponent implements OnInit {
     this.currentPosition = {
       fenPosition: INITIAL_FEN,
       moveList: [],
+      totalAnswers: 0,
+      correctAnswers: 0,
     };
   }
 

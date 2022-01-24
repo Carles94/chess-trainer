@@ -46,10 +46,9 @@ export class HttpUtils {
     });
   }
 
-  static updatePosition(body: PostMoveBody, http: HttpClient): Observable<any> {
-    return http.post(`${environment.apiUrl}/position`, {
+  static updatePosition(body: PostMoveBody, http: HttpClient): Observable<Object> {
+    return http.post(`${environment.apiUrl}/position`, body, {
       responseType: 'json',
-      body: body,
     });
   }
 

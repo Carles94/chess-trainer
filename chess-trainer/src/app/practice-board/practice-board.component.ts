@@ -39,9 +39,11 @@ export class PracticeBoardComponent implements OnInit {
       currentPosition: this.currentPosition,
       lineUuid: this.lineUuid,
     };
+    console.log(body);
     // Update position using the move
     HttpUtils.updatePosition(body, this.http).subscribe((position: any) => {
       this.currentPosition = position;
+      console.log(position);
     });
   }
 }

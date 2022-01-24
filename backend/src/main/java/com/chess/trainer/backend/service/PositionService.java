@@ -23,7 +23,6 @@ public class PositionService {
                 .anyMatch((move) -> move.getMoveToSend().equals(moveEvent.getMove()))) {
             currentPosition.setCorrectAnswers(currentPosition.getCorrectAnswers() + 1);
         }
-        // TODO test that
         Position result = positionRepository.save(currentPosition);
         return result;
     }
