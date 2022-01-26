@@ -14,6 +14,7 @@ export class PracticeOpeningComponent implements OnInit {
   public openingList: Opening[] = [];
   public selectedLineUuid: string = '';
   private selectedOpeningName: string = '';
+  public selectedLineColor: string = '';
 
   constructor(private http: HttpClient, private dialog: MatDialog) {
     HttpUtils.getOpenings(this.http).subscribe((returnedOpenings) => {
@@ -25,6 +26,7 @@ export class PracticeOpeningComponent implements OnInit {
 
   handleSelectLine(line: Line) {
     this.selectedLineUuid = line.uuid;
+    this.selectedLineColor = line.color;
   }
 
   handleSelectOpening(opening: Opening) {

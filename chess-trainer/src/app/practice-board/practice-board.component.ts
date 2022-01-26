@@ -24,11 +24,16 @@ export class PracticeBoardComponent implements OnInit {
 
   lineUuid = '';
 
+  lineColor = '';
+
   constructor(private http: HttpClient, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     let possibleUuid = this.route.snapshot.queryParamMap.get('lineUuid');
     this.lineUuid = possibleUuid ? possibleUuid : '';
+    let possibleColor = this.route.snapshot.queryParamMap.get('color');
+    this.lineColor = possibleColor ? possibleColor : '';
+
     HttpUtils.getPosition(this.lineUuid, INITIAL_FEN, this.http).subscribe((position: any) => {
       this.currentPosition = position;
     });
@@ -40,10 +45,8 @@ export class PracticeBoardComponent implements OnInit {
       currentPosition: this.currentPosition,
       lineUuid: this.lineUuid,
     };
-    console.log(event);
     let oldCorrectAnswers: number = this.currentPosition.correctAnswers;
-    //  TODO change the color using line.color
-    if (event.color === WHITE) {
+    if (event.color === this.lineColor) {
       // Line color move
       HttpUtils.updatePosition(body, this.http).subscribe((position: any) => {
         this.currentPosition = position;
