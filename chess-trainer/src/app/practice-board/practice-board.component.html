@@ -3,7 +3,11 @@
         <app-board (pieceMoved)="handlePieceMoved($event)"></app-board>
     </mat-grid-tile>
     <mat-grid-tile [colspan]=4 [rowspan] =1>
-        <app-practice-footer-panel  [isVariantEnded]="isVariantEnded" (showAnswer)="handleShowAnswer()" 
+        <app-practice-footer-panel 
+        [position]="currentPosition"
+        [isFailedOneAttempt]="isFailedOneAttempt" 
+        [isVariantEnded]="isVariantEnded"
+         (showAnswer)="handleShowAnswer()" 
         (nextVariant)="handleNextVariant()" 
          (reverse)="handleReverse()"></app-practice-footer-panel>
     </mat-grid-tile>

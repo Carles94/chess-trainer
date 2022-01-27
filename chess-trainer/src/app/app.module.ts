@@ -31,6 +31,7 @@ import { PracticeOpeningComponent } from './practice-opening/practice-opening.co
 import { PracticeBoardComponent } from './practice-board/practice-board.component';
 import { CardsBoardComponent } from './cards-board/cards-board.component';
 import { PracticeFooterPanelComponent } from './practice-board/practice-footer-panel/practice-footer-panel.component';
+import { PracticeShowAnswerDialogComponent } from './practice-board/practice-show-answer-dialog/practice-show-answer-dialog.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { PracticeFooterPanelComponent } from './practice-board/practice-footer-p
     PracticeBoardComponent,
     CardsBoardComponent,
     PracticeFooterPanelComponent,
+    PracticeShowAnswerDialogComponent,
   ],
   imports: [
     BrowserModule,

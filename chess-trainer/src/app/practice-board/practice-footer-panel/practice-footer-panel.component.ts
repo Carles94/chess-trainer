@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Position } from 'src/app/common/model/interface/position';
 
 @Component({
   selector: 'app-practice-footer-panel',
@@ -16,6 +17,21 @@ export class PracticeFooterPanelComponent implements OnInit {
   @Input()
   public isVariantEnded: boolean = false;
 
+  @Input()
+  public isFailedOneAttempt: boolean = false;
+
+  @Input()
+  set position(value: Position) {
+    this._position = value;
+    if (value) {
+      this.correctPercentage = this.calculatePercentage();
+    }
+  }
+
+  public correctPercentage: number = 0;
+
+  private _position!: Position;
+
   constructor() {}
 
   ngOnInit(): void {}
@@ -30,5 +46,12 @@ export class PracticeFooterPanelComponent implements OnInit {
 
   public handleReverse() {
     this.reverseEmitter.emit();
+  }
+
+  public calculatePercentage(): number {
+    if (this._position.totalAnswers > 0) {
+      return Math.round((this._position.correctAnswers / this._position.totalAnswers) * 100);
+    }
+    return 0;
   }
 }

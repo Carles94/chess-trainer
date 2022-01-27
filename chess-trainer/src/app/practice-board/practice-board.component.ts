@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { BoardComponent } from '../common/component/board/board.component';
 import { INITIAL_FEN, WHITE } from '../common/model/constant/constant';
@@ -10,6 +11,7 @@ import { MoveEvent } from '../common/model/interface/move-event';
 import { Position } from '../common/model/interface/position';
 import { PostMoveBody } from '../common/model/interface/post-move-body';
 import { HttpUtils } from '../common/utils/http-utils';
+import { PracticeShowAnswerDialogComponent } from './practice-show-answer-dialog/practice-show-answer-dialog.component';
 
 @Component({
   selector: 'app-practice-board',
@@ -24,11 +26,13 @@ export class PracticeBoardComponent implements OnInit {
 
   public isVariantEnded: boolean = false;
 
+  public isFailedOneAttempt: boolean = false;
+
   lineUuid = '';
 
   lineColor = '';
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) {}
+  constructor(private http: HttpClient, private dialog: MatDialog, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     let possibleUuid = this.route.snapshot.queryParamMap.get('lineUuid');
@@ -54,6 +58,7 @@ export class PracticeBoardComponent implements OnInit {
         this.currentPosition = position;
         if (this.currentPosition.correctAnswers > oldCorrectAnswers) {
           // The answer is good
+          this.isFailedOneAttempt = false;
           HttpUtils.getPosition(this.lineUuid, event.fen, this.http).subscribe((nextPosition: any) => {
             this.currentPosition = nextPosition;
             if (this.currentPosition.moveList.length) {
@@ -67,6 +72,7 @@ export class PracticeBoardComponent implements OnInit {
           });
         } else {
           // The answer is bad
+          this.isFailedOneAttempt = true;
           this.board.undo();
         }
       });
@@ -82,12 +88,16 @@ export class PracticeBoardComponent implements OnInit {
   }
 
   public handleShowAnswer() {
-    //  TODO
-    console.log('Show answer');
+    this.dialog.open(PracticeShowAnswerDialogComponent, {
+      data: {
+        answer: this.currentPosition.moveList[0].moveToShow,
+      },
+    });
   }
 
   public handleNextVariant() {
     this.board.reset();
+    this.isVariantEnded = false;
     HttpUtils.getPosition(this.lineUuid, INITIAL_FEN, this.http).subscribe((position: any) => {
       this.currentPosition = position;
     });
