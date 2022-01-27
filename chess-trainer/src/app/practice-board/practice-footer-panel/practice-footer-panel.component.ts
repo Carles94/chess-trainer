@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-practice-footer-panel',
@@ -12,6 +12,9 @@ export class PracticeFooterPanelComponent implements OnInit {
   public nextVariantEmitter: EventEmitter<any> = new EventEmitter();
   @Output('reverse')
   public reverseEmitter: EventEmitter<any> = new EventEmitter();
+
+  @Input()
+  public isVariantEnded: boolean = false;
 
   constructor() {}
 

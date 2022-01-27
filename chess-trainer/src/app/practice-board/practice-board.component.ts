@@ -22,6 +22,8 @@ export class PracticeBoardComponent implements OnInit {
 
   public currentPosition!: Position;
 
+  public isVariantEnded: boolean = false;
+
   lineUuid = '';
 
   lineColor = '';
@@ -60,7 +62,7 @@ export class PracticeBoardComponent implements OnInit {
               this.board.move(nextMove.moveToSend);
             } else {
               // The line is ended
-              console.log('The line is ended');
+              this.isVariantEnded = true;
             }
           });
         } else {
@@ -73,7 +75,7 @@ export class PracticeBoardComponent implements OnInit {
       HttpUtils.getPosition(this.lineUuid, event.fen, this.http).subscribe((nextPosition: any) => {
         this.currentPosition = nextPosition;
         if (!this.currentPosition.moveList.length) {
-          console.log('Line ends');
+          this.isVariantEnded = true;
         }
       });
     }
@@ -85,8 +87,10 @@ export class PracticeBoardComponent implements OnInit {
   }
 
   public handleNextVariant() {
-    //  TODO
-    console.log('Next variant');
+    this.board.reset();
+    HttpUtils.getPosition(this.lineUuid, INITIAL_FEN, this.http).subscribe((position: any) => {
+      this.currentPosition = position;
+    });
   }
 
   public handleReverse() {

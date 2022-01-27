@@ -4,7 +4,7 @@
     </p>
     <mat-card-actions>
         <button mat-button (click)="handleShowAnswer()">SHOW ANSWER</button>
-        <button mat-button (click)="handleNextVariant()">NEXT VARIANT</button>
+        <button mat-button  [disabled]="!isVariantEnded" (click)="handleNextVariant()">NEXT VARIANT</button>
         <button mat-button (click)="handleReverse()">REVERSE</button>
     </mat-card-actions>
 </mat-card>
