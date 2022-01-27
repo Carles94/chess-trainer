@@ -78,4 +78,18 @@ export class PracticeBoardComponent implements OnInit {
       });
     }
   }
+
+  public handleShowAnswer() {
+    //  TODO
+    console.log('Show answer');
+  }
+
+  public handleNextVariant() {
+    //  TODO
+    console.log('Next variant');
+  }
+
+  public handleReverse() {
+    this.board.reverse();
+  }
 }
