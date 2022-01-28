@@ -1,8 +1,10 @@
 <mat-card>
-    <!-- TODO case 0%-->
-    <p>
+    <p *ngIf="correctPercentage; else notExecuted" >
         {{correctPercentage}} %
     </p>
+    <ng-template #notExecuted>
+        Not executed
+    </ng-template>
     <mat-card-actions>
         <button mat-button [disabled]="!isFailedOneAttempt"(click)="handleShowAnswer()">SHOW ANSWER</button>
         <button mat-button [disabled]="!isVariantEnded" (click)="handleNextVariant()">NEXT VARIANT</button>
