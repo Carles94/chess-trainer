@@ -1,6 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BLACK, WHITE } from 'src/app/common/model/constant/constant';
 import { CreateLineBody } from 'src/app/common/model/interface/create-line-body';
 
@@ -17,10 +25,16 @@ export class CreateLineDialogComponent implements OnInit {
   lineName: string = '';
   public WHITE = WHITE;
   public BLACK = BLACK;
+  private lineNames: string[];
 
-  constructor(public dialogRef: MatDialogRef<CreateLineDialogComponent>, private fb: FormBuilder) {
+  constructor(
+    public dialogRef: MatDialogRef<CreateLineDialogComponent>,
+    private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.lineNames = data.lineNames;
     this.openingNameControl = new FormControl('', [Validators.required]);
-    this.lineNameControl = new FormControl('', [Validators.required]);
+    this.lineNameControl = new FormControl('', [Validators.required, this.lineNameDoNotExistValidator()]);
     this.colorControl = new FormControl('', [Validators.required]);
     this.form = fb.group({
       openingName: this.openingNameControl,
@@ -38,5 +52,13 @@ export class CreateLineDialogComponent implements OnInit {
       lineName: form.value.lineName,
     };
     this.dialogRef.close(result);
+  }
+
+  lineNameDoNotExistValidator(): ValidatorFn {
+    // TODO see how to custom the message name
+    return (control: AbstractControl): ValidationErrors | null => {
+      const isForbiddenName = this.lineNames.includes(control.value);
+      return isForbiddenName ? { lineNameControl: { value: control.value } } : null;
+    };
   }
 }

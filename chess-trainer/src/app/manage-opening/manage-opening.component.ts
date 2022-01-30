@@ -26,7 +26,6 @@ export class ManageOpeningComponent implements OnInit {
   ngOnInit(): void {}
 
   handleDelete(): void {
-    console.log('Delete line');
     let body: DeleteLineBody = {
       lineUuid: this.selectedLineUuid,
       openingName: this.selectedOpeningName,
@@ -39,7 +38,13 @@ export class ManageOpeningComponent implements OnInit {
 
   handleAdd(): void {
     // TODO add a check in order to not add  2 lines with the same name
-    const dialogRef = this.dialog.open(CreateLineDialogComponent);
+    let lineNames: string[] = [];
+    this.openingList.forEach((opening) => (lineNames = lineNames.concat(opening.lineList.map((line) => line.name))));
+    const dialogRef = this.dialog.open(CreateLineDialogComponent, {
+      data: {
+        lineNames: lineNames,
+      },
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
