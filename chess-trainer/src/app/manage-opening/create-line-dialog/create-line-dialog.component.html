@@ -4,8 +4,8 @@
     <div>
         <label>Select the color</label>
         <mat-radio-group [formControl]="colorControl">
-            <mat-radio-button [value]="WHITE">{{WHITE}}</mat-radio-button>
-            <mat-radio-button [value]="BLACK">{{BLACK}}</mat-radio-button>
+            <mat-radio-button value=WHITE>{{WHITE}}</mat-radio-button>
+            <mat-radio-button value=BLACK>{{BLACK}}</mat-radio-button>
         </mat-radio-group>
         </div>
         <mat-form-field appearance="fill">
@@ -16,6 +16,12 @@
         <mat-label>Enter your opening name</mat-label>
         <input matInput [formControl]="openingNameControl" required>
         </mat-form-field>
+        <div *ngIf="lineName?.invalid && (lineName?.dirty || lineName?.touched)"
+    class="alert alert-danger">
+            <div *ngIf="lineName?.errors?.['lineNameControl']">
+                Line name must not exist
+            </div>
+        </div>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Cancel</button>

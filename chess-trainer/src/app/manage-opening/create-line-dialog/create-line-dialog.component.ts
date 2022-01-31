@@ -22,7 +22,6 @@ export class CreateLineDialogComponent implements OnInit {
   openingNameControl: FormControl;
   lineNameControl: FormControl;
   colorControl: FormControl;
-  lineName: string = '';
   public WHITE = WHITE;
   public BLACK = BLACK;
   private lineNames: string[];
@@ -60,5 +59,10 @@ export class CreateLineDialogComponent implements OnInit {
       const isForbiddenName = this.lineNames.includes(control.value);
       return isForbiddenName ? { lineNameControl: { value: control.value } } : null;
     };
+  }
+
+  get lineName(): AbstractControl | null {
+    console.log(this.form.get('lineName'));
+    return this.form.get('lineName');
   }
 }
