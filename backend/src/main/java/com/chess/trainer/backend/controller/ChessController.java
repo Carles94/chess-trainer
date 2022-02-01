@@ -74,7 +74,7 @@ public class ChessController {
 
     @PostMapping(value = "/line/create")
     public @ResponseBody Line postCreateLine(@RequestBody CreateLineBody createLineBody) {
-        System.out.println("Post move  called with " + createLineBody.getLineColor() + ", "
+        System.out.println("Post line called with " + createLineBody.getLineColor() + ", "
                 + createLineBody.getLineName() + " and " + createLineBody.getOpeningName());
         Line result = this.openingService.createLine(createLineBody.getLineName(), createLineBody.getLineColor(),
                 createLineBody.getOpeningName());

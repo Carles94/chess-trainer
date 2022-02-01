@@ -66,7 +66,7 @@ export class SelectOpeningComponent implements OnInit {
   }
 
   updateOpenings(): void {
-    this.whiteOpeningList = this.openingList.filter((opening) => opening.color === WHITE);
-    this.blackOpeningList = this.openingList.filter((opening) => opening.color === BLACK);
+    this.whiteOpeningList = this.openingList.filter((opening) => opening.color.toLowerCase() === WHITE);
+    this.blackOpeningList = this.openingList.filter((opening) => opening.color.toLowerCase() === BLACK);
   }
 }

@@ -54,7 +54,6 @@ export class CreateLineDialogComponent implements OnInit {
   }
 
   lineNameDoNotExistValidator(): ValidatorFn {
-    // TODO see how to custom the message name
     return (control: AbstractControl): ValidationErrors | null => {
       const isForbiddenName = this.lineNames.includes(control.value);
       return isForbiddenName ? { lineNameControl: { value: control.value } } : null;
@@ -62,7 +61,6 @@ export class CreateLineDialogComponent implements OnInit {
   }
 
   get lineName(): AbstractControl | null {
-    console.log(this.form.get('lineName'));
     return this.form.get('lineName');
   }
 }

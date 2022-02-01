@@ -49,6 +49,9 @@ public class OpeningService {
         result.setName(lineName);
         UUID lineUuid = UUID.randomUUID();
         result.setUuid(lineUuid);
+
+        result = lineRepository.save(result);
+
         // Create initial position
         List<Position> positionList = new ArrayList<>();
         Position initialPosition = new Position();
@@ -60,10 +63,7 @@ public class OpeningService {
         lineOpening.getLineList().add(result);
 
         // Update database
-        // TODO I can't understand why it only works if the opening don't exists
-        if (!openingRepository.existsById(openingName)) {
-            positionRepository.save(initialPosition);
-        }
+        positionRepository.save(initialPosition);
         result = lineRepository.save(result);
         openingRepository.save(lineOpening);
         return result;

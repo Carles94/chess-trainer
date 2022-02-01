@@ -2,6 +2,7 @@ package com.chess.trainer.backend.service;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -64,7 +65,7 @@ class OpeningServiceTest {
         Assertions.assertEquals(result.getUuid(), result.getPositionList().get(0).getLineUuid());
         Assertions.assertTrue(result.getPositionList().get(0).getMoveList().isEmpty());
 
-        verify(lineRepository).save(result);
+        verify(lineRepository, times(2)).save(result);
         ArgumentCaptor<Opening> captor = ArgumentCaptor.forClass(Opening.class);
         verify(openingRepository).save(captor.capture());
         Opening opening = captor.getValue();
@@ -102,7 +103,7 @@ class OpeningServiceTest {
         Assertions.assertEquals(result.getUuid(), result.getPositionList().get(0).getLineUuid());
         Assertions.assertTrue(result.getPositionList().get(0).getMoveList().isEmpty());
 
-        verify(lineRepository).save(result);
+        verify(lineRepository, times(2)).save(result);
         ArgumentCaptor<Opening> captor = ArgumentCaptor.forClass(Opening.class);
         verify(openingRepository).save(captor.capture());
         Opening opening = captor.getValue();
@@ -111,7 +112,7 @@ class OpeningServiceTest {
         Assertions.assertEquals(2, opening.getLineList().size());
         Assertions.assertEquals(result, opening.getLineList().get(1));
 
-        verify(positionRepository, never()).save(any(Position.class));
+        verify(positionRepository).save(any(Position.class));
     }
 
     @Test
