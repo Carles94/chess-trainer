@@ -1,0 +1,5 @@
+@import '../../theme.scss';
+$primary: map-get($my-theme, primary);
+button {
+  background-color: mat-color($primary);
+}
