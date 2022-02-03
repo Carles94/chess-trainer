@@ -9,7 +9,7 @@ import { EditionBoardComponent } from './edition-board/edition-board.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { EditionVerticalPanelComponent } from './edition-board/edition-vertical-panel/edition-vertical-panel.component';
 import { EditionFooterPanelComponent } from './edition-board/edition-footer-panel/edition-footer-panel.component';
@@ -32,6 +32,7 @@ import { PracticeBoardComponent } from './practice-board/practice-board.componen
 import { CardsBoardComponent } from './cards-board/cards-board.component';
 import { PracticeFooterPanelComponent } from './practice-board/practice-footer-panel/practice-footer-panel.component';
 import { PracticeShowAnswerDialogComponent } from './practice-board/practice-show-answer-dialog/practice-show-answer-dialog.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { PracticeShowAnswerDialogComponent } from './practice-board/practice-sho
     ReactiveFormsModule,
     MatRadioModule,
     MatInputModule,
+    MatButtonModule,
   ],
   providers: [MovePipe],
   bootstrap: [AppComponent],
