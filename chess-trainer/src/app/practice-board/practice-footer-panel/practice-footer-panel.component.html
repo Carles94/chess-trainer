@@ -6,8 +6,8 @@
         Not executed
     </ng-template>
     <mat-card-actions>
-        <button mat-button [disabled]="!isFailedOneAttempt"(click)="handleShowAnswer()">SHOW ANSWER</button>
-        <button mat-button [disabled]="!isVariantEnded" (click)="handleNextVariant()">NEXT VARIANT</button>
-        <button mat-button (click)="handleReverse()">REVERSE</button>
+        <button mat-button color="primary" [disabled]="!isFailedOneAttempt"(click)="handleShowAnswer()">SHOW ANSWER</button>
+        <button mat-button color="primary" [disabled]="!isVariantEnded" (click)="handleNextVariant()">NEXT VARIANT</button>
+        <button mat-button color="primary" (click)="handleReverse()">REVERSE</button>
     </mat-card-actions>
 </mat-card>
