@@ -1,9 +1,9 @@
 # chess-trainer
 This project is a web page which helps the user to practice his chess openings.
 
-![Edit opening page](editOpeningPageReadme.jpg "Edit opening page").
+![Edit opening page](editOpeningPageReadme.png "Edit opening page").
 
-![Practice opening page](practiceOpeningPageReadme.jpg "Practice opening page").
+![Practice opening page](practiceOpeningPageReadme.png "Practice opening page").
 
 
 ## Prerequisites
