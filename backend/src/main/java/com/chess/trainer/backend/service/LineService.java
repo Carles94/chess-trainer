@@ -68,8 +68,6 @@ public class LineService {
         Position currentPositionInLine = LineUtils.getPositionFromLineByFen(currentPosition.getFenPosition(), line);
         currentPositionInLine = PositionUtils.deleteMove(moveToDelete, currentPositionInLine);
         positionRepository.save(currentPositionInLine);
-        // TODO see if necessary
-        lineRepository.save(line);
         return currentPositionInLine;
     }
 }
