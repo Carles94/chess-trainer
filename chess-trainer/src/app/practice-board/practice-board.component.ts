@@ -52,7 +52,7 @@ export class PracticeBoardComponent implements OnInit {
       lineUuid: this.lineUuid,
     };
     let oldCorrectAnswers: number = this.currentPosition.correctAnswers;
-    if (event.color.toLowerCase === this.lineColor.toLowerCase) {
+    if (event.color.toLowerCase() === this.lineColor.toLowerCase()) {
       // Line color move
       HttpUtils.updatePosition(body, this.http).subscribe((position: any) => {
         this.currentPosition = position;
@@ -77,6 +77,7 @@ export class PracticeBoardComponent implements OnInit {
         }
       });
     } else {
+      console.log('Other color');
       // Other color move
       HttpUtils.getPosition(this.lineUuid, event.fen, this.http).subscribe((nextPosition: any) => {
         this.currentPosition = nextPosition;

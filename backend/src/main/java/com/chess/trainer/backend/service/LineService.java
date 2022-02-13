@@ -19,10 +19,13 @@ public class LineService {
 
     private LineRepository lineRepository;
     private PositionRepository positionRepository;
+    private PositionService positionService;
 
-    public LineService(LineRepository lineRepository, PositionRepository positionRepository) {
+    public LineService(LineRepository lineRepository, PositionRepository positionRepository,
+            PositionService positionService) {
         this.lineRepository = lineRepository;
         this.positionRepository = positionRepository;
+        this.positionService = positionService;
     }
 
     public Position getPositionFromLineByFen(String fenPosition, UUID lineUuid) {
@@ -49,14 +52,7 @@ public class LineService {
             // Creates a new move and adds to position
             var currentPositionInLine = LineUtils.getPositionFromLineByFen(currentPosition.getFenPosition(), line);
             if (!PositionUtils.existsMove(moveToAdd.getMove(), currentPositionInLine)) {
-                Move currentMove = new Move();
-                currentMove.setMoveToSend(moveToAdd.getMove());
-                currentMove.setPositionFENAfter(moveToAdd.getFen());
-                currentMove.setMoveToShow(moveToAdd.getMoveToShow());
-                currentPositionInLine.getMoveList().add(currentMove);
-                positionRepository.save(currentPositionInLine);
-                // TODO see if necessary
-                lineRepository.save(line);
+                positionService.addMoveToPosition(currentPosition, moveToAdd);
             }
             return futureCurrentPosition;
         }

@@ -2,6 +2,7 @@ package com.chess.trainer.backend.service;
 
 import java.util.UUID;
 
+import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.repository.PositionRepository;
@@ -25,6 +26,15 @@ public class PositionService {
         }
         Position result = positionRepository.save(currentPosition);
         return result;
+    }
+
+    public Position addMoveToPosition(Position position, MoveEvent moveToAdd) {
+        Move currentMove = new Move();
+        currentMove.setMoveToSend(moveToAdd.getMove());
+        currentMove.setPositionFENAfter(moveToAdd.getFen());
+        currentMove.setMoveToShow(moveToAdd.getMoveToShow());
+        position.getMoveList().add(currentMove);
+        return positionRepository.save(position);
     }
 
 }

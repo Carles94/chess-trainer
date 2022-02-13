@@ -1,8 +1,7 @@
 package com.chess.trainer.backend.service;
 
 import static org.mockito.ArgumentMatchers.any;
-
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -37,12 +36,15 @@ public class LineServiceTest {
     // Mock
     private LineRepository lineRepository;
     private PositionRepository positionRepository;
+    private PositionService positionService;
 
     @BeforeEach
-    public void init(@Mock LineRepository lineRepository, @Mock PositionRepository positionRepository) {
+    public void init(@Mock LineRepository lineRepository, @Mock PositionRepository positionRepository,
+            @Mock PositionService positionService) {
         this.positionRepository = positionRepository;
         this.lineRepository = lineRepository;
-        lineService = new LineService(lineRepository, positionRepository);
+        this.positionService = positionService;
+        lineService = new LineService(lineRepository, positionRepository, positionService);
     }
 
     @Test
@@ -122,7 +124,6 @@ public class LineServiceTest {
         Line line = new Line();
         List<Position> positionList = new ArrayList<>();
         Position position = new Position();
-        position.setMoveList(new ArrayList<>());
         position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
         line.setPositionList(positionList);
@@ -137,13 +138,9 @@ public class LineServiceTest {
         Assertions.assertEquals(uuid, result.getLineUuid());
         Assertions.assertEquals(Collections.EMPTY_LIST, result.getMoveList());
 
-        Assertions.assertEquals(moveEvent.getMove(),
-                line.getPositionList().get(0).getMoveList().get(0).getMoveToSend());
-        Assertions.assertEquals(moveEvent.getFen(),
-                line.getPositionList().get(0).getMoveList().get(0).getPositionFENAfter());
         Assertions.assertEquals(moveEvent.getFen(), line.getPositionList().get(1).getFenPosition());
-
-        verify(positionRepository, times(2)).save(any());
+        verify(positionService).addMoveToPosition(position, moveEvent);
+        verify(positionRepository).save(any());
     }
 
     @Test
@@ -185,6 +182,7 @@ public class LineServiceTest {
         Assertions.assertEquals(1, line.getPositionList().get(0).getMoveList().size());
         Assertions.assertEquals(position.getMoveList(), line.getPositionList().get(0).getMoveList());
         Assertions.assertEquals(position2, line.getPositionList().get(1));
+        verify(positionService, never()).addMoveToPosition(position, moveEvent);
     }
 
     @Test
