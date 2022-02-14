@@ -5,5 +5,4 @@ import { Position } from './position';
 export interface DeleteMoveBody {
   move: Move;
   currentPosition: Position;
-  lineUuid: string;
 }

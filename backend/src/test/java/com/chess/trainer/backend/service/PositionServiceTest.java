@@ -100,4 +100,38 @@ public class PositionServiceTest {
         Assertions.assertEquals(2, result.getCorrectAnswers());
     }
 
+    @Test
+    void testAddMoveToPosition() {
+        // Arrange
+        Position position = new Position();
+        position.setMoveList(new ArrayList<>());
+        MoveEvent moveToAdd = new MoveEvent();
+        moveToAdd.setMove("move");
+        moveToAdd.setFen("fen");
+        moveToAdd.setMoveToShow("moveToShow");
+        when(positionRepository.save(position)).thenAnswer(parameter -> parameter.getArgument(0));
+        // Act
+        Position result = positionService.addMoveToPosition(position, moveToAdd);
+        // Assert
+        Assertions.assertEquals("fen", result.getMoveList().get(0).getPositionFENAfter());
+        Assertions.assertEquals("move", result.getMoveList().get(0).getMoveToSend());
+        Assertions.assertEquals("moveToShow", result.getMoveList().get(0).getMoveToShow());
+    }
+
+    @Test
+    void testDeleteMove() {
+        // Arrange
+        Move move = new Move();
+        move.setMoveToSend("moveToSend");
+        Position position = new Position();
+        List<Move> moveList = new ArrayList<>();
+        moveList.add(move);
+        position.setMoveList(moveList);
+        when(positionRepository.save(position)).thenAnswer(parameter -> parameter.getArgument(0));
+        // Act
+        Position result = positionService.deleteMove(position, move);
+        // Assert
+        Assertions.assertTrue(result.getMoveList().isEmpty());
+    }
+
 }

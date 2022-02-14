@@ -58,12 +58,4 @@ public class LineService {
         }
         return null;
     }
-
-    public Position deleteMove(Move moveToDelete, Position currentPosition, UUID uuid) {
-        Line line = lineRepository.findById(uuid).get();
-        Position currentPositionInLine = LineUtils.getPositionFromLineByFen(currentPosition.getFenPosition(), line);
-        currentPositionInLine = PositionUtils.deleteMove(moveToDelete, currentPositionInLine);
-        positionRepository.save(currentPositionInLine);
-        return currentPositionInLine;
-    }
 }

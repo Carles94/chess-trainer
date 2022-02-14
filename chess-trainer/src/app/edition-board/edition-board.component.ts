@@ -97,7 +97,6 @@ export class EditionBoardComponent implements OnInit {
     const deleteBody: DeleteMoveBody = {
       move: move,
       currentPosition: this.currentPosition,
-      lineUuid: this.lineUuid,
     };
     HttpUtils.deleteMove(deleteBody, this.http).subscribe((position: any) => {
       this.currentPosition = position;

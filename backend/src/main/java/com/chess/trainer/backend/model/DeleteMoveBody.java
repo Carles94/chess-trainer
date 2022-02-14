@@ -6,5 +6,4 @@ import lombok.Data;
 public class DeleteMoveBody {
     private Move move;
     private Position currentPosition;
-    private String lineUuid;
 }

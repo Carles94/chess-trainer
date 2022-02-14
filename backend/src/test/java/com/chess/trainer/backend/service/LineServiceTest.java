@@ -216,24 +216,4 @@ public class LineServiceTest {
         // Assert
         Assertions.assertNull(result);
     }
-
-    @Test
-    void testDeleteMove() {
-        // Arrange
-        Line line = new Line();
-        Move moveToDelete = new Move();
-        moveToDelete.setMoveToSend("e2e4");
-        Move otherMove = new Move();
-        otherMove.setMoveToSend("d2d4");
-        UUID uuid = UUID.randomUUID();
-        Position currentPosition = new Position();
-        currentPosition.setFenPosition(Constants.INITIAL_FEN);
-        currentPosition.setMoveList(Arrays.asList(moveToDelete, otherMove));
-        line.setPositionList(Collections.singletonList(currentPosition));
-        when(lineRepository.findById(uuid)).thenReturn(Optional.of(line));
-        // Act
-        Position result = lineService.deleteMove(moveToDelete, currentPosition, uuid);
-        // Assert
-        Assertions.assertEquals(Collections.singletonList(otherMove), result.getMoveList());
-    }
 }

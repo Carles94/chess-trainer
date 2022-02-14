@@ -6,6 +6,7 @@ import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.repository.PositionRepository;
+import com.chess.trainer.backend.utils.PositionUtils;
 
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,11 @@ public class PositionService {
         currentMove.setMoveToShow(moveToAdd.getMoveToShow());
         position.getMoveList().add(currentMove);
         return positionRepository.save(position);
+    }
+
+    public Position deleteMove(Position position, Move move) {
+        Position currentPositionInLine = PositionUtils.deleteMove(move, position);
+        return positionRepository.save(currentPositionInLine);
     }
 
 }

@@ -58,10 +58,9 @@ public class ChessController {
 
     @DeleteMapping(value = "/move")
     public @ResponseBody Position deleteMove(@RequestBody DeleteMoveBody deleteMoveBody) {
-        System.out.println("Delete move called with " + deleteMoveBody.getMove() + ", "
-                + deleteMoveBody.getCurrentPosition() + " and  " + deleteMoveBody.getLineUuid());
-        Position result = lineService.deleteMove(deleteMoveBody.getMove(), deleteMoveBody.getCurrentPosition(),
-                UUID.fromString(deleteMoveBody.getLineUuid()));
+        System.out.println("Delete move called with " + deleteMoveBody.getMove() + " and "
+                + deleteMoveBody.getCurrentPosition());
+        Position result = positionService.deleteMove(deleteMoveBody.getCurrentPosition(), deleteMoveBody.getMove());
         return result;
     }
 

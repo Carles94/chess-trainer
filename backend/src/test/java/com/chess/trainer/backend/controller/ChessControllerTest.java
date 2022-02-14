@@ -90,7 +90,6 @@ class ChessControllerTest {
         // Arrange
         Move moveToDelete = new Move();
         moveToDelete.setMoveToSend("e2e4");
-        UUID uuid = UUID.randomUUID();
         var currentPosition = new Position();
         currentPosition.setFenPosition(Constants.INITIAL_FEN);
         List<Move> moveList = new ArrayList<>();
@@ -101,14 +100,13 @@ class ChessControllerTest {
         currentPosition.setMoveList(moveList);
         DeleteMoveBody deleteMoveBody = new DeleteMoveBody();
         deleteMoveBody.setCurrentPosition(currentPosition);
-        deleteMoveBody.setLineUuid(uuid.toString());
         deleteMoveBody.setMove(moveToDelete);
         Position expectedResult = new Position();
-        when(lineService.deleteMove(moveToDelete, currentPosition, uuid)).thenReturn(expectedResult);
+        when(positionService.deleteMove(currentPosition, moveToDelete)).thenReturn(expectedResult);
         // Act
         Position result = chessController.deleteMove(deleteMoveBody);
         // Assert
-        verify(lineService).deleteMove(moveToDelete, currentPosition, uuid);
+        verify(positionService).deleteMove(currentPosition, moveToDelete);
         Assertions.assertEquals(expectedResult, result);
     }
 
