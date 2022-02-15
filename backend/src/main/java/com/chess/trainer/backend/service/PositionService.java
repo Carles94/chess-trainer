@@ -1,5 +1,6 @@
 package com.chess.trainer.backend.service;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.chess.trainer.backend.model.Move;
@@ -41,6 +42,14 @@ public class PositionService {
     public Position deleteMove(Position position, Move move) {
         Position currentPositionInLine = PositionUtils.deleteMove(move, position);
         return positionRepository.save(currentPositionInLine);
+    }
+
+    public Position createPosition(String fenPosition, UUID lineUuid) {
+        Position positionToCreate = new Position();
+        positionToCreate.setFenPosition(fenPosition);
+        positionToCreate.setLineUuid(lineUuid);
+        positionToCreate.setMoveList(new ArrayList<>());
+        return positionRepository.save(positionToCreate);
     }
 
 }

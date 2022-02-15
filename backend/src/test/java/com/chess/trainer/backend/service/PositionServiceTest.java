@@ -1,5 +1,6 @@
 package com.chess.trainer.backend.service;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -132,6 +133,23 @@ public class PositionServiceTest {
         Position result = positionService.deleteMove(position, move);
         // Assert
         Assertions.assertTrue(result.getMoveList().isEmpty());
+    }
+
+    @Test
+    void testCreatePosition() {
+        // Arrange
+        String fenPosition = "fen";
+        UUID lineUuid = UUID.randomUUID();
+        when(positionRepository.save(any(Position.class))).thenAnswer(parameter -> parameter.getArgument(0));
+        // Act
+        Position result = positionService.createPosition(fenPosition, lineUuid);
+        // Assert
+        verify(positionRepository).save(result);
+        Assertions.assertEquals(fenPosition, result.getFenPosition());
+        Assertions.assertTrue(result.getMoveList().isEmpty());
+        Assertions.assertEquals(lineUuid, result.getLineUuid());
+        Assertions.assertEquals(0, result.getCorrectAnswers());
+        Assertions.assertEquals(0, result.getTotalAnswers());
     }
 
 }

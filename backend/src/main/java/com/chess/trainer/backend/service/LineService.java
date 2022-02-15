@@ -1,14 +1,11 @@
 package com.chess.trainer.backend.service;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 import com.chess.trainer.backend.model.Line;
-import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.repository.LineRepository;
-import com.chess.trainer.backend.repository.PositionRepository;
 import com.chess.trainer.backend.utils.LineUtils;
 import com.chess.trainer.backend.utils.PositionUtils;
 
@@ -18,13 +15,10 @@ import org.springframework.stereotype.Service;
 public class LineService {
 
     private LineRepository lineRepository;
-    private PositionRepository positionRepository;
     private PositionService positionService;
 
-    public LineService(LineRepository lineRepository, PositionRepository positionRepository,
-            PositionService positionService) {
+    public LineService(LineRepository lineRepository, PositionService positionService) {
         this.lineRepository = lineRepository;
-        this.positionRepository = positionRepository;
         this.positionService = positionService;
     }
 
@@ -39,12 +33,8 @@ public class LineService {
         Position futureCurrentPosition;
         if (LineUtils.canAddMove(moveToAdd.getMove(), currentPosition.getFenPosition(), moveToAdd.getColor(), line)) {
             if (!LineUtils.existsPositionInLine(moveToAdd.getFen(), line)) {
-                futureCurrentPosition = new Position();
-                futureCurrentPosition.setFenPosition(moveToAdd.getFen());
-                futureCurrentPosition.setLineUuid(lineUuid);
-                futureCurrentPosition.setMoveList(new ArrayList<>());
+                futureCurrentPosition = positionService.createPosition(moveToAdd.getFen(), lineUuid);
                 line.getPositionList().add(futureCurrentPosition);
-                positionRepository.save(futureCurrentPosition);
             } else {
                 futureCurrentPosition = LineUtils.getPositionFromLineByFen(moveToAdd.getFen(), line);
             }

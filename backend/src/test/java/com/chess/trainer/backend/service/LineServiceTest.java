@@ -1,12 +1,10 @@
 package com.chess.trainer.backend.service;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +16,6 @@ import com.chess.trainer.backend.model.Move;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.repository.LineRepository;
-import com.chess.trainer.backend.repository.PositionRepository;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,16 +32,13 @@ public class LineServiceTest {
 
     // Mock
     private LineRepository lineRepository;
-    private PositionRepository positionRepository;
     private PositionService positionService;
 
     @BeforeEach
-    public void init(@Mock LineRepository lineRepository, @Mock PositionRepository positionRepository,
-            @Mock PositionService positionService) {
-        this.positionRepository = positionRepository;
+    public void init(@Mock LineRepository lineRepository, @Mock PositionService positionService) {
         this.lineRepository = lineRepository;
         this.positionService = positionService;
-        lineService = new LineService(lineRepository, positionRepository, positionService);
+        lineService = new LineService(lineRepository, positionService);
     }
 
     @Test
@@ -130,17 +124,17 @@ public class LineServiceTest {
         UUID uuid = UUID.randomUUID();
         Position currentPosition = new Position();
         currentPosition.setFenPosition(Constants.INITIAL_FEN);
+        Position expectedPosition = new Position();
+        expectedPosition.setFenPosition(moveEvent.getFen());
         when(lineRepository.findById(uuid)).thenReturn(Optional.of(line));
+        when(positionService.createPosition(moveEvent.getFen(), uuid)).thenReturn(expectedPosition);
         // Act
         Position result = lineService.addMove(moveEvent, currentPosition, uuid);
         // Assert
-        Assertions.assertEquals(moveEvent.getFen(), result.getFenPosition());
-        Assertions.assertEquals(uuid, result.getLineUuid());
-        Assertions.assertEquals(Collections.EMPTY_LIST, result.getMoveList());
-
+        Assertions.assertEquals(expectedPosition, result);
         Assertions.assertEquals(moveEvent.getFen(), line.getPositionList().get(1).getFenPosition());
         verify(positionService).addMoveToPosition(position, moveEvent);
-        verify(positionRepository).save(any());
+        verify(positionService).createPosition(moveEvent.getFen(), uuid);
     }
 
     @Test
