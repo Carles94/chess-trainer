@@ -1,7 +1,6 @@
 package com.chess.trainer.backend.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,7 +11,6 @@ import com.chess.trainer.backend.model.Opening;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.repository.LineRepository;
 import com.chess.trainer.backend.repository.OpeningRepository;
-import com.chess.trainer.backend.repository.PositionRepository;
 
 import org.springframework.stereotype.Service;
 
@@ -21,13 +19,13 @@ public class OpeningService {
 
     private LineRepository lineRepository;
     private OpeningRepository openingRepository;
-    private PositionRepository positionRepository;
+    private PositionService positionService;
 
     public OpeningService(LineRepository lineRepository, OpeningRepository openingRepository,
-            PositionRepository positionRepository) {
+            PositionService positionService) {
         this.lineRepository = lineRepository;
         this.openingRepository = openingRepository;
-        this.positionRepository = positionRepository;
+        this.positionService = positionService;
     }
 
     public Line createLine(String lineName, String lineColor, String openingName) {
@@ -43,6 +41,7 @@ public class OpeningService {
                 lineOpening = openingFromDatabase.get();
             }
         }
+
         // Create line
         Line result = new Line();
         result.setColor(lineColor);
@@ -54,17 +53,12 @@ public class OpeningService {
 
         // Create initial position
         List<Position> positionList = new ArrayList<>();
-        Position initialPosition = new Position();
-        initialPosition.setLineUuid(lineUuid);
-        initialPosition.setFenPosition(Constants.INITIAL_FEN);
-        initialPosition.setMoveList(Collections.EMPTY_LIST);
+        Position initialPosition = positionService.createPosition(Constants.INITIAL_FEN, lineUuid);
         positionList.add(initialPosition);
         result.setPositionList(positionList);
-        lineOpening.getLineList().add(result);
-
-        // Update database
-        positionRepository.save(initialPosition);
         result = lineRepository.save(result);
+
+        lineOpening.getLineList().add(result);
         openingRepository.save(lineOpening);
         return result;
     }

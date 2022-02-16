@@ -1,6 +1,7 @@
 package com.chess.trainer.backend.service;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -17,7 +18,6 @@ import com.chess.trainer.backend.model.Opening;
 import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.repository.LineRepository;
 import com.chess.trainer.backend.repository.OpeningRepository;
-import com.chess.trainer.backend.repository.PositionRepository;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,15 +35,15 @@ class OpeningServiceTest {
     // Mocks
     private LineRepository lineRepository;
     private OpeningRepository openingRepository;
-    private PositionRepository positionRepository;
+    private PositionService positionService;
 
     @BeforeEach
     public void init(@Mock LineRepository lineRepository, @Mock OpeningRepository openingRepository,
-            @Mock PositionRepository positionRepository) {
+            @Mock PositionService positionService) {
         this.lineRepository = lineRepository;
         this.openingRepository = openingRepository;
-        this.positionRepository = positionRepository;
-        openingService = new OpeningService(lineRepository, openingRepository, positionRepository);
+        this.positionService = positionService;
+        openingService = new OpeningService(lineRepository, openingRepository, positionService);
     }
 
     @Test
@@ -54,6 +54,8 @@ class OpeningServiceTest {
         String lineName = "name";
         when(lineRepository.save(any(Line.class))).thenAnswer((arguments) -> arguments.getArgument(0));
         when(openingRepository.existsById(openingName)).thenReturn(false);
+        Position expectedPosition = new Position();
+        when(positionService.createPosition(eq(Constants.INITIAL_FEN), any(UUID.class))).thenReturn(expectedPosition);
         // Act
         Line result = openingService.createLine(lineName, lineColor, openingName);
         // Assert
@@ -61,9 +63,7 @@ class OpeningServiceTest {
         Assertions.assertEquals(lineName, result.getName());
         Assertions.assertNotNull(result.getUuid());
         Assertions.assertEquals(1, result.getPositionList().size());
-        Assertions.assertEquals(Constants.INITIAL_FEN, result.getPositionList().get(0).getFenPosition());
-        Assertions.assertEquals(result.getUuid(), result.getPositionList().get(0).getLineUuid());
-        Assertions.assertTrue(result.getPositionList().get(0).getMoveList().isEmpty());
+        Assertions.assertEquals(expectedPosition, result.getPositionList().get(0));
 
         verify(lineRepository, times(2)).save(result);
         ArgumentCaptor<Opening> captor = ArgumentCaptor.forClass(Opening.class);
@@ -74,7 +74,7 @@ class OpeningServiceTest {
         Assertions.assertEquals(1, opening.getLineList().size());
         Assertions.assertEquals(result, opening.getLineList().get(0));
 
-        verify(positionRepository).save(result.getPositionList().get(0));
+        verify(positionService).createPosition(eq(Constants.INITIAL_FEN), any(UUID.class));
     }
 
     @Test
@@ -92,6 +92,8 @@ class OpeningServiceTest {
         when(lineRepository.save(any(Line.class))).thenAnswer((arguments) -> arguments.getArgument(0));
         when(openingRepository.existsById(openingName)).thenReturn(true);
         when(openingRepository.findById(openingName)).thenReturn(Optional.of(openingFromDatabase));
+        Position expectedPosition = new Position();
+        when(positionService.createPosition(eq(Constants.INITIAL_FEN), any(UUID.class))).thenReturn(expectedPosition);
         // Act
         Line result = openingService.createLine(lineName, lineColor, openingName);
         // Assert
@@ -99,9 +101,7 @@ class OpeningServiceTest {
         Assertions.assertEquals(lineName, result.getName());
         Assertions.assertNotNull(result.getUuid());
         Assertions.assertEquals(1, result.getPositionList().size());
-        Assertions.assertEquals(Constants.INITIAL_FEN, result.getPositionList().get(0).getFenPosition());
-        Assertions.assertEquals(result.getUuid(), result.getPositionList().get(0).getLineUuid());
-        Assertions.assertTrue(result.getPositionList().get(0).getMoveList().isEmpty());
+        Assertions.assertEquals(expectedPosition, result.getPositionList().get(0));
 
         verify(lineRepository, times(2)).save(result);
         ArgumentCaptor<Opening> captor = ArgumentCaptor.forClass(Opening.class);
@@ -112,7 +112,7 @@ class OpeningServiceTest {
         Assertions.assertEquals(2, opening.getLineList().size());
         Assertions.assertEquals(result, opening.getLineList().get(1));
 
-        verify(positionRepository).save(any(Position.class));
+        verify(positionService).createPosition(eq(Constants.INITIAL_FEN), any(UUID.class));
     }
 
     @Test
