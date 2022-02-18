@@ -3,7 +3,6 @@ package com.chess.trainer.backend.service;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -36,14 +35,16 @@ class OpeningServiceTest {
     private LineRepository lineRepository;
     private OpeningRepository openingRepository;
     private PositionService positionService;
+    private LineService lineService;
 
     @BeforeEach
     public void init(@Mock LineRepository lineRepository, @Mock OpeningRepository openingRepository,
-            @Mock PositionService positionService) {
+            @Mock PositionService positionService, @Mock LineService lineService) {
         this.lineRepository = lineRepository;
         this.openingRepository = openingRepository;
         this.positionService = positionService;
-        openingService = new OpeningService(lineRepository, openingRepository, positionService);
+        this.lineService = lineService;
+        openingService = new OpeningService(lineRepository, openingRepository, positionService, lineService);
     }
 
     @Test
@@ -54,6 +55,11 @@ class OpeningServiceTest {
         String lineName = "name";
         when(lineRepository.save(any(Line.class))).thenAnswer((arguments) -> arguments.getArgument(0));
         when(openingRepository.existsById(openingName)).thenReturn(false);
+        Line line = new Line();
+        line.setColor(lineColor);
+        line.setUuid(UUID.randomUUID());
+        line.setName(lineName);
+        when(lineService.createLine(lineColor, lineName)).thenReturn(line);
         Position expectedPosition = new Position();
         when(positionService.createPosition(eq(Constants.INITIAL_FEN), any(UUID.class))).thenReturn(expectedPosition);
         // Act
@@ -65,7 +71,7 @@ class OpeningServiceTest {
         Assertions.assertEquals(1, result.getPositionList().size());
         Assertions.assertEquals(expectedPosition, result.getPositionList().get(0));
 
-        verify(lineRepository, times(2)).save(result);
+        verify(lineRepository).save(result);
         ArgumentCaptor<Opening> captor = ArgumentCaptor.forClass(Opening.class);
         verify(openingRepository).save(captor.capture());
         Opening opening = captor.getValue();
@@ -75,6 +81,7 @@ class OpeningServiceTest {
         Assertions.assertEquals(result, opening.getLineList().get(0));
 
         verify(positionService).createPosition(eq(Constants.INITIAL_FEN), any(UUID.class));
+        verify(lineService).createLine(lineColor, lineName);
     }
 
     @Test
@@ -89,6 +96,12 @@ class OpeningServiceTest {
         List<Line> lineList = new ArrayList<>();
         lineList.add(new Line());
         openingFromDatabase.setLineList(lineList);
+
+        Line line = new Line();
+        line.setColor(lineColor);
+        line.setUuid(UUID.randomUUID());
+        line.setName(lineName);
+        when(lineService.createLine(lineColor, lineName)).thenReturn(line);
         when(lineRepository.save(any(Line.class))).thenAnswer((arguments) -> arguments.getArgument(0));
         when(openingRepository.existsById(openingName)).thenReturn(true);
         when(openingRepository.findById(openingName)).thenReturn(Optional.of(openingFromDatabase));
@@ -103,7 +116,7 @@ class OpeningServiceTest {
         Assertions.assertEquals(1, result.getPositionList().size());
         Assertions.assertEquals(expectedPosition, result.getPositionList().get(0));
 
-        verify(lineRepository, times(2)).save(result);
+        verify(lineRepository).save(result);
         ArgumentCaptor<Opening> captor = ArgumentCaptor.forClass(Opening.class);
         verify(openingRepository).save(captor.capture());
         Opening opening = captor.getValue();
@@ -113,6 +126,7 @@ class OpeningServiceTest {
         Assertions.assertEquals(result, opening.getLineList().get(1));
 
         verify(positionService).createPosition(eq(Constants.INITIAL_FEN), any(UUID.class));
+        verify(lineService).createLine(lineColor, lineName);
     }
 
     @Test

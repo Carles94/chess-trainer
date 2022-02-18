@@ -20,12 +20,14 @@ public class OpeningService {
     private LineRepository lineRepository;
     private OpeningRepository openingRepository;
     private PositionService positionService;
+    private LineService lineService;
 
     public OpeningService(LineRepository lineRepository, OpeningRepository openingRepository,
-            PositionService positionService) {
+            PositionService positionService, LineService lineService) {
         this.lineRepository = lineRepository;
         this.openingRepository = openingRepository;
         this.positionService = positionService;
+        this.lineService = lineService;
     }
 
     public Line createLine(String lineName, String lineColor, String openingName) {
@@ -42,20 +44,15 @@ public class OpeningService {
             }
         }
 
+        // TODO rename variable result ?
         // Create line
-        Line result = new Line();
-        result.setColor(lineColor);
-        result.setName(lineName);
-        UUID lineUuid = UUID.randomUUID();
-        result.setUuid(lineUuid);
-
-        result = lineRepository.save(result);
-
+        Line result = lineService.createLine(lineColor, lineName);
         // Create initial position
         List<Position> positionList = new ArrayList<>();
-        Position initialPosition = positionService.createPosition(Constants.INITIAL_FEN, lineUuid);
+        Position initialPosition = positionService.createPosition(Constants.INITIAL_FEN, result.getUuid());
         positionList.add(initialPosition);
         result.setPositionList(positionList);
+        // TODO see if necessary
         result = lineRepository.save(result);
 
         lineOpening.getLineList().add(result);
@@ -71,6 +68,7 @@ public class OpeningService {
     public List<Opening> deleteLine(String lineUuid, String openingName) {
         Opening currentOpening = openingRepository.findById(openingName).get();
         currentOpening.getLineList().removeIf((line) -> UUID.fromString(lineUuid).equals(line.getUuid()));
+        // TODO see if necessary
         openingRepository.save(currentOpening);
         lineRepository.deleteById(UUID.fromString(lineUuid));
         if (currentOpening.getLineList().size() == 0) {

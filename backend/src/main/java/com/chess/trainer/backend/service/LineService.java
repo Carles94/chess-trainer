@@ -48,4 +48,12 @@ public class LineService {
         }
         return null;
     }
+
+    public Line createLine(String lineColor, String lineName) {
+        Line lineToCreate = new Line();
+        lineToCreate.setColor(lineColor);
+        lineToCreate.setName(lineName);
+        lineToCreate.setUuid(UUID.randomUUID());
+        return lineRepository.save(lineToCreate);
+    }
 }

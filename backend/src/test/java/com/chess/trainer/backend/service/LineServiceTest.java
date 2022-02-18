@@ -1,5 +1,6 @@
 package com.chess.trainer.backend.service;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -209,5 +210,20 @@ public class LineServiceTest {
         Position result = lineService.addMove(moveEvent, currentPosition, uuid);
         // Assert
         Assertions.assertNull(result);
+    }
+
+    @Test
+    void testCreateLine() {
+        // Arrange
+        String lineColor = "lineColor";
+        String lineName = "lineName";
+        when(lineRepository.save(any(Line.class))).thenAnswer(parameter -> parameter.getArgument(0));
+        // Act
+        Line result = lineService.createLine(lineColor, lineName);
+        // Assert
+        Assertions.assertEquals(lineColor, result.getColor());
+        Assertions.assertEquals(lineName, result.getName());
+        Assertions.assertNotNull(result.getUuid());
+        verify(lineRepository).save(result);
     }
 }
