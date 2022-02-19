@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.chess.trainer.backend.constant.Constants;
 import com.chess.trainer.backend.model.Line;
 import com.chess.trainer.backend.model.Opening;
-import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.repository.OpeningRepository;
 
 import org.springframework.stereotype.Service;
@@ -17,13 +15,10 @@ import org.springframework.stereotype.Service;
 public class OpeningService {
 
     private OpeningRepository openingRepository;
-    private PositionService positionService;
     private LineService lineService;
 
-    public OpeningService(OpeningRepository openingRepository,
-            PositionService positionService, LineService lineService) {
+    public OpeningService(OpeningRepository openingRepository, LineService lineService) {
         this.openingRepository = openingRepository;
-        this.positionService = positionService;
         this.lineService = lineService;
     }
 

@@ -2,6 +2,7 @@ package com.chess.trainer.backend.service;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -225,7 +226,7 @@ public class LineServiceTest {
         Assertions.assertEquals(lineName, result.getName());
         Assertions.assertNotNull(result.getUuid());
         Assertions.assertEquals(1, result.getPositionList().size());
-        verify(lineRepository).save(result);
+        verify(lineRepository, times(2)).save(result);
         verify(positionService).createPosition(Constants.INITIAL_FEN, result.getUuid());
     }
 

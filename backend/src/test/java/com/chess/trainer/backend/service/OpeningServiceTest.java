@@ -1,7 +1,5 @@
 package com.chess.trainer.backend.service;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -11,10 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.chess.trainer.backend.constant.Constants;
 import com.chess.trainer.backend.model.Line;
 import com.chess.trainer.backend.model.Opening;
-import com.chess.trainer.backend.model.Position;
 import com.chess.trainer.backend.repository.OpeningRepository;
 
 import org.junit.jupiter.api.Assertions;
@@ -32,16 +28,13 @@ class OpeningServiceTest {
 
     // Mocks
     private OpeningRepository openingRepository;
-    private PositionService positionService;
     private LineService lineService;
 
     @BeforeEach
-    public void init(@Mock OpeningRepository openingRepository,
-            @Mock PositionService positionService, @Mock LineService lineService) {
+    public void init(@Mock OpeningRepository openingRepository, @Mock LineService lineService) {
         this.openingRepository = openingRepository;
-        this.positionService = positionService;
         this.lineService = lineService;
-        openingService = new OpeningService(openingRepository, positionService, lineService);
+        openingService = new OpeningService(openingRepository, lineService);
     }
 
     @Test
@@ -56,16 +49,10 @@ class OpeningServiceTest {
         line.setUuid(UUID.randomUUID());
         line.setName(lineName);
         when(lineService.createLine(lineColor, lineName)).thenReturn(line);
-        Position expectedPosition = new Position();
-        when(positionService.createPosition(eq(Constants.INITIAL_FEN), any(UUID.class))).thenReturn(expectedPosition);
         // Act
         Line result = openingService.createLine(lineName, lineColor, openingName);
         // Assert
-        Assertions.assertEquals(lineColor, result.getColor());
-        Assertions.assertEquals(lineName, result.getName());
-        Assertions.assertNotNull(result.getUuid());
-        Assertions.assertEquals(1, result.getPositionList().size());
-        Assertions.assertEquals(expectedPosition, result.getPositionList().get(0));
+        Assertions.assertEquals(line, result);
 
         ArgumentCaptor<Opening> captor = ArgumentCaptor.forClass(Opening.class);
         verify(openingRepository).save(captor.capture());
@@ -75,7 +62,6 @@ class OpeningServiceTest {
         Assertions.assertEquals(1, opening.getLineList().size());
         Assertions.assertEquals(result, opening.getLineList().get(0));
 
-        verify(positionService).createPosition(eq(Constants.INITIAL_FEN), any(UUID.class));
         verify(lineService).createLine(lineColor, lineName);
     }
 
@@ -99,16 +85,10 @@ class OpeningServiceTest {
         when(lineService.createLine(lineColor, lineName)).thenReturn(line);
         when(openingRepository.existsById(openingName)).thenReturn(true);
         when(openingRepository.findById(openingName)).thenReturn(Optional.of(openingFromDatabase));
-        Position expectedPosition = new Position();
-        when(positionService.createPosition(eq(Constants.INITIAL_FEN), any(UUID.class))).thenReturn(expectedPosition);
         // Act
         Line result = openingService.createLine(lineName, lineColor, openingName);
         // Assert
-        Assertions.assertEquals(lineColor, result.getColor());
-        Assertions.assertEquals(lineName, result.getName());
-        Assertions.assertNotNull(result.getUuid());
-        Assertions.assertEquals(1, result.getPositionList().size());
-        Assertions.assertEquals(expectedPosition, result.getPositionList().get(0));
+        Assertions.assertEquals(line, result);
 
         ArgumentCaptor<Opening> captor = ArgumentCaptor.forClass(Opening.class);
         verify(openingRepository).save(captor.capture());
@@ -118,7 +98,6 @@ class OpeningServiceTest {
         Assertions.assertEquals(2, opening.getLineList().size());
         Assertions.assertEquals(result, opening.getLineList().get(1));
 
-        verify(positionService).createPosition(eq(Constants.INITIAL_FEN), any(UUID.class));
         verify(lineService).createLine(lineColor, lineName);
     }
 
