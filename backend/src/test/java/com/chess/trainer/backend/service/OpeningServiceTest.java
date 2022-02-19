@@ -15,7 +15,6 @@ import com.chess.trainer.backend.constant.Constants;
 import com.chess.trainer.backend.model.Line;
 import com.chess.trainer.backend.model.Opening;
 import com.chess.trainer.backend.model.Position;
-import com.chess.trainer.backend.repository.LineRepository;
 import com.chess.trainer.backend.repository.OpeningRepository;
 
 import org.junit.jupiter.api.Assertions;
@@ -32,19 +31,17 @@ class OpeningServiceTest {
     private OpeningService openingService;
 
     // Mocks
-    private LineRepository lineRepository;
     private OpeningRepository openingRepository;
     private PositionService positionService;
     private LineService lineService;
 
     @BeforeEach
-    public void init(@Mock LineRepository lineRepository, @Mock OpeningRepository openingRepository,
+    public void init(@Mock OpeningRepository openingRepository,
             @Mock PositionService positionService, @Mock LineService lineService) {
-        this.lineRepository = lineRepository;
         this.openingRepository = openingRepository;
         this.positionService = positionService;
         this.lineService = lineService;
-        openingService = new OpeningService(lineRepository, openingRepository, positionService, lineService);
+        openingService = new OpeningService(openingRepository, positionService, lineService);
     }
 
     @Test
@@ -53,7 +50,6 @@ class OpeningServiceTest {
         String openingName = "openingName";
         String lineColor = "WHITE";
         String lineName = "name";
-        when(lineRepository.save(any(Line.class))).thenAnswer((arguments) -> arguments.getArgument(0));
         when(openingRepository.existsById(openingName)).thenReturn(false);
         Line line = new Line();
         line.setColor(lineColor);
@@ -71,7 +67,6 @@ class OpeningServiceTest {
         Assertions.assertEquals(1, result.getPositionList().size());
         Assertions.assertEquals(expectedPosition, result.getPositionList().get(0));
 
-        verify(lineRepository).save(result);
         ArgumentCaptor<Opening> captor = ArgumentCaptor.forClass(Opening.class);
         verify(openingRepository).save(captor.capture());
         Opening opening = captor.getValue();
@@ -102,7 +97,6 @@ class OpeningServiceTest {
         line.setUuid(UUID.randomUUID());
         line.setName(lineName);
         when(lineService.createLine(lineColor, lineName)).thenReturn(line);
-        when(lineRepository.save(any(Line.class))).thenAnswer((arguments) -> arguments.getArgument(0));
         when(openingRepository.existsById(openingName)).thenReturn(true);
         when(openingRepository.findById(openingName)).thenReturn(Optional.of(openingFromDatabase));
         Position expectedPosition = new Position();
@@ -116,7 +110,6 @@ class OpeningServiceTest {
         Assertions.assertEquals(1, result.getPositionList().size());
         Assertions.assertEquals(expectedPosition, result.getPositionList().get(0));
 
-        verify(lineRepository).save(result);
         ArgumentCaptor<Opening> captor = ArgumentCaptor.forClass(Opening.class);
         verify(openingRepository).save(captor.capture());
         Opening opening = captor.getValue();
@@ -155,7 +148,7 @@ class OpeningServiceTest {
         // Act
         List<Opening> result = openingService.deleteLine(lineUuid, openingName);
         // Assert
-        verify(lineRepository).deleteById(UUID.fromString(lineUuid));
+        verify(lineService).deleteLine(UUID.fromString(lineUuid));
         verify(openingRepository).deleteById(openingName);
         Assertions.assertEquals(openingList, result);
     }
@@ -176,7 +169,7 @@ class OpeningServiceTest {
         // Act
         List<Opening> result = openingService.deleteLine(lineUuid, openingName);
         // Assert
-        verify(lineRepository).deleteById(UUID.fromString(lineUuid));
+        verify(lineService).deleteLine(UUID.fromString(lineUuid));
         verify(openingRepository, never()).deleteById(openingName);
         Assertions.assertEquals(openingList, result);
     }

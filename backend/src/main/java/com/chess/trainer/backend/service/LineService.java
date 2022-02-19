@@ -56,4 +56,9 @@ public class LineService {
         lineToCreate.setUuid(UUID.randomUUID());
         return lineRepository.save(lineToCreate);
     }
+
+    public void deleteLine(UUID lineUuid) {
+        lineRepository.deleteById(lineUuid);
+    }
+
 }

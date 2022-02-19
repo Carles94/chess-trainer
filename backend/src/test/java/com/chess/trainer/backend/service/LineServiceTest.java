@@ -226,4 +226,14 @@ public class LineServiceTest {
         Assertions.assertNotNull(result.getUuid());
         verify(lineRepository).save(result);
     }
+
+    @Test
+    void testDeleteLine() {
+        // Arrange
+        UUID lineUuid = UUID.randomUUID();
+        // Act
+        lineService.deleteLine(lineUuid);
+        // Assert
+        verify(lineRepository).deleteById(lineUuid);
+    }
 }
