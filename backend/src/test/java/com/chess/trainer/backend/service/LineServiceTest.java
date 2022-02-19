@@ -224,7 +224,9 @@ public class LineServiceTest {
         Assertions.assertEquals(lineColor, result.getColor());
         Assertions.assertEquals(lineName, result.getName());
         Assertions.assertNotNull(result.getUuid());
+        Assertions.assertEquals(1, result.getPositionList().size());
         verify(lineRepository).save(result);
+        verify(positionService).createPosition(Constants.INITIAL_FEN, result.getUuid());
     }
 
     @Test

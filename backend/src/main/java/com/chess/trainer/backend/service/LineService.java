@@ -1,7 +1,10 @@
 package com.chess.trainer.backend.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import com.chess.trainer.backend.constant.Constants;
 import com.chess.trainer.backend.model.Line;
 import com.chess.trainer.backend.model.MoveEvent;
 import com.chess.trainer.backend.model.Position;
@@ -54,7 +57,14 @@ public class LineService {
         lineToCreate.setColor(lineColor);
         lineToCreate.setName(lineName);
         lineToCreate.setUuid(UUID.randomUUID());
-        return lineRepository.save(lineToCreate);
+        lineRepository.save(lineToCreate);
+        // Create initial position
+        List<Position> positionList = new ArrayList<>();
+        Position initialPosition = positionService.createPosition(Constants.INITIAL_FEN, lineToCreate.getUuid());
+        positionList.add(initialPosition);
+        lineToCreate.setPositionList(positionList);
+        lineRepository.save(lineToCreate);
+        return lineToCreate;
     }
 
     public void deleteLine(UUID lineUuid) {

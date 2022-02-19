@@ -29,13 +29,6 @@ public class OpeningService {
 
     public Line createLine(String lineName, String lineColor, String openingName) {
         var createdLine = lineService.createLine(lineColor, lineName);
-        // TODO send the create initial position to create line
-        // Create initial position
-        List<Position> positionList = new ArrayList<>();
-        Position initialPosition = positionService.createPosition(Constants.INITIAL_FEN, createdLine.getUuid());
-        positionList.add(initialPosition);
-        createdLine.setPositionList(positionList);
-
         addLineToOpening(openingName, createdLine);
         return createdLine;
     }
