@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { BoardComponent } from '../common/component/board/board.component';
-import { INITIAL_FEN, WHITE } from '../common/model/constant/constant';
+import { INITIAL_FEN } from '../common/model/constant/constant';
 import { IBoard } from '../common/model/interface/board';
 import { Move } from '../common/model/interface/move';
 import { MoveEvent } from '../common/model/interface/move-event';
@@ -77,7 +76,6 @@ export class PracticeBoardComponent implements OnInit {
         }
       });
     } else {
-      console.log('Other color');
       // Other color move
       HttpUtils.getPosition(this.lineUuid, event.fen, this.http).subscribe((nextPosition: any) => {
         this.currentPosition = nextPosition;
