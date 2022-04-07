@@ -16,12 +16,18 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+    <packaging>pom</packaging>
+    <modules>
+      <module>domain</module>
+      <module>persistence</module>
+      <module>api</module>
+    </modules>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-			<dependency>
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.18.22</version>
