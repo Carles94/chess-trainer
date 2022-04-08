@@ -1,18 +1,10 @@
-package com.chess.trainer.backend.controller;
+package com.chess.trainer.api.controller;
 
 import java.util.List;
 import java.util.UUID;
 
-import com.chess.trainer.backend.model.CreateLineBody;
-import com.chess.trainer.backend.model.DeleteLineBody;
-import com.chess.trainer.backend.model.DeleteMoveBody;
-import com.chess.trainer.backend.model.Line;
-import com.chess.trainer.backend.model.Opening;
-import com.chess.trainer.backend.model.Position;
-import com.chess.trainer.backend.model.PostMoveBody;
-import com.chess.trainer.backend.service.LineService;
-import com.chess.trainer.backend.service.OpeningService;
-import com.chess.trainer.backend.service.PositionService;
+import com.chess.trainer.domain.service.*;
+import com.chess.trainer.domain.model.*;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;

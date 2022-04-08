@@ -1,11 +1,11 @@
-package com.chess.trainer.backend.utils;
+package com.chess.trainer.domain.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.chess.trainer.backend.model.Move;
-import com.chess.trainer.backend.model.Position;
+import com.chess.trainer.domain.model.Move;
+import com.chess.trainer.domain.model.Position;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

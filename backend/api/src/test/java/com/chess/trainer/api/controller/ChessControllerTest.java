@@ -1,4 +1,4 @@
-package com.chess.trainer.backend.controller;
+package com.chess.trainer.api.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -9,19 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.chess.trainer.backend.constant.Constants;
-import com.chess.trainer.backend.model.CreateLineBody;
-import com.chess.trainer.backend.model.DeleteLineBody;
-import com.chess.trainer.backend.model.DeleteMoveBody;
-import com.chess.trainer.backend.model.Line;
-import com.chess.trainer.backend.model.Move;
-import com.chess.trainer.backend.model.MoveEvent;
-import com.chess.trainer.backend.model.Opening;
-import com.chess.trainer.backend.model.Position;
-import com.chess.trainer.backend.model.PostMoveBody;
-import com.chess.trainer.backend.service.LineService;
-import com.chess.trainer.backend.service.OpeningService;
-import com.chess.trainer.backend.service.PositionService;
+import com.chess.trainer.domain.constant.Constants;
+import com.chess.trainer.domain.model.CreateLineBody;
+import com.chess.trainer.domain.model.DeleteLineBody;
+import com.chess.trainer.domain.model.DeleteMoveBody;
+import com.chess.trainer.domain.model.Line;
+import com.chess.trainer.domain.model.Move;
+import com.chess.trainer.domain.model.MoveEvent;
+import com.chess.trainer.domain.model.Opening;
+import com.chess.trainer.domain.model.Position;
+import com.chess.trainer.domain.model.PostMoveBody;
+import com.chess.trainer.domain.service.LineService;
+import com.chess.trainer.domain.service.OpeningService;
+import com.chess.trainer.domain.service.PositionService;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

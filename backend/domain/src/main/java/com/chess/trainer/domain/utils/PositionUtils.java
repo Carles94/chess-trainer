@@ -1,10 +1,10 @@
-package com.chess.trainer.backend.utils;
+package com.chess.trainer.domain.utils;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.chess.trainer.backend.model.Move;
-import com.chess.trainer.backend.model.Position;
+import com.chess.trainer.domain.model.Move;
+import com.chess.trainer.domain.model.Position;
 
 public class PositionUtils {
 

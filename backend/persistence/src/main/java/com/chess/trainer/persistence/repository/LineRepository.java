@@ -1,8 +1,8 @@
-package com.chess.trainer.backend.repository;
+package com.chess.trainer.persistence.repository;
 
 import java.util.UUID;
 
-import com.chess.trainer.backend.model.Line;
+import com.chess.trainer.persistence.entity.Line;
 
 import org.springframework.data.repository.CrudRepository;
 

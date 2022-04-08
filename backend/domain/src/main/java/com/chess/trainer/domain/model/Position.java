@@ -1,13 +1,7 @@
-package com.chess.trainer.backend.model;
+package com.chess.trainer.domain.model;
 
 import java.util.List;
 import java.util.UUID;
-
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
 
 import lombok.Data;
 

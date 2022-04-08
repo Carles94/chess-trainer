@@ -1,4 +1,4 @@
-package com.chess.trainer.backend.model;
+package com.chess.trainer.domain.model;
 
 import java.io.Serializable;
 import java.util.UUID;

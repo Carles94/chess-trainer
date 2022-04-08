@@ -1,4 +1,4 @@
-package com.chess.trainer.backend.constant;
+package com.chess.trainer.domain.constant;
 
 public class Constants {
 

@@ -1,6 +1,6 @@
-package com.chess.trainer.backend.repository;
+package com.chess.trainer.persistence.repository;
 
-import com.chess.trainer.backend.model.Position;
+import com.chess.trainer.persistence.entity.Position;
 
 import org.springframework.data.repository.CrudRepository;
 

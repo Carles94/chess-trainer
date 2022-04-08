@@ -1,4 +1,4 @@
-package com.chess.trainer.backend.service;
+package com.chess.trainer.domain.service;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.chess.trainer.backend.constant.Constants;
-import com.chess.trainer.backend.model.Line;
-import com.chess.trainer.backend.model.Move;
-import com.chess.trainer.backend.model.MoveEvent;
-import com.chess.trainer.backend.model.Position;
-import com.chess.trainer.backend.repository.LineRepository;
+import com.chess.trainer.domain.constant.Constants;
+import com.chess.trainer.domain.model.Line;
+import com.chess.trainer.domain.model.Move;
+import com.chess.trainer.domain.model.MoveEvent;
+import com.chess.trainer.domain.model.Position;
+import com.chess.trainer.persistence.repository.LineRepository;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

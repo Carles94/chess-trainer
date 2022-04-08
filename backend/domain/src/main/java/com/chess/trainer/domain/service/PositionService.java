@@ -1,13 +1,13 @@
-package com.chess.trainer.backend.service;
+package com.chess.trainer.domain.service;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-import com.chess.trainer.backend.model.Move;
-import com.chess.trainer.backend.model.MoveEvent;
-import com.chess.trainer.backend.model.Position;
-import com.chess.trainer.backend.repository.PositionRepository;
-import com.chess.trainer.backend.utils.PositionUtils;
+import com.chess.trainer.domain.model.Move;
+import com.chess.trainer.domain.model.MoveEvent;
+import com.chess.trainer.domain.model.Position;
+import com.chess.trainer.persistence.repository.PositionRepository;
+import com.chess.trainer.domain.utils.PositionUtils;
 
 import org.springframework.stereotype.Service;
 
