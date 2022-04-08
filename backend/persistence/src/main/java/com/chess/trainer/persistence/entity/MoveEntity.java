@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Embeddable
-public class Move {
+public class MoveEntity {
     private String moveToShow;
     private String moveToSend;
     private String positionFENAfter;

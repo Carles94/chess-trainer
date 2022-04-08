@@ -1,4 +1,4 @@
-package com.chess.trainer.backend.model;
+package com.chess.trainer.persistence.entity;
 
 import java.io.Serializable;
 import java.util.UUID;

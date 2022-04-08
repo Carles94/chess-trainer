@@ -1,13 +1,13 @@
-package com.chess.trainer.backend.service;
+package com.chess.trainer.domain.service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.chess.trainer.backend.model.Line;
-import com.chess.trainer.backend.model.Opening;
-import com.chess.trainer.backend.repository.OpeningRepository;
+import com.chess.trainer.domain.model.Line;
+import com.chess.trainer.domain.model.Opening;
+import com.chess.trainer.persistence.repository.OpeningRepository;
 
 import org.springframework.stereotype.Service;
 

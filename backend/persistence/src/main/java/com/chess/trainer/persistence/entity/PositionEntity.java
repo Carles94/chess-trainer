@@ -15,13 +15,13 @@ import lombok.Data;
 @Entity
 @Table(name = "positions")
 @IdClass(PositionPK.class)
-public class Position {
+public class PositionEntity {
     @Id
     private String fenPosition;
     @Id
     private UUID lineUuid;
     @ElementCollection
-    private List<Move> moveList;
+    private List<MoveEntity> moveList;
     private int totalAnswers;
     private int correctAnswers;
 }

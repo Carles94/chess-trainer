@@ -1,4 +1,4 @@
-package com.chess.trainer.backend.model;
+package com.chess.trainer.persistence.entity;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,11 +14,11 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "lines")
-public class Line {
+public class LineEntity {
     @Id
     private UUID uuid;
     private String name;
     private String color;
-    @OneToMany(targetEntity = Position.class, fetch = FetchType.EAGER, orphanRemoval = true)
-    private List<Position> positionList;
+    @OneToMany(targetEntity = PositionEntity.class, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<PositionEntity> positionList;
 }

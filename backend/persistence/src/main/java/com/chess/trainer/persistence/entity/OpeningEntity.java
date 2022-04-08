@@ -13,10 +13,10 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "openings")
-public class Opening {
+public class OpeningEntity {
     @Id
     private String name;
-    @OneToMany(targetEntity = Line.class, fetch = FetchType.EAGER)
-    private List<Line> lineList;
+    @OneToMany(targetEntity = LineEntity.class, fetch = FetchType.EAGER)
+    private List<LineEntity> lineList;
     private String color;
 }

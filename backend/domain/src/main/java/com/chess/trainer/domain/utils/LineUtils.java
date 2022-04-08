@@ -1,7 +1,7 @@
-package com.chess.trainer.backend.utils;
+package com.chess.trainer.domain.utils;
 
-import com.chess.trainer.backend.model.Line;
-import com.chess.trainer.backend.model.Position;
+import com.chess.trainer.domain.model.Line;
+import com.chess.trainer.domain.model.Position;
 
 public class LineUtils {
 

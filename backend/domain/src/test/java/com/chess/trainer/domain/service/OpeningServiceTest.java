@@ -1,4 +1,4 @@
-package com.chess.trainer.backend.service;
+package com.chess.trainer.domain.service;
 
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.chess.trainer.backend.model.Line;
-import com.chess.trainer.backend.model.Opening;
-import com.chess.trainer.backend.repository.OpeningRepository;
+import com.chess.trainer.domain.model.Line;
+import com.chess.trainer.domain.model.Opening;
+import com.chess.trainer.persistence.repository.OpeningRepository;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
