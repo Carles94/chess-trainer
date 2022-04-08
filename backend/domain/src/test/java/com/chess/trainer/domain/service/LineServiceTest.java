@@ -13,10 +13,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.chess.trainer.domain.constant.Constants;
-import com.chess.trainer.domain.model.Line;
-import com.chess.trainer.domain.model.Move;
-import com.chess.trainer.domain.model.MoveEvent;
-import com.chess.trainer.domain.model.Position;
+import com.chess.trainer.domain.model.LineDto;
+import com.chess.trainer.domain.model.MoveDto;
+import com.chess.trainer.domain.model.MoveEventDto;
+import com.chess.trainer.domain.model.PositionDto;
+import com.chess.trainer.persistence.entity.LineEntity;
 import com.chess.trainer.persistence.repository.LineRepository;
 
 import org.junit.jupiter.api.Assertions;
@@ -48,18 +49,18 @@ public class LineServiceTest {
         // Arrange
         String inputFenPosition = Constants.INITIAL_FEN;
         UUID uuid = UUID.randomUUID();
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
+        LineDto line = new LineDto();
+        List<PositionDto> positionList = new ArrayList<>();
+        var position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
-        var position2 = new Position();
+        var position2 = new PositionDto();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);
         when(lineRepository.findById(uuid)).thenReturn(Optional.of(line));
         // Act
-        Position result = lineService.getPositionFromLineByFen(inputFenPosition, uuid);
+        PositionDto result = lineService.getPositionFromLineByFen(inputFenPosition, uuid);
         // Assert
         Assertions.assertEquals(position, result);
     }
@@ -69,12 +70,12 @@ public class LineServiceTest {
         // Arrange
         String inputFenPosition = "rnbqkbnr/pppppppp/8/8/3P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1";
         UUID uuid = UUID.randomUUID();
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
+        LineDto line = new LineDto();
+        List<PositionDto> positionList = new ArrayList<>();
+        var position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
-        var position2 = new Position();
+        var position2 = new PositionDto();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);
@@ -89,18 +90,18 @@ public class LineServiceTest {
         // Arrange
         String inputFenPosition = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 2 3";
         UUID uuid = UUID.randomUUID();
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
+        LineDto line = new LineDto();
+        List<PositionDto> positionList = new ArrayList<>();
+        var position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
-        var position2 = new Position();
+        var position2 = new PositionDto();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);
         when(lineRepository.findById(uuid)).thenReturn(Optional.of(line));
         // Act
-        Position result = lineService.getPositionFromLineByFen(inputFenPosition, uuid);
+        PositionDto result = lineService.getPositionFromLineByFen(inputFenPosition, uuid);
         // Assert
         Assertions.assertEquals(position2, result);
     }
@@ -108,7 +109,7 @@ public class LineServiceTest {
     @Test
     void testAddMove() {
         // Arrange
-        MoveEvent moveEvent = new MoveEvent();
+        MoveEventDto moveEvent = new MoveEventDto();
         moveEvent.setCapture(false);
         moveEvent.setCheck(false);
         moveEvent.setCheckmate(false);
@@ -117,21 +118,21 @@ public class LineServiceTest {
         moveEvent.setMove("e2e4");
         moveEvent.setPiece("Pawn");
         moveEvent.setStalemate(false);
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        Position position = new Position();
+        LineDto line = new LineDto();
+        List<PositionDto> positionList = new ArrayList<>();
+        PositionDto position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
         line.setPositionList(positionList);
         UUID uuid = UUID.randomUUID();
-        Position currentPosition = new Position();
+        PositionDto currentPosition = new PositionDto();
         currentPosition.setFenPosition(Constants.INITIAL_FEN);
-        Position expectedPosition = new Position();
+        PositionDto expectedPosition = new PositionDto();
         expectedPosition.setFenPosition(moveEvent.getFen());
         when(lineRepository.findById(uuid)).thenReturn(Optional.of(line));
         when(positionService.createPosition(moveEvent.getFen(), uuid)).thenReturn(expectedPosition);
         // Act
-        Position result = lineService.addMove(moveEvent, currentPosition, uuid);
+        PositionDto result = lineService.addMove(moveEvent, currentPosition, uuid);
         // Assert
         Assertions.assertEquals(expectedPosition, result);
         Assertions.assertEquals(moveEvent.getFen(), line.getPositionList().get(1).getFenPosition());
@@ -142,7 +143,7 @@ public class LineServiceTest {
     @Test
     void testAddMoveToExistingPositionAndExistingMove() {
         // Arrange
-        MoveEvent moveEvent = new MoveEvent();
+        MoveEventDto moveEvent = new MoveEventDto();
         moveEvent.setCapture(false);
         moveEvent.setCheck(false);
         moveEvent.setCheckmate(false);
@@ -151,26 +152,26 @@ public class LineServiceTest {
         moveEvent.setMove("e2e4");
         moveEvent.setPiece("Pawn");
         moveEvent.setStalemate(false);
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        Position position = new Position();
-        Move repeatedMove = new Move();
+        LineDto line = new LineDto();
+        List<PositionDto> positionList = new ArrayList<>();
+        PositionDto position = new PositionDto();
+        MoveDto repeatedMove = new MoveDto();
         repeatedMove.setMoveToSend("e2e4");
         position.setMoveList(Collections.singletonList(repeatedMove));
         position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
         line.setPositionList(positionList);
-        Position position2 = new Position();
+        PositionDto position2 = new PositionDto();
         position2.setMoveList(new ArrayList<>());
         position2.setFenPosition(moveEvent.getFen());
         positionList.add(position2);
         line.setPositionList(positionList);
         UUID uuid = UUID.randomUUID();
-        Position currentPosition = new Position();
+        PositionDto currentPosition = new PositionDto();
         currentPosition.setFenPosition(Constants.INITIAL_FEN);
         when(lineRepository.findById(uuid)).thenReturn(Optional.of(line));
         // Act
-        Position result = lineService.addMove(moveEvent, currentPosition, uuid);
+        PositionDto result = lineService.addMove(moveEvent, currentPosition, uuid);
         // Assert
         Assertions.assertEquals(position2, result);
 
@@ -184,7 +185,7 @@ public class LineServiceTest {
     @Test
     void testAddMoveToSameColor() {
         // Arrange
-        MoveEvent moveEvent = new MoveEvent();
+        MoveEventDto moveEvent = new MoveEventDto();
         moveEvent.setCapture(false);
         moveEvent.setCheck(false);
         moveEvent.setCheckmate(false);
@@ -193,22 +194,22 @@ public class LineServiceTest {
         moveEvent.setMove("e2e4");
         moveEvent.setPiece("Pawn");
         moveEvent.setStalemate(false);
-        Line line = new Line();
+        LineDto line = new LineDto();
         line.setColor(Constants.WHITE);
-        List<Position> positionList = new ArrayList<>();
-        Position position = new Position();
-        Move whiteMove = new Move();
+        List<PositionDto> positionList = new ArrayList<>();
+        PositionDto position = new PositionDto();
+        MoveDto whiteMove = new MoveDto();
         whiteMove.setMoveToSend("d2d4");
         position.setMoveList(Collections.singletonList(whiteMove));
         position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
         line.setPositionList(positionList);
         UUID uuid = UUID.randomUUID();
-        Position currentPosition = new Position();
+        PositionDto currentPosition = new PositionDto();
         currentPosition.setFenPosition(Constants.INITIAL_FEN);
         when(lineRepository.findById(uuid)).thenReturn(Optional.of(line));
         // Act
-        Position result = lineService.addMove(moveEvent, currentPosition, uuid);
+        PositionDto result = lineService.addMove(moveEvent, currentPosition, uuid);
         // Assert
         Assertions.assertNull(result);
     }
@@ -218,9 +219,9 @@ public class LineServiceTest {
         // Arrange
         String lineColor = "lineColor";
         String lineName = "lineName";
-        when(lineRepository.save(any(Line.class))).thenAnswer(parameter -> parameter.getArgument(0));
+        when(lineRepository.save(any(LineEntity.class))).thenAnswer(parameter -> parameter.getArgument(0));
         // Act
-        Line result = lineService.createLine(lineColor, lineName);
+        LineDto result = lineService.createLine(lineColor, lineName);
         // Assert
         Assertions.assertEquals(lineColor, result.getColor());
         Assertions.assertEquals(lineName, result.getName());

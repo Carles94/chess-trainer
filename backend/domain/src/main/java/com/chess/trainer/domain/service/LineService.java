@@ -5,13 +5,16 @@ import java.util.List;
 import java.util.UUID;
 
 import com.chess.trainer.domain.constant.Constants;
-import com.chess.trainer.domain.model.Line;
-import com.chess.trainer.domain.model.MoveEvent;
-import com.chess.trainer.domain.model.Position;
+import com.chess.trainer.domain.mapper.LineMapper;
+import com.chess.trainer.domain.model.LineDto;
+import com.chess.trainer.domain.model.MoveEventDto;
+import com.chess.trainer.domain.model.PositionDto;
+import com.chess.trainer.persistence.entity.LineEntity;
 import com.chess.trainer.persistence.repository.LineRepository;
 import com.chess.trainer.domain.utils.LineUtils;
 import com.chess.trainer.domain.utils.PositionUtils;
 
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,21 +22,24 @@ public class LineService {
 
     private LineRepository lineRepository;
     private PositionService positionService;
+    private LineMapper lineMapper = Mappers.getMapper(LineMapper.class);
 
     public LineService(LineRepository lineRepository, PositionService positionService) {
         this.lineRepository = lineRepository;
         this.positionService = positionService;
     }
 
-    public Position getPositionFromLineByFen(String fenPosition, UUID lineUuid) {
-        Line line = lineRepository.findById(lineUuid).get();
+    public PositionDto getPositionFromLineByFen(String fenPosition, UUID lineUuid) {
+        LineEntity lineEntity = lineRepository.findById(lineUuid).get();
+        LineDto line = lineMapper.entityToDto(lineEntity);
         return LineUtils.getPositionFromLineByFen(fenPosition, line);
     }
 
-    public Position addMove(MoveEvent moveToAdd, Position currentPosition, UUID lineUuid) {
+    public PositionDto addMove(MoveEventDto moveToAdd, PositionDto currentPosition, UUID lineUuid) {
         // Creates a new position and add to line
-        Line line = lineRepository.findById(lineUuid).get();
-        Position futureCurrentPosition;
+        LineEntity lineEntity = lineRepository.findById(lineUuid).get();
+        LineDto line = lineMapper.entityToDto(lineEntity);
+        PositionDto futureCurrentPosition;
         if (LineUtils.canAddMove(moveToAdd.getMove(), currentPosition.getFenPosition(), moveToAdd.getColor(), line)) {
             if (!LineUtils.existsPositionInLine(moveToAdd.getFen(), line)) {
                 futureCurrentPosition = positionService.createPosition(moveToAdd.getFen(), lineUuid);
@@ -52,18 +58,18 @@ public class LineService {
         return null;
     }
 
-    public Line createLine(String lineColor, String lineName) {
-        Line lineToCreate = new Line();
+    public LineDto createLine(String lineColor, String lineName) {
+        LineDto lineToCreate = new LineDto();
         lineToCreate.setColor(lineColor);
         lineToCreate.setName(lineName);
         lineToCreate.setUuid(UUID.randomUUID());
-        lineRepository.save(lineToCreate);
+        lineRepository.save(lineMapper.dtoToEntity(lineToCreate));
         // Create initial position
-        List<Position> positionList = new ArrayList<>();
-        Position initialPosition = positionService.createPosition(Constants.INITIAL_FEN, lineToCreate.getUuid());
+        List<PositionDto> positionList = new ArrayList<>();
+        PositionDto initialPosition = positionService.createPosition(Constants.INITIAL_FEN, lineToCreate.getUuid());
         positionList.add(initialPosition);
         lineToCreate.setPositionList(positionList);
-        lineRepository.save(lineToCreate);
+        lineRepository.save(lineMapper.dtoToEntity(lineToCreate));
         return lineToCreate;
     }
 

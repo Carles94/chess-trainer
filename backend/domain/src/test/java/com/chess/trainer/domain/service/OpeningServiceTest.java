@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.chess.trainer.domain.model.Line;
-import com.chess.trainer.domain.model.Opening;
+import com.chess.trainer.domain.model.LineDto;
+import com.chess.trainer.domain.model.OpeningDto;
 import com.chess.trainer.persistence.repository.OpeningRepository;
 
 import org.junit.jupiter.api.Assertions;
@@ -44,19 +44,19 @@ class OpeningServiceTest {
         String lineColor = "WHITE";
         String lineName = "name";
         when(openingRepository.existsById(openingName)).thenReturn(false);
-        Line line = new Line();
+        LineDto line = new LineDto();
         line.setColor(lineColor);
         line.setUuid(UUID.randomUUID());
         line.setName(lineName);
         when(lineService.createLine(lineColor, lineName)).thenReturn(line);
         // Act
-        Line result = openingService.createLine(lineName, lineColor, openingName);
+        LineDto result = openingService.createLine(lineName, lineColor, openingName);
         // Assert
         Assertions.assertEquals(line, result);
 
-        ArgumentCaptor<Opening> captor = ArgumentCaptor.forClass(Opening.class);
+        ArgumentCaptor<OpeningDto> captor = ArgumentCaptor.forClass(OpeningDto.class);
         verify(openingRepository).save(captor.capture());
-        Opening opening = captor.getValue();
+        OpeningDto opening = captor.getValue();
         Assertions.assertEquals(lineColor, opening.getColor());
         Assertions.assertEquals(openingName, opening.getName());
         Assertions.assertEquals(1, opening.getLineList().size());
@@ -71,14 +71,14 @@ class OpeningServiceTest {
         String openingName = "openingName";
         String lineColor = "WHITE";
         String lineName = "name";
-        Opening openingFromDatabase = new Opening();
+        OpeningDto openingFromDatabase = new OpeningDto();
         openingFromDatabase.setColor(lineColor);
         openingFromDatabase.setName(openingName);
-        List<Line> lineList = new ArrayList<>();
-        lineList.add(new Line());
+        List<LineDto> lineList = new ArrayList<>();
+        lineList.add(new LineDto());
         openingFromDatabase.setLineList(lineList);
 
-        Line line = new Line();
+        LineDto line = new LineDto();
         line.setColor(lineColor);
         line.setUuid(UUID.randomUUID());
         line.setName(lineName);
@@ -86,13 +86,13 @@ class OpeningServiceTest {
         when(openingRepository.existsById(openingName)).thenReturn(true);
         when(openingRepository.findById(openingName)).thenReturn(Optional.of(openingFromDatabase));
         // Act
-        Line result = openingService.createLine(lineName, lineColor, openingName);
+        LineDto result = openingService.createLine(lineName, lineColor, openingName);
         // Assert
         Assertions.assertEquals(line, result);
 
-        ArgumentCaptor<Opening> captor = ArgumentCaptor.forClass(Opening.class);
+        ArgumentCaptor<OpeningDto> captor = ArgumentCaptor.forClass(OpeningDto.class);
         verify(openingRepository).save(captor.capture());
-        Opening opening = captor.getValue();
+        OpeningDto opening = captor.getValue();
         Assertions.assertEquals(lineColor, opening.getColor());
         Assertions.assertEquals(openingName, opening.getName());
         Assertions.assertEquals(2, opening.getLineList().size());
@@ -104,11 +104,11 @@ class OpeningServiceTest {
     @Test
     public void testGetOpenings() {
         // Arrange
-        List<Opening> openingList = new ArrayList<>();
-        openingList.add(new Opening());
+        List<OpeningDto> openingList = new ArrayList<>();
+        openingList.add(new OpeningDto());
         when(openingRepository.findAll()).thenReturn(openingList);
         // Act
-        List<Opening> result = openingService.getOpenings();
+        List<OpeningDto> result = openingService.getOpenings();
         // Assert
         Assertions.assertEquals(openingList, result);
     }
@@ -118,14 +118,14 @@ class OpeningServiceTest {
         // Arrange
         String lineUuid = UUID.randomUUID().toString();
         String openingName = "openingName";
-        Opening opening = new Opening();
+        OpeningDto opening = new OpeningDto();
         opening.setLineList(new ArrayList<>());
-        List<Opening> openingList = new ArrayList<>();
-        openingList.add(new Opening());
+        List<OpeningDto> openingList = new ArrayList<>();
+        openingList.add(new OpeningDto());
         when(openingRepository.findById(openingName)).thenReturn(Optional.of(opening));
         when(openingRepository.findAll()).thenReturn(openingList);
         // Act
-        List<Opening> result = openingService.deleteLine(lineUuid, openingName);
+        List<OpeningDto> result = openingService.deleteLine(lineUuid, openingName);
         // Assert
         verify(lineService).deleteLine(UUID.fromString(lineUuid));
         verify(openingRepository).deleteById(openingName);
@@ -137,16 +137,16 @@ class OpeningServiceTest {
         // Arrange
         String lineUuid = UUID.randomUUID().toString();
         String openingName = "openingName";
-        Opening opening = new Opening();
-        List<Line> lineList = new ArrayList<>();
-        lineList.add(new Line());
+        OpeningDto opening = new OpeningDto();
+        List<LineDto> lineList = new ArrayList<>();
+        lineList.add(new LineDto());
         opening.setLineList(lineList);
-        List<Opening> openingList = new ArrayList<>();
-        openingList.add(new Opening());
+        List<OpeningDto> openingList = new ArrayList<>();
+        openingList.add(new OpeningDto());
         when(openingRepository.findById(openingName)).thenReturn(Optional.of(opening));
         when(openingRepository.findAll()).thenReturn(openingList);
         // Act
-        List<Opening> result = openingService.deleteLine(lineUuid, openingName);
+        List<OpeningDto> result = openingService.deleteLine(lineUuid, openingName);
         // Assert
         verify(lineService).deleteLine(UUID.fromString(lineUuid));
         verify(openingRepository, never()).deleteById(openingName);

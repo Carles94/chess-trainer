@@ -10,15 +10,15 @@ import java.util.List;
 import java.util.UUID;
 
 import com.chess.trainer.domain.constant.Constants;
-import com.chess.trainer.domain.model.CreateLineBody;
-import com.chess.trainer.domain.model.DeleteLineBody;
-import com.chess.trainer.domain.model.DeleteMoveBody;
-import com.chess.trainer.domain.model.Line;
-import com.chess.trainer.domain.model.Move;
-import com.chess.trainer.domain.model.MoveEvent;
-import com.chess.trainer.domain.model.Opening;
-import com.chess.trainer.domain.model.Position;
-import com.chess.trainer.domain.model.PostMoveBody;
+import com.chess.trainer.domain.model.CreateLineBodyDto;
+import com.chess.trainer.domain.model.DeleteLineBodyDto;
+import com.chess.trainer.domain.model.DeleteMoveBodyDto;
+import com.chess.trainer.domain.model.LineDto;
+import com.chess.trainer.domain.model.MoveDto;
+import com.chess.trainer.domain.model.MoveEventDto;
+import com.chess.trainer.domain.model.OpeningDto;
+import com.chess.trainer.domain.model.PositionDto;
+import com.chess.trainer.domain.model.PostMoveBodyDto;
 import com.chess.trainer.domain.service.LineService;
 import com.chess.trainer.domain.service.OpeningService;
 import com.chess.trainer.domain.service.PositionService;
@@ -56,10 +56,10 @@ class ChessControllerTest {
         UUID lineUuid = UUID.randomUUID();
         String inputFenPosition = "rnbqkbnr_pppppppp_8_8_4P3_8_PPPP1PPP_RNBQKBNR b KQkq e3 0 1";
         String expectedFenPosition = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1";
-        Position expectedPosition = new Position();
+        PositionDto expectedPosition = new PositionDto();
         when(lineService.getPositionFromLineByFen(anyString(), any(UUID.class))).thenReturn(expectedPosition);
         // Act
-        Position result = chessController.getPosition(inputFenPosition, lineUuid);
+        PositionDto result = chessController.getPosition(inputFenPosition, lineUuid);
         // Assert
         verify(lineService).getPositionFromLineByFen(expectedFenPosition, lineUuid);
         Assertions.assertEquals(expectedPosition, result);
@@ -68,18 +68,18 @@ class ChessControllerTest {
     @Test
     void testPostMove() {
         // Arrange
-        MoveEvent moveEvent = new MoveEvent();
+        MoveEventDto moveEvent = new MoveEventDto();
         UUID uuid = UUID.randomUUID();
-        var currentPosition = new Position();
+        var currentPosition = new PositionDto();
         currentPosition.setFenPosition(Constants.INITIAL_FEN);
-        var expectedPosition = new Position();
-        PostMoveBody postMoveBody = new PostMoveBody();
+        var expectedPosition = new PositionDto();
+        PostMoveBodyDto postMoveBody = new PostMoveBodyDto();
         postMoveBody.setCurrentPosition(currentPosition);
         postMoveBody.setMoveEvent(moveEvent);
         postMoveBody.setLineUuid(uuid.toString());
         when(lineService.addMove(moveEvent, currentPosition, uuid)).thenReturn(expectedPosition);
         // Act
-        Position result = chessController.postMove(postMoveBody);
+        PositionDto result = chessController.postMove(postMoveBody);
         // Assert
         verify(lineService).addMove(moveEvent, currentPosition, uuid);
         Assertions.assertEquals(expectedPosition, result);
@@ -88,23 +88,23 @@ class ChessControllerTest {
     @Test
     void testDeleteMove() {
         // Arrange
-        Move moveToDelete = new Move();
+        MoveDto moveToDelete = new MoveDto();
         moveToDelete.setMoveToSend("e2e4");
-        var currentPosition = new Position();
+        var currentPosition = new PositionDto();
         currentPosition.setFenPosition(Constants.INITIAL_FEN);
-        List<Move> moveList = new ArrayList<>();
+        List<MoveDto> moveList = new ArrayList<>();
         moveList.add(moveToDelete);
-        Move otherMove = new Move();
+        MoveDto otherMove = new MoveDto();
         otherMove.setMoveToSend("d2d4");
         moveList.add(otherMove);
         currentPosition.setMoveList(moveList);
-        DeleteMoveBody deleteMoveBody = new DeleteMoveBody();
+        DeleteMoveBodyDto deleteMoveBody = new DeleteMoveBodyDto();
         deleteMoveBody.setCurrentPosition(currentPosition);
         deleteMoveBody.setMove(moveToDelete);
-        Position expectedResult = new Position();
+        PositionDto expectedResult = new PositionDto();
         when(positionService.deleteMove(currentPosition, moveToDelete)).thenReturn(expectedResult);
         // Act
-        Position result = chessController.deleteMove(deleteMoveBody);
+        PositionDto result = chessController.deleteMove(deleteMoveBody);
         // Assert
         verify(positionService).deleteMove(currentPosition, moveToDelete);
         Assertions.assertEquals(expectedResult, result);
@@ -113,17 +113,17 @@ class ChessControllerTest {
     @Test
     void testPostCreateLine() {
         // Arrange
-        CreateLineBody createLineBody = new CreateLineBody();
+        CreateLineBodyDto createLineBody = new CreateLineBodyDto();
         String lineColor = "lineColor";
         createLineBody.setLineColor(lineColor);
         String lineName = "lineName";
         createLineBody.setLineName(lineName);
         String openingName = "openingName";
         createLineBody.setOpeningName(openingName);
-        Line expectedResult = new Line();
+        LineDto expectedResult = new LineDto();
         when(openingService.createLine(lineName, lineColor, openingName)).thenReturn(expectedResult);
         // Act
-        Line result = chessController.postCreateLine(createLineBody);
+        LineDto result = chessController.postCreateLine(createLineBody);
         // Assert
         verify(openingService).createLine(lineName, lineColor, openingName);
         Assertions.assertEquals(expectedResult, result);
@@ -132,12 +132,12 @@ class ChessControllerTest {
     @Test
     void testGetOpenings() {
         // Arrange
-        List<Opening> expectedResult = new ArrayList<>();
-        Opening opening = new Opening();
+        List<OpeningDto> expectedResult = new ArrayList<>();
+        OpeningDto opening = new OpeningDto();
         expectedResult.add(opening);
         when(openingService.getOpenings()).thenReturn(expectedResult);
         // Act
-        List<Opening> result = chessController.getOpenings();
+        List<OpeningDto> result = chessController.getOpenings();
         // Assert
         verify(openingService).getOpenings();
         Assertions.assertEquals(expectedResult, result);
@@ -146,17 +146,17 @@ class ChessControllerTest {
     @Test
     void testDeleteLine() {
         // Arrange
-        List<Opening> expectedResult = new ArrayList<>();
-        Opening opening = new Opening();
+        List<OpeningDto> expectedResult = new ArrayList<>();
+        OpeningDto opening = new OpeningDto();
         expectedResult.add(opening);
-        DeleteLineBody deleteLineBody = new DeleteLineBody();
+        DeleteLineBodyDto deleteLineBody = new DeleteLineBodyDto();
         String uuid = "lineUuid";
         deleteLineBody.setLineUuid(uuid);
         String openingName = "openingName";
         deleteLineBody.setOpeningName(openingName);
         when(openingService.deleteLine(uuid, openingName)).thenReturn(expectedResult);
         // Act
-        List<Opening> result = chessController.deleteLine(deleteLineBody);
+        List<OpeningDto> result = chessController.deleteLine(deleteLineBody);
         // Assert
         verify(openingService).deleteLine(uuid, openingName);
         Assertions.assertEquals(expectedResult, result);
@@ -165,18 +165,18 @@ class ChessControllerTest {
     @Test
     void testUpdatePosition() {
         // Arrange
-        MoveEvent moveEvent = new MoveEvent();
+        MoveEventDto moveEvent = new MoveEventDto();
         UUID uuid = UUID.randomUUID();
-        var currentPosition = new Position();
+        var currentPosition = new PositionDto();
         currentPosition.setFenPosition(Constants.INITIAL_FEN);
-        var expectedPosition = new Position();
-        PostMoveBody postMoveBody = new PostMoveBody();
+        var expectedPosition = new PositionDto();
+        PostMoveBodyDto postMoveBody = new PostMoveBodyDto();
         postMoveBody.setCurrentPosition(currentPosition);
         postMoveBody.setMoveEvent(moveEvent);
         postMoveBody.setLineUuid(uuid.toString());
         when(positionService.updatePosition(moveEvent, currentPosition, uuid)).thenReturn(expectedPosition);
         // Act
-        Position result = chessController.updatePosition(postMoveBody);
+        PositionDto result = chessController.updatePosition(postMoveBody);
         // Assert
         verify(positionService).updatePosition(moveEvent, currentPosition, uuid);
         Assertions.assertEquals(expectedPosition, result);

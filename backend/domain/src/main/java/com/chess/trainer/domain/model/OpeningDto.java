@@ -1,14 +1,12 @@
 package com.chess.trainer.domain.model;
 
 import java.util.List;
-import java.util.UUID;
 
 import lombok.Data;
 
 @Data
-public class Line {
-    private UUID uuid;
+public class OpeningDto {
     private String name;
+    private List<LineDto> lineList;
     private String color;
-    private List<Position> positionList;
 }

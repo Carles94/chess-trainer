@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 import com.chess.trainer.domain.constant.Constants;
-import com.chess.trainer.domain.model.Line;
-import com.chess.trainer.domain.model.Move;
-import com.chess.trainer.domain.model.Position;
+import com.chess.trainer.domain.model.LineDto;
+import com.chess.trainer.domain.model.MoveDto;
+import com.chess.trainer.domain.model.PositionDto;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,17 +21,17 @@ public class LineUtilsTest {
     void testGetPositionFromLineByFen() {
         // Arrange
         String fenPosition = Constants.INITIAL_FEN;
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
+        LineDto line = new LineDto();
+        List<PositionDto> positionList = new ArrayList<>();
+        var position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
-        var position2 = new Position();
+        var position2 = new PositionDto();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);
         // Act
-        Position result = LineUtils.getPositionFromLineByFen(fenPosition, line);
+        PositionDto result = LineUtils.getPositionFromLineByFen(fenPosition, line);
         // Assert
         Assertions.assertEquals(position, result);
     }
@@ -40,12 +40,12 @@ public class LineUtilsTest {
     void testGetPositionFromLineByFenUnexistant() {
         // Arrange
         String fenPosition = "rnbqkbnr/pppppppp/8/8/3P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1";
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
+        LineDto line = new LineDto();
+        List<PositionDto> positionList = new ArrayList<>();
+        var position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
-        var position2 = new Position();
+        var position2 = new PositionDto();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);
@@ -58,17 +58,17 @@ public class LineUtilsTest {
     void testGetPositionFromLineByFenByTransposition() {
         // Arrange
         String fenPosition = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 2 3";
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
+        LineDto line = new LineDto();
+        List<PositionDto> positionList = new ArrayList<>();
+        var position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
-        var position2 = new Position();
+        var position2 = new PositionDto();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);
         // Act
-        Position result = LineUtils.getPositionFromLineByFen(fenPosition, line);
+        PositionDto result = LineUtils.getPositionFromLineByFen(fenPosition, line);
         // Assert
         Assertions.assertEquals(position2, result);
     }
@@ -77,17 +77,17 @@ public class LineUtilsTest {
     void testGetPositionFromLineByFenByTranspositionWithEnPassant() {
         // Arrange
         String fenPosition = "rnbqkbnr/ppp1pppp/8/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq d3 0 2";
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
+        LineDto line = new LineDto();
+        List<PositionDto> positionList = new ArrayList<>();
+        var position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
-        var position2 = new Position();
+        var position2 = new PositionDto();
         position2.setFenPosition("rnbqkbnr/ppp1pppp/8/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq - 0 2");
         positionList.add(position2);
         line.setPositionList(positionList);
         // Act
-        Position result = LineUtils.getPositionFromLineByFen(fenPosition, line);
+        PositionDto result = LineUtils.getPositionFromLineByFen(fenPosition, line);
         // Assert
         Assertions.assertEquals(position2, result);
     }
@@ -96,17 +96,17 @@ public class LineUtilsTest {
     void testGetPositionFromLineByFenByTranspositionWithEnPassant2() {
         // Arrange
         String fenPosition = "rnbqkbnr/ppp1pppp/8/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq - 0 2";
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
+        LineDto line = new LineDto();
+        List<PositionDto> positionList = new ArrayList<>();
+        var position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
-        var position2 = new Position();
+        var position2 = new PositionDto();
         position2.setFenPosition("rnbqkbnr/ppp1pppp/8/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq d3 0 2");
         positionList.add(position2);
         line.setPositionList(positionList);
         // Act
-        Position result = LineUtils.getPositionFromLineByFen(fenPosition, line);
+        PositionDto result = LineUtils.getPositionFromLineByFen(fenPosition, line);
         // Assert
         Assertions.assertEquals(position2, result);
     }
@@ -115,12 +115,12 @@ public class LineUtilsTest {
     void testExistsPositionInLine() {
         // Arrange
         String fenPosition = Constants.INITIAL_FEN;
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
+        LineDto line = new LineDto();
+        List<PositionDto> positionList = new ArrayList<>();
+        var position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
-        var position2 = new Position();
+        var position2 = new PositionDto();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);
@@ -134,12 +134,12 @@ public class LineUtilsTest {
     void testExistsPositionInLineUnexistant() {
         // Arrange
         String fenPosition = "rnbqkbnr/pppppppp/8/8/3P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1";
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
+        LineDto line = new LineDto();
+        List<PositionDto> positionList = new ArrayList<>();
+        var position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
-        var position2 = new Position();
+        var position2 = new PositionDto();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);
@@ -154,12 +154,12 @@ public class LineUtilsTest {
     void testExistsPositionInLineByTransposition() {
         // Arrange
         String fenPosition = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 2 3";
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
+        LineDto line = new LineDto();
+        List<PositionDto> positionList = new ArrayList<>();
+        var position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
-        var position2 = new Position();
+        var position2 = new PositionDto();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);
@@ -173,12 +173,12 @@ public class LineUtilsTest {
     void testExistsPositionInLineByTranspositionWithEnPassant() {
         // Arrange
         String fenPosition = "rnbqkbnr/ppp1pppp/8/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq d3 0 2";
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
+        LineDto line = new LineDto();
+        List<PositionDto> positionList = new ArrayList<>();
+        var position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
-        var position2 = new Position();
+        var position2 = new PositionDto();
         position2.setFenPosition("rnbqkbnr/ppp1pppp/8/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq - 0 2");
         positionList.add(position2);
         line.setPositionList(positionList);
@@ -192,12 +192,12 @@ public class LineUtilsTest {
     void testExistsPositionInLineByTranspositionWithEnPassant2() {
         // Arrange
         String fenPosition = "rnbqkbnr/ppp1pppp/8/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq - 0 2";
-        Line line = new Line();
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
+        LineDto line = new LineDto();
+        List<PositionDto> positionList = new ArrayList<>();
+        var position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
         positionList.add(position);
-        var position2 = new Position();
+        var position2 = new PositionDto();
         position2.setFenPosition("rnbqkbnr/ppp1pppp/8/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq d3 0 2");
         positionList.add(position2);
         line.setPositionList(positionList);
@@ -212,16 +212,16 @@ public class LineUtilsTest {
         // Arrange
         String color = Constants.WHITE;
         String fenPosition = Constants.INITIAL_FEN;
-        Line line = new Line();
+        LineDto line = new LineDto();
         line.setColor(color);
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
+        List<PositionDto> positionList = new ArrayList<>();
+        var position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
-        Move move = new Move();
+        MoveDto move = new MoveDto();
         move.setMoveToSend("e2e4");
         position.setMoveList(Collections.singletonList(move));
         positionList.add(position);
-        var position2 = new Position();
+        var position2 = new PositionDto();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);
@@ -236,10 +236,10 @@ public class LineUtilsTest {
         // Arrange
         String color = Constants.WHITE;
         String fenPosition = Constants.INITIAL_FEN;
-        Line line = new Line();
+        LineDto line = new LineDto();
         line.setColor(color);
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
+        List<PositionDto> positionList = new ArrayList<>();
+        var position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
         position.setMoveList(Collections.emptyList());
         positionList.add(position);
@@ -255,16 +255,16 @@ public class LineUtilsTest {
         // Arrange
         String color = Constants.WHITE;
         String fenPosition = Constants.INITIAL_FEN;
-        Line line = new Line();
+        LineDto line = new LineDto();
         line.setColor(Constants.BLACK);
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
+        List<PositionDto> positionList = new ArrayList<>();
+        var position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
-        Move move = new Move();
+        MoveDto move = new MoveDto();
         move.setMoveToSend("e2e4");
         position.setMoveList(Collections.singletonList(move));
         positionList.add(position);
-        var position2 = new Position();
+        var position2 = new PositionDto();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);
@@ -280,16 +280,16 @@ public class LineUtilsTest {
         String color = Constants.WHITE;
         String fenPosition = Constants.INITIAL_FEN;
         String moveToSend = "e2e4";
-        Line line = new Line();
+        LineDto line = new LineDto();
         line.setColor(color);
-        List<Position> positionList = new ArrayList<>();
-        var position = new Position();
+        List<PositionDto> positionList = new ArrayList<>();
+        var position = new PositionDto();
         position.setFenPosition(Constants.INITIAL_FEN);
-        Move move = new Move();
+        MoveDto move = new MoveDto();
         move.setMoveToSend(moveToSend);
         position.setMoveList(Collections.singletonList(move));
         positionList.add(position);
-        var position2 = new Position();
+        var position2 = new PositionDto();
         position2.setFenPosition("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
         positionList.add(position2);
         line.setPositionList(positionList);

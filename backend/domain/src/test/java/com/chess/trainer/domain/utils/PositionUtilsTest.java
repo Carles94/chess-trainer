@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.chess.trainer.domain.model.Move;
-import com.chess.trainer.domain.model.Position;
+import com.chess.trainer.domain.model.MoveDto;
+import com.chess.trainer.domain.model.PositionDto;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,12 +16,12 @@ public class PositionUtilsTest {
     public void testExistsMoveInPositionWith2Moves() {
         // Arrange
         String move = "e2e4";
-        Position position = new Position();
-        List<Move> moveList = new ArrayList<>();
-        Move m = new Move();
+        PositionDto position = new PositionDto();
+        List<MoveDto> moveList = new ArrayList<>();
+        MoveDto m = new MoveDto();
         m.setMoveToSend("e2e4");
         moveList.add(m);
-        Move m2 = new Move();
+        MoveDto m2 = new MoveDto();
         m2.setMoveToSend("d2d4");
         moveList.add(m2);
         position.setMoveList(moveList);
@@ -35,8 +35,8 @@ public class PositionUtilsTest {
     public void testExistsMoveInPositionWithoutMoves() {
         // Arrange
         String move = "e2e4";
-        Position position = new Position();
-        List<Move> moveList = new ArrayList<>();
+        PositionDto position = new PositionDto();
+        List<MoveDto> moveList = new ArrayList<>();
         position.setMoveList(moveList);
         // Act
         boolean result = PositionUtils.existsMove(move, position);
@@ -48,9 +48,9 @@ public class PositionUtilsTest {
     public void testExistsMoveInPositionWith1Move() {
         // Arrange
         String move = "e2e4";
-        Position position = new Position();
-        List<Move> moveList = new ArrayList<>();
-        Move m2 = new Move();
+        PositionDto position = new PositionDto();
+        List<MoveDto> moveList = new ArrayList<>();
+        MoveDto m2 = new MoveDto();
         m2.setMoveToSend("d2d4");
         moveList.add(m2);
         position.setMoveList(moveList);
@@ -74,7 +74,7 @@ public class PositionUtilsTest {
     public void testExistsMoveInPositionWithoutMoveList() {
         // Arrange
         String move = "e2e4";
-        Position position = new Position();
+        PositionDto position = new PositionDto();
         // Act
         boolean result = PositionUtils.existsMove(move, position);
         // Assert
@@ -84,14 +84,14 @@ public class PositionUtilsTest {
     @Test
     public void testDeleteMove() {
         // Arrange
-        Move moveToDelete = new Move();
+        MoveDto moveToDelete = new MoveDto();
         moveToDelete.setMoveToSend("e2e4");
-        Move otherMove = new Move();
+        MoveDto otherMove = new MoveDto();
         otherMove.setMoveToSend("d2d4");
-        Position position = new Position();
+        PositionDto position = new PositionDto();
         position.setMoveList(Arrays.asList(moveToDelete, otherMove));
         // Act
-        Position result = PositionUtils.deleteMove(moveToDelete, position);
+        PositionDto result = PositionUtils.deleteMove(moveToDelete, position);
         // Assert
         Assertions.assertEquals(1, result.getMoveList().size());
         Assertions.assertEquals(otherMove.getMoveToSend(), result.getMoveList().get(0).getMoveToSend());

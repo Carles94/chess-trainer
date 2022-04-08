@@ -3,7 +3,7 @@ package com.chess.trainer.domain.model;
 import lombok.Data;
 
 @Data
-public class MoveEvent {
+public class MoveEventDto {
     private boolean check;
     private boolean checkmate;
     private String color;

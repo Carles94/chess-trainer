@@ -32,61 +32,61 @@ public class ChessController {
     }
 
     @GetMapping(value = "/position/{lineUuid}/{fenPosition}")
-    public @ResponseBody Position getPosition(@PathVariable String fenPosition, @PathVariable UUID lineUuid) {
+    public @ResponseBody PositionDto getPosition(@PathVariable String fenPosition, @PathVariable UUID lineUuid) {
         System.out.println("Get  position  called with " + fenPosition + " and " + lineUuid);
         var positionToSearch = fenPosition.replaceAll("_", "/");
-        Position positionToSend = lineService.getPositionFromLineByFen(positionToSearch, lineUuid);
+        PositionDto positionToSend = lineService.getPositionFromLineByFen(positionToSearch, lineUuid);
         return positionToSend;
     }
 
     @PostMapping(value = "/move")
-    public @ResponseBody Position postMove(@RequestBody PostMoveBody postMoveBody) {
+    public @ResponseBody PositionDto postMove(@RequestBody PostMoveBodyDto postMoveBody) {
         System.out.println("Post move  called with " + postMoveBody.getMoveEvent() + ", "
                 + postMoveBody.getCurrentPosition() + " and " + postMoveBody.getLineUuid());
-        Position result = lineService.addMove(postMoveBody.getMoveEvent(), postMoveBody.getCurrentPosition(),
+        PositionDto result = lineService.addMove(postMoveBody.getMoveEvent(), postMoveBody.getCurrentPosition(),
                 UUID.fromString(postMoveBody.getLineUuid()));
         return result;
     }
 
     @DeleteMapping(value = "/move")
-    public @ResponseBody Position deleteMove(@RequestBody DeleteMoveBody deleteMoveBody) {
+    public @ResponseBody PositionDto deleteMove(@RequestBody DeleteMoveBodyDto deleteMoveBody) {
         System.out.println("Delete move called with " + deleteMoveBody.getMove() + " and "
                 + deleteMoveBody.getCurrentPosition());
-        Position result = positionService.deleteMove(deleteMoveBody.getCurrentPosition(), deleteMoveBody.getMove());
+        PositionDto result = positionService.deleteMove(deleteMoveBody.getCurrentPosition(), deleteMoveBody.getMove());
         return result;
     }
 
     @GetMapping(value = "/openings")
-    public @ResponseBody List<Opening> getOpenings() {
+    public @ResponseBody List<OpeningDto> getOpenings() {
         System.out.println("Get openings  called");
-        List<Opening> result = this.openingService.getOpenings();
+        List<OpeningDto> result = this.openingService.getOpenings();
         return result;
     }
 
     @PostMapping(value = "/line/create")
-    public @ResponseBody Line postCreateLine(@RequestBody CreateLineBody createLineBody) {
+    public @ResponseBody LineDto postCreateLine(@RequestBody CreateLineBodyDto createLineBody) {
         System.out.println("Post line called with " + createLineBody.getLineColor() + ", "
                 + createLineBody.getLineName() + " and " + createLineBody.getOpeningName());
-        Line result = this.openingService.createLine(createLineBody.getLineName(), createLineBody.getLineColor(),
+        LineDto result = this.openingService.createLine(createLineBody.getLineName(), createLineBody.getLineColor(),
                 createLineBody.getOpeningName());
         return result;
     }
 
     @DeleteMapping(value = "/line")
-    public @ResponseBody List<Opening> deleteLine(@RequestBody DeleteLineBody deleteLineBody) {
+    public @ResponseBody List<OpeningDto> deleteLine(@RequestBody DeleteLineBodyDto deleteLineBody) {
         System.out.println("Delete line called with uuid " + deleteLineBody.getLineUuid() + " and "
                 + deleteLineBody.getOpeningName());
-        List<Opening> result = this.openingService.deleteLine(deleteLineBody.getLineUuid(),
+        List<OpeningDto> result = this.openingService.deleteLine(deleteLineBody.getLineUuid(),
                 deleteLineBody.getOpeningName());
         return result;
     }
 
     @PostMapping(value = "/position")
-    public @ResponseBody Position updatePosition(@RequestBody PostMoveBody postMoveBody) {
+    public @ResponseBody PositionDto updatePosition(@RequestBody PostMoveBodyDto postMoveBody) {
         System.out.println("Update position called with uuid " + postMoveBody.getLineUuid() + ", "
                 + postMoveBody.getCurrentPosition() + " and "
                 + postMoveBody.getMoveEvent());
-        Position result = this.positionService.updatePosition(postMoveBody.getMoveEvent(),
+        PositionDto result = this.positionService.updatePosition(postMoveBody.getMoveEvent(),
                 postMoveBody.getCurrentPosition(),
                 UUID.fromString(postMoveBody.getLineUuid()));
         return result;

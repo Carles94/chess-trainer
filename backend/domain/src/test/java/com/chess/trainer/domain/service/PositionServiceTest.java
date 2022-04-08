@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.chess.trainer.domain.model.Move;
-import com.chess.trainer.domain.model.MoveEvent;
-import com.chess.trainer.domain.model.Position;
+import com.chess.trainer.domain.model.MoveDto;
+import com.chess.trainer.domain.model.MoveEventDto;
+import com.chess.trainer.domain.model.PositionDto;
 import com.chess.trainer.persistence.repository.PositionRepository;
 
 import org.junit.jupiter.api.Assertions;
@@ -39,17 +39,17 @@ public class PositionServiceTest {
     void testUpdatePositionFailedAnswer() {
         // Arrange
         UUID lineUuid = UUID.randomUUID();
-        Position currentPosition = new Position();
-        List<Move> moveList = new ArrayList<>();
-        Move otherMove = new Move();
+        PositionDto currentPosition = new PositionDto();
+        List<MoveDto> moveList = new ArrayList<>();
+        MoveDto otherMove = new MoveDto();
         otherMove.setMoveToSend("e2e4");
         moveList.add(otherMove);
         currentPosition.setMoveList(moveList);
-        MoveEvent moveEvent = new MoveEvent();
+        MoveEventDto moveEvent = new MoveEventDto();
         moveEvent.setMove("d2d4");
         when(positionRepository.save(currentPosition)).thenAnswer((arguments) -> arguments.getArgument(0));
         // Act
-        Position result = positionService.updatePosition(moveEvent, currentPosition, lineUuid);
+        PositionDto result = positionService.updatePosition(moveEvent, currentPosition, lineUuid);
         // Assert
         verify(positionRepository).save(currentPosition);
         Assertions.assertEquals(1, result.getTotalAnswers());
@@ -60,18 +60,18 @@ public class PositionServiceTest {
     void testUpdatePositionCorrectAnswer() {
         // Arrange
         UUID lineUuid = UUID.randomUUID();
-        Position currentPosition = new Position();
+        PositionDto currentPosition = new PositionDto();
         currentPosition.setTotalAnswers(1);
-        List<Move> moveList = new ArrayList<>();
-        Move correctMove = new Move();
+        List<MoveDto> moveList = new ArrayList<>();
+        MoveDto correctMove = new MoveDto();
         correctMove.setMoveToSend("e2e4");
         moveList.add(correctMove);
         currentPosition.setMoveList(moveList);
-        MoveEvent moveEvent = new MoveEvent();
+        MoveEventDto moveEvent = new MoveEventDto();
         moveEvent.setMove("e2e4");
         when(positionRepository.save(currentPosition)).thenAnswer((arguments) -> arguments.getArgument(0));
         // Act
-        Position result = positionService.updatePosition(moveEvent, currentPosition, lineUuid);
+        PositionDto result = positionService.updatePosition(moveEvent, currentPosition, lineUuid);
         // Assert
         verify(positionRepository).save(currentPosition);
         Assertions.assertEquals(2, result.getTotalAnswers());
@@ -82,19 +82,19 @@ public class PositionServiceTest {
     void testUpdatePositionCorrectAnswer2() {
         // Arrange
         UUID lineUuid = UUID.randomUUID();
-        Position currentPosition = new Position();
+        PositionDto currentPosition = new PositionDto();
         currentPosition.setTotalAnswers(2);
         currentPosition.setCorrectAnswers(1);
-        List<Move> moveList = new ArrayList<>();
-        Move correctMove = new Move();
+        List<MoveDto> moveList = new ArrayList<>();
+        MoveDto correctMove = new MoveDto();
         correctMove.setMoveToSend("e2e4");
         moveList.add(correctMove);
         currentPosition.setMoveList(moveList);
-        MoveEvent moveEvent = new MoveEvent();
+        MoveEventDto moveEvent = new MoveEventDto();
         moveEvent.setMove("e2e4");
         when(positionRepository.save(currentPosition)).thenAnswer((arguments) -> arguments.getArgument(0));
         // Act
-        Position result = positionService.updatePosition(moveEvent, currentPosition, lineUuid);
+        PositionDto result = positionService.updatePosition(moveEvent, currentPosition, lineUuid);
         // Assert
         verify(positionRepository).save(currentPosition);
         Assertions.assertEquals(3, result.getTotalAnswers());
@@ -104,15 +104,15 @@ public class PositionServiceTest {
     @Test
     void testAddMoveToPosition() {
         // Arrange
-        Position position = new Position();
+        PositionDto position = new PositionDto();
         position.setMoveList(new ArrayList<>());
-        MoveEvent moveToAdd = new MoveEvent();
+        MoveEventDto moveToAdd = new MoveEventDto();
         moveToAdd.setMove("move");
         moveToAdd.setFen("fen");
         moveToAdd.setMoveToShow("moveToShow");
         when(positionRepository.save(position)).thenAnswer(parameter -> parameter.getArgument(0));
         // Act
-        Position result = positionService.addMoveToPosition(position, moveToAdd);
+        PositionDto result = positionService.addMoveToPosition(position, moveToAdd);
         // Assert
         Assertions.assertEquals("fen", result.getMoveList().get(0).getPositionFENAfter());
         Assertions.assertEquals("move", result.getMoveList().get(0).getMoveToSend());
@@ -122,15 +122,15 @@ public class PositionServiceTest {
     @Test
     void testDeleteMove() {
         // Arrange
-        Move move = new Move();
+        MoveDto move = new MoveDto();
         move.setMoveToSend("moveToSend");
-        Position position = new Position();
-        List<Move> moveList = new ArrayList<>();
+        PositionDto position = new PositionDto();
+        List<MoveDto> moveList = new ArrayList<>();
         moveList.add(move);
         position.setMoveList(moveList);
         when(positionRepository.save(position)).thenAnswer(parameter -> parameter.getArgument(0));
         // Act
-        Position result = positionService.deleteMove(position, move);
+        PositionDto result = positionService.deleteMove(position, move);
         // Assert
         Assertions.assertTrue(result.getMoveList().isEmpty());
     }
@@ -140,9 +140,9 @@ public class PositionServiceTest {
         // Arrange
         String fenPosition = "fen";
         UUID lineUuid = UUID.randomUUID();
-        when(positionRepository.save(any(Position.class))).thenAnswer(parameter -> parameter.getArgument(0));
+        when(positionRepository.save(any(PositionDto.class))).thenAnswer(parameter -> parameter.getArgument(0));
         // Act
-        Position result = positionService.createPosition(fenPosition, lineUuid);
+        PositionDto result = positionService.createPosition(fenPosition, lineUuid);
         // Assert
         verify(positionRepository).save(result);
         Assertions.assertEquals(fenPosition, result.getFenPosition());
