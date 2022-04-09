@@ -11,6 +11,7 @@ import java.util.UUID;
 import com.chess.trainer.domain.model.MoveDto;
 import com.chess.trainer.domain.model.MoveEventDto;
 import com.chess.trainer.domain.model.PositionDto;
+import com.chess.trainer.persistence.entity.PositionEntity;
 import com.chess.trainer.persistence.repository.PositionRepository;
 
 import org.junit.jupiter.api.Assertions;
@@ -47,11 +48,11 @@ public class PositionServiceTest {
         currentPosition.setMoveList(moveList);
         MoveEventDto moveEvent = new MoveEventDto();
         moveEvent.setMove("d2d4");
-        when(positionRepository.save(currentPosition)).thenAnswer((arguments) -> arguments.getArgument(0));
+        when(positionRepository.save(any(PositionEntity.class))).thenAnswer((arguments) -> arguments.getArgument(0));
         // Act
         PositionDto result = positionService.updatePosition(moveEvent, currentPosition, lineUuid);
         // Assert
-        verify(positionRepository).save(currentPosition);
+        verify(positionRepository).save(any(PositionEntity.class));
         Assertions.assertEquals(1, result.getTotalAnswers());
         Assertions.assertEquals(0, result.getCorrectAnswers());
     }
@@ -69,11 +70,11 @@ public class PositionServiceTest {
         currentPosition.setMoveList(moveList);
         MoveEventDto moveEvent = new MoveEventDto();
         moveEvent.setMove("e2e4");
-        when(positionRepository.save(currentPosition)).thenAnswer((arguments) -> arguments.getArgument(0));
+        when(positionRepository.save(any(PositionEntity.class))).thenAnswer((arguments) -> arguments.getArgument(0));
         // Act
         PositionDto result = positionService.updatePosition(moveEvent, currentPosition, lineUuid);
         // Assert
-        verify(positionRepository).save(currentPosition);
+        verify(positionRepository).save(any(PositionEntity.class));
         Assertions.assertEquals(2, result.getTotalAnswers());
         Assertions.assertEquals(1, result.getCorrectAnswers());
     }
@@ -92,11 +93,11 @@ public class PositionServiceTest {
         currentPosition.setMoveList(moveList);
         MoveEventDto moveEvent = new MoveEventDto();
         moveEvent.setMove("e2e4");
-        when(positionRepository.save(currentPosition)).thenAnswer((arguments) -> arguments.getArgument(0));
+        when(positionRepository.save(any(PositionEntity.class))).thenAnswer((arguments) -> arguments.getArgument(0));
         // Act
         PositionDto result = positionService.updatePosition(moveEvent, currentPosition, lineUuid);
         // Assert
-        verify(positionRepository).save(currentPosition);
+        verify(positionRepository).save(any(PositionEntity.class));
         Assertions.assertEquals(3, result.getTotalAnswers());
         Assertions.assertEquals(2, result.getCorrectAnswers());
     }
@@ -110,7 +111,7 @@ public class PositionServiceTest {
         moveToAdd.setMove("move");
         moveToAdd.setFen("fen");
         moveToAdd.setMoveToShow("moveToShow");
-        when(positionRepository.save(position)).thenAnswer(parameter -> parameter.getArgument(0));
+        when(positionRepository.save(any(PositionEntity.class))).thenAnswer(parameter -> parameter.getArgument(0));
         // Act
         PositionDto result = positionService.addMoveToPosition(position, moveToAdd);
         // Assert
@@ -128,7 +129,7 @@ public class PositionServiceTest {
         List<MoveDto> moveList = new ArrayList<>();
         moveList.add(move);
         position.setMoveList(moveList);
-        when(positionRepository.save(position)).thenAnswer(parameter -> parameter.getArgument(0));
+        when(positionRepository.save(any(PositionEntity.class))).thenAnswer(parameter -> parameter.getArgument(0));
         // Act
         PositionDto result = positionService.deleteMove(position, move);
         // Assert
@@ -140,11 +141,11 @@ public class PositionServiceTest {
         // Arrange
         String fenPosition = "fen";
         UUID lineUuid = UUID.randomUUID();
-        when(positionRepository.save(any(PositionDto.class))).thenAnswer(parameter -> parameter.getArgument(0));
+        when(positionRepository.save(any(PositionEntity.class))).thenAnswer(parameter -> parameter.getArgument(0));
         // Act
         PositionDto result = positionService.createPosition(fenPosition, lineUuid);
         // Assert
-        verify(positionRepository).save(result);
+        verify(positionRepository).save(any(PositionEntity.class));
         Assertions.assertEquals(fenPosition, result.getFenPosition());
         Assertions.assertTrue(result.getMoveList().isEmpty());
         Assertions.assertEquals(lineUuid, result.getLineUuid());

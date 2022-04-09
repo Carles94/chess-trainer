@@ -11,6 +11,8 @@ import java.util.UUID;
 
 import com.chess.trainer.domain.model.LineDto;
 import com.chess.trainer.domain.model.OpeningDto;
+import com.chess.trainer.persistence.entity.LineEntity;
+import com.chess.trainer.persistence.entity.OpeningEntity;
 import com.chess.trainer.persistence.repository.OpeningRepository;
 
 import org.junit.jupiter.api.Assertions;
@@ -54,9 +56,9 @@ class OpeningServiceTest {
         // Assert
         Assertions.assertEquals(line, result);
 
-        ArgumentCaptor<OpeningDto> captor = ArgumentCaptor.forClass(OpeningDto.class);
+        ArgumentCaptor<OpeningEntity> captor = ArgumentCaptor.forClass(OpeningEntity.class);
         verify(openingRepository).save(captor.capture());
-        OpeningDto opening = captor.getValue();
+        OpeningEntity opening = captor.getValue();
         Assertions.assertEquals(lineColor, opening.getColor());
         Assertions.assertEquals(openingName, opening.getName());
         Assertions.assertEquals(1, opening.getLineList().size());
@@ -71,11 +73,11 @@ class OpeningServiceTest {
         String openingName = "openingName";
         String lineColor = "WHITE";
         String lineName = "name";
-        OpeningDto openingFromDatabase = new OpeningDto();
+        OpeningEntity openingFromDatabase = new OpeningEntity();
         openingFromDatabase.setColor(lineColor);
         openingFromDatabase.setName(openingName);
-        List<LineDto> lineList = new ArrayList<>();
-        lineList.add(new LineDto());
+        List<LineEntity> lineList = new ArrayList<>();
+        lineList.add(new LineEntity());
         openingFromDatabase.setLineList(lineList);
 
         LineDto line = new LineDto();
@@ -90,9 +92,9 @@ class OpeningServiceTest {
         // Assert
         Assertions.assertEquals(line, result);
 
-        ArgumentCaptor<OpeningDto> captor = ArgumentCaptor.forClass(OpeningDto.class);
+        ArgumentCaptor<OpeningEntity> captor = ArgumentCaptor.forClass(OpeningEntity.class);
         verify(openingRepository).save(captor.capture());
-        OpeningDto opening = captor.getValue();
+        OpeningEntity opening = captor.getValue();
         Assertions.assertEquals(lineColor, opening.getColor());
         Assertions.assertEquals(openingName, opening.getName());
         Assertions.assertEquals(2, opening.getLineList().size());
@@ -104,13 +106,13 @@ class OpeningServiceTest {
     @Test
     public void testGetOpenings() {
         // Arrange
-        List<OpeningDto> openingList = new ArrayList<>();
-        openingList.add(new OpeningDto());
+        List<OpeningEntity> openingList = new ArrayList<>();
+        openingList.add(new OpeningEntity());
         when(openingRepository.findAll()).thenReturn(openingList);
         // Act
         List<OpeningDto> result = openingService.getOpenings();
         // Assert
-        Assertions.assertEquals(openingList, result);
+        Assertions.assertEquals(openingList.size(), result.size());
     }
 
     @Test
@@ -118,10 +120,10 @@ class OpeningServiceTest {
         // Arrange
         String lineUuid = UUID.randomUUID().toString();
         String openingName = "openingName";
-        OpeningDto opening = new OpeningDto();
+        OpeningEntity opening = new OpeningEntity();
         opening.setLineList(new ArrayList<>());
-        List<OpeningDto> openingList = new ArrayList<>();
-        openingList.add(new OpeningDto());
+        List<OpeningEntity> openingList = new ArrayList<>();
+        openingList.add(new OpeningEntity());
         when(openingRepository.findById(openingName)).thenReturn(Optional.of(opening));
         when(openingRepository.findAll()).thenReturn(openingList);
         // Act
@@ -129,7 +131,7 @@ class OpeningServiceTest {
         // Assert
         verify(lineService).deleteLine(UUID.fromString(lineUuid));
         verify(openingRepository).deleteById(openingName);
-        Assertions.assertEquals(openingList, result);
+        Assertions.assertEquals(openingList.size(), result.size());
     }
 
     @Test
@@ -137,12 +139,12 @@ class OpeningServiceTest {
         // Arrange
         String lineUuid = UUID.randomUUID().toString();
         String openingName = "openingName";
-        OpeningDto opening = new OpeningDto();
-        List<LineDto> lineList = new ArrayList<>();
-        lineList.add(new LineDto());
+        OpeningEntity opening = new OpeningEntity();
+        List<LineEntity> lineList = new ArrayList<>();
+        lineList.add(new LineEntity());
         opening.setLineList(lineList);
-        List<OpeningDto> openingList = new ArrayList<>();
-        openingList.add(new OpeningDto());
+        List<OpeningEntity> openingList = new ArrayList<>();
+        openingList.add(new OpeningEntity());
         when(openingRepository.findById(openingName)).thenReturn(Optional.of(opening));
         when(openingRepository.findAll()).thenReturn(openingList);
         // Act
@@ -150,6 +152,6 @@ class OpeningServiceTest {
         // Assert
         verify(lineService).deleteLine(UUID.fromString(lineUuid));
         verify(openingRepository, never()).deleteById(openingName);
-        Assertions.assertEquals(openingList, result);
+        Assertions.assertEquals(openingList.size(), result.size());
     }
 }
