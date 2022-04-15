@@ -62,7 +62,7 @@ class OpeningServiceTest {
         Assertions.assertEquals(lineColor, opening.getColor());
         Assertions.assertEquals(openingName, opening.getName());
         Assertions.assertEquals(1, opening.getLineList().size());
-        Assertions.assertEquals(result, opening.getLineList().get(0));
+        Assertions.assertEquals(result.getUuid(), opening.getLineList().get(0).getUuid());
 
         verify(lineService).createLine(lineColor, lineName);
     }
@@ -98,7 +98,7 @@ class OpeningServiceTest {
         Assertions.assertEquals(lineColor, opening.getColor());
         Assertions.assertEquals(openingName, opening.getName());
         Assertions.assertEquals(2, opening.getLineList().size());
-        Assertions.assertEquals(result, opening.getLineList().get(1));
+        Assertions.assertEquals(result.getUuid(), opening.getLineList().get(1).getUuid());
 
         verify(lineService).createLine(lineColor, lineName);
     }

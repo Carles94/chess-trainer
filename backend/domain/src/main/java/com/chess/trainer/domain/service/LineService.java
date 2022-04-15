@@ -36,19 +36,21 @@ public class LineService {
     }
 
     public PositionDto addMove(MoveEventDto moveToAdd, PositionDto currentPosition, UUID lineUuid) {
-        // Creates a new position and add to line
         LineEntity lineEntity = lineRepository.findById(lineUuid).get();
         LineDto line = lineMapper.entityToDto(lineEntity);
         PositionDto futureCurrentPosition;
         if (LineUtils.canAddMove(moveToAdd.getMove(), currentPosition.getFenPosition(), moveToAdd.getColor(), line)) {
             if (!LineUtils.existsPositionInLine(moveToAdd.getFen(), line)) {
+                // Creates position after the move
                 futureCurrentPosition = positionService.createPosition(moveToAdd.getFen(), lineUuid);
+                // TODO test this
                 line.getPositionList().add(futureCurrentPosition);
             } else {
+                // Gets position after the move
                 futureCurrentPosition = LineUtils.getPositionFromLineByFen(moveToAdd.getFen(), line);
             }
 
-            // Creates a new move and adds to position
+            // Gets position to add the move
             var currentPositionInLine = LineUtils.getPositionFromLineByFen(currentPosition.getFenPosition(), line);
             if (!PositionUtils.existsMove(moveToAdd.getMove(), currentPositionInLine)) {
                 positionService.addMoveToPosition(currentPosition, moveToAdd);

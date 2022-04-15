@@ -137,7 +137,6 @@ public class LineServiceTest {
         PositionDto result = lineService.addMove(moveEvent, currentPosition, uuid);
         // Assert
         Assertions.assertEquals(expectedPosition.getFenPosition(), result.getFenPosition());
-        Assertions.assertEquals(moveEvent.getFen(), line.getPositionList().get(1).getFenPosition());
         verify(positionService).addMoveToPosition(any(PositionDto.class), eq(moveEvent));
         verify(positionService).createPosition(moveEvent.getFen(), uuid);
     }
@@ -175,7 +174,7 @@ public class LineServiceTest {
         // Act
         PositionDto result = lineService.addMove(moveEvent, currentPosition, uuid);
         // Assert
-        Assertions.assertEquals(position2, result);
+        Assertions.assertEquals(position2.getFenPosition(), result.getFenPosition());
 
         Assertions.assertEquals(2, line.getPositionList().size());
         Assertions.assertEquals(1, line.getPositionList().get(0).getMoveList().size());
