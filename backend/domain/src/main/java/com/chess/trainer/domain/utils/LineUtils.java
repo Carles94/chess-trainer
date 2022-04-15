@@ -21,7 +21,7 @@ public class LineUtils {
     }
 
     public static boolean canAddMove(String move, String fenPositionToAddMove, String color, LineDto line) {
-        if (color.equals(line.getColor())) {
+        if (color.equalsIgnoreCase(line.getColor())) {
             PositionDto positionToAddMove = LineUtils.getPositionFromLineByFen(fenPositionToAddMove, line);
             return positionToAddMove.getMoveList().size() == 0 || (positionToAddMove.getMoveList().size() == 1
                     && positionToAddMove.getMoveList().get(0).getMoveToSend().equals(move));
