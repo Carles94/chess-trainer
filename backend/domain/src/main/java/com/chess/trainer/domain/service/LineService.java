@@ -36,15 +36,14 @@ public class LineService {
     }
 
     public PositionDto addMove(MoveEventDto moveToAdd, PositionDto currentPosition, UUID lineUuid) {
-        LineEntity lineEntity = lineRepository.findById(lineUuid).get();
-        LineDto line = lineMapper.entityToDto(lineEntity);
+        LineDto line = lineMapper.entityToDto(lineRepository.findById(lineUuid).get());
         PositionDto futureCurrentPosition;
         if (LineUtils.canAddMove(moveToAdd.getMove(), currentPosition.getFenPosition(), moveToAdd.getColor(), line)) {
             if (!LineUtils.existsPositionInLine(moveToAdd.getFen(), line)) {
                 // Creates position after the move
                 futureCurrentPosition = positionService.createPosition(moveToAdd.getFen(), lineUuid);
-                // TODO test this
                 line.getPositionList().add(futureCurrentPosition);
+                lineRepository.save(lineMapper.dtoToEntity(line));
             } else {
                 // Gets position after the move
                 futureCurrentPosition = LineUtils.getPositionFromLineByFen(moveToAdd.getFen(), line);
