@@ -52,6 +52,7 @@ public class LineService {
             // Gets position to add the move
             var currentPositionInLine = LineUtils.getPositionFromLineByFen(currentPosition.getFenPosition(), line);
             if (!PositionUtils.existsMove(moveToAdd.getMove(), currentPositionInLine)) {
+                // Adds the move
                 positionService.addMoveToPosition(currentPosition, moveToAdd);
             }
             return futureCurrentPosition;
