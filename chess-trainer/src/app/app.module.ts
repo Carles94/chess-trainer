@@ -33,6 +33,8 @@ import { CardsBoardComponent } from './cards-board/cards-board.component';
 import { PracticeFooterPanelComponent } from './practice-board/practice-footer-panel/practice-footer-panel.component';
 import { PracticeShowAnswerDialogComponent } from './practice-board/practice-show-answer-dialog/practice-show-answer-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
+import { NavigationBarComponent } from './common/component/navigation-bar/navigation-bar.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
@@ -53,6 +55,7 @@ import { MatButtonModule } from '@angular/material/button';
     CardsBoardComponent,
     PracticeFooterPanelComponent,
     PracticeShowAnswerDialogComponent,
+    NavigationBarComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,6 +75,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatRadioModule,
     MatInputModule,
     MatButtonModule,
+    MatToolbarModule,
   ],
   providers: [MovePipe],
   bootstrap: [AppComponent],
