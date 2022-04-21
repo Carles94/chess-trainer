@@ -1,3 +1,4 @@
+<app-navigation-bar></app-navigation-bar>
 <h2 class="mat-h2">Manage openings</h2>
 <app-select-opening [openings]="openingList"(selectOpening)="handleSelectOpening($event)" (selectLine)="handleSelectLine($event)"></app-select-opening>
 <button mat-raised-button color="primary" [disabled]="!selectedLineUuid" (click)="handleDelete()">REMOVE OPENING</button>
