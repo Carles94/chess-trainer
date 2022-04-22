@@ -1,7 +1,9 @@
-<app-navigation-bar></app-navigation-bar>
-<h2>Practice opening</h2>
-<app-select-opening  [openings]="openingList"(selectOpening)="handleSelectOpening($event)" (selectLine)="handleSelectLine($event)"></app-select-opening>
-<div>
-    <button mat-button [disabled]="!selectedLineUuid" [routerLink]="['/practice-board']" [queryParams]="{lineUuid:selectedLineUuid, color:selectedLineColor}">Practice</button>
-    <button mat-button [disabled]="!selectedLineUuid" [routerLink]="['/cards-board']" [queryParams]="{lineUuid:selectedLineUuid}" >Cards</button>
+<div class="p-3">
+    <app-navigation-bar></app-navigation-bar>
+    <h2 class="text-center text-primary">Practice opening</h2>
+    <app-select-opening  [openings]="openingList"(selectOpening)="handleSelectOpening($event)" (selectLine)="handleSelectLine($event)"></app-select-opening>
+    <div class="text-center">
+        <button mat-button [disabled]="!selectedLineUuid" [routerLink]="['/practice-board']" [queryParams]="{lineUuid:selectedLineUuid, color:selectedLineColor}" class="m-2">Practice</button>
+        <button mat-button [disabled]="!selectedLineUuid" [routerLink]="['/cards-board']" [queryParams]="{lineUuid:selectedLineUuid}" class="m-2" >Cards</button>
+    </div>
 </div>

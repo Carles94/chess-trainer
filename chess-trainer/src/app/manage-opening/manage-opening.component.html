@@ -1,6 +1,18 @@
-<app-navigation-bar></app-navigation-bar>
-<h2 class="mat-h2">Manage openings</h2>
-<app-select-opening [openings]="openingList"(selectOpening)="handleSelectOpening($event)" (selectLine)="handleSelectLine($event)"></app-select-opening>
-<button mat-raised-button color="primary" [disabled]="!selectedLineUuid" (click)="handleDelete()">REMOVE OPENING</button>
-<button mat-raised-button color="primary" [disabled]="!selectedLineUuid" [routerLink]="['/edition-board']" [queryParams]="{lineUuid:selectedLineUuid}">EDIT OPENING</button>
-<button mat-raised-button color="primary" (click)="handleAdd()">ADD OPENING</button>
+<div class="p-3">
+    <app-navigation-bar></app-navigation-bar>
+    <h2 class="mat-h2 text-center text-primary">Manage openings</h2>
+    <app-select-opening [openings]="openingList"(selectOpening)="handleSelectOpening($event)" (selectLine)="handleSelectLine($event)"></app-select-opening>
+    <div class="text-center">
+        <button mat-raised-button color="primary" [disabled]="!selectedLineUuid"
+         (click)="handleDelete()" class="m2">
+            REMOVE OPENING
+        </button>
+        <button mat-raised-button color="primary" [disabled]="!selectedLineUuid"
+         [routerLink]="['/edition-board']" [queryParams]="{lineUuid:selectedLineUuid}" class="m-2">
+            EDIT OPENING
+        </button>
+        <button mat-raised-button color="primary" (click)="handleAdd()" class="m-2">
+            ADD OPENING
+        </button>
+    </div>
+</div>

@@ -1,12 +1,14 @@
-<app-navigation-bar></app-navigation-bar>
-<mat-grid-list cols="4" rowHeight="2:1">
-    <mat-grid-tile [colspan]=3 [rowspan] =3>
-        <app-board (pieceMoved)="handlePieceMoved($event)"></app-board>
-    </mat-grid-tile>
-    <mat-grid-tile [colspan]=1 [rowspan]=3>
-        <app-edition-vertical-panel [moveList]="currentPosition.moveList" (deleteMove)="handleDeleteMove($event)" (nextMove)="handleNextMove($event)"></app-edition-vertical-panel>
-    </mat-grid-tile>
-    <mat-grid-tile [colspan]=3 [rowspan]= 1>
-        <app-edition-footer-panel (undoUntilAlternative)="handleUndoUntilAlternative()" (undo)="handleUndo()" (reset)="handleReset()" (reverse)=handleReverse()> </app-edition-footer-panel>
-    </mat-grid-tile>
-</mat-grid-list>
+<div class="p-3">
+    <app-navigation-bar></app-navigation-bar>
+    <mat-grid-list cols="4" rowHeight="2:1">
+        <mat-grid-tile [colspan]=3 [rowspan] =3>
+            <app-board (pieceMoved)="handlePieceMoved($event)"></app-board>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]=1 [rowspan]=3>
+            <app-edition-vertical-panel [moveList]="currentPosition.moveList" (deleteMove)="handleDeleteMove($event)" (nextMove)="handleNextMove($event)"></app-edition-vertical-panel>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]=3 [rowspan]= 1>
+            <app-edition-footer-panel (undoUntilAlternative)="handleUndoUntilAlternative()" (undo)="handleUndo()" (reset)="handleReset()" (reverse)=handleReverse()> </app-edition-footer-panel>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
